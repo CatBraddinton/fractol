@@ -1,0 +1,6 @@
+main.o
+error.o
+libft/*.o
+libft/libft.a
+fractol
+db_fractol
