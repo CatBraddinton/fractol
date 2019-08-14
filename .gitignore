@@ -1,6 +1,12 @@
 main.o
 error.o
+utilits.o
+julia_set.o
+mandelbrot_set.o
+sierpinski_triangle.o
+hooks.o
 libft/*.o
 libft/libft.a
 fractol
 db_fractol
+*.h.gch

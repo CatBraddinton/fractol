@@ -23,11 +23,19 @@ INC_DIR := inc/
 SRC_DIR := src/
 LIB_DIR := libft/
 
-INCLUDES := $(INC_DIR)fractol.h
+INCLUDES := $(INC_DIR)fractol.h\
+			$(INC_DIR)hooks.h
 
-SOURCES := 	main.c $(SRC_DIR)error.c
+SOURCES := 	main.c\
+ 			$(SRC_DIR)error.c\
+			$(SRC_DIR)utilits.c\
+			$(SRC_DIR)julia_set.c\
+			$(SRC_DIR)mandelbrot_set.c\
+			$(SRC_DIR)sierpinski_triangle.c\
+			$(SRC_DIR)hooks.c\
 
-OBJECTS := 	main.o error.o
+OBJECTS := 	main.o error.o utilits.o julia_set.o mandelbrot_set.o\
+			sierpinski_triangle.o hooks.o
 
 LIBFT := $(LIB_DIR)$(FT)
 
@@ -57,7 +65,7 @@ clean:
 
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(DB_NAME)
 	make fclean -C $(LIB_DIR)
 
 re: fclean all
