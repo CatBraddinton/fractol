@@ -14,13 +14,11 @@
 
 int	main(int ac, char *av[])
 {
-	t_data	all;
+	int type;
 
-	init_data(&all);
-	get_fractal_types(&all, ac, av);
-	if (!(all.mlx_data.p_mlx = mlx_init()))
-		error("Error: Failed to init mlx.");
-	draw(&all);
-	mlx_loop(all.mlx_data.p_mlx);
+	if (ac < 2)
+		invalid_param();
+	type = get_fractal_type(av[1]);
+	count_fractal(type);
 	return (0);
 }

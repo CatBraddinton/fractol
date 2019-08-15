@@ -35,26 +35,12 @@ void	invalid_param(void)
 	exit(EXIT_FAILURE);
 }
 
-/*
-**	Function checks user input for valid param, if it is not one of
-**	available fractal types, it calls invalid_param() function;
-*/
-
-void	get_fractal_types(t_data *all, int ac, char *av[])
+int		get_fractal_type(char *input)
 {
-	if ((ac != 2 && ac != 3) || (ac == 2 && !av[1]) ||
-		(ac == 3 && (!av[1] || !av[2])))
+	int type;
+
+	type = ft_atoi(input);
+	if (type != JULIA && type != MANDELBROT && type != SIERPINSKI)
 		invalid_param();
-	all->windowns_nb = ac - 1;
-	all->fractal_type1 = ft_atoi(av[1]);
-	if (all->fractal_type1 != JULIA && all->fractal_type1 != MANDELBROT
-		&& all->fractal_type1 != SIERPINSKI)
-		invalid_param();
-	if (ac == 3)
-	{
-		all->fractal_type2 = ft_atoi(av[2]);
-		if (all->fractal_type2 != JULIA && all->fractal_type2 != MANDELBROT
-			&& all->fractal_type2 != SIERPINSKI)
-			invalid_param();
-	}
+	return (type);
 }

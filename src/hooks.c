@@ -10,4 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/fractol.h"
 
+int	key_press(int keycode, t_mlx *data)
+{
+	(void)data;
+	if (keycode == ESC)
+		exit(EXIT_SUCCESS);
+	return (0);
+}
+
+int	close(int keycode)
+{
+	(void)keycode;
+	exit(EXIT_SUCCESS);
+}
