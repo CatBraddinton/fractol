@@ -14,11 +14,21 @@
 
 int	main(int ac, char *av[])
 {
-	int type;
+	t_data	*all_data;
+	pid_t	window;
 
 	if (ac < 2)
 		invalid_param();
-	type = get_fractal_type(av[1]);
-	count_fractal(type);
+	if ((all_data = (t_data *)malloc(sizeof(t_data))) == NULL)
+		error("Error: malloc failed in main()");
+	all_data->windows_count = ac - 1;
+	if (all_data->windows_count == 2)
+	{
+		window = fork();
+		if (window == 0)
+			init_data(all_data, av[2]);
+	}
+	init_data(all_data, av[1]);
+	count_fractal(all_data);
 	return (0);
 }

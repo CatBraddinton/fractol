@@ -12,7 +12,7 @@
 
 #include "../inc/fractol.h"
 
-int	key_press(int keycode, t_mlx *data)
+int	key_press(int keycode, t_data *data)
 {
 	(void)data;
 	if (keycode == ESC)
