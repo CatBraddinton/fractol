@@ -39,7 +39,7 @@ OBJECTS := 	main.o error.o utilits.o julia_set.o mandelbrot_set.o\
 
 LIBFT := $(LIB_DIR)$(FT)
 
-.PHONY: all  lib clean fclean re
+.PHONY: all  lib clean fclean re debug
 
 all: $(NAME)
 
