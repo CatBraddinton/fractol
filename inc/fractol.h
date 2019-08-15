@@ -28,6 +28,8 @@
 # include <mlx.h>
 # include <pthread.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <sys/types.h>
 
 # include "hooks.h"
 
@@ -42,15 +44,27 @@ typedef struct		s_mlx
 	int				endian;
 }					t_mlx;
 
+typedef struct		s_data
+{
+	t_mlx			*mlx_data;
+	int				windows_count;
+	int				type;
+	int				win_width;
+	int				win_height;
+	int				img_width;
+	int				img_height;
+}					t_data;
+
+
 void				error(char *message);
 void				invalid_param(void);
+void				init_data(t_data *data, char *input);
 int					get_fractal_type(char *input);
-void				count_fractal(int type);
+void				count_fractal(t_data *data);
 int					close(int keycode);
-int					close_window(t_mlx *data);
-int					key_press(int keycode, t_mlx *data);
-void				draw_mandelbrot_set(void);
-void				draw_sierpinskie_triangle(void);
-void				draw_julia_set(void);
+int					key_press(int keycode, t_data *data);
+void				draw_mandelbrot_set(t_data *data);
+void				draw_sierpinskie_triangle(t_data *data);
+void				draw_julia_set(t_data *data);
 
 #endif
