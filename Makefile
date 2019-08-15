@@ -16,7 +16,7 @@ FT := libft.a
 
 CC := clang
 DB_FLAGS := -g -fsanitize=address
-FLAGS := -Wall -Wextra -Werror
+FLAGS := -Wall -Wextra -Werror -O3
 MLXFLAGS := -lmlx -framework OpenGL -framework AppKit
 
 INC_DIR := inc/
