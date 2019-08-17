@@ -12,6 +12,7 @@
 
 NAME = libft.a
 
+CC := clang
 FLAGS = -Wall -Wextra -Werror
 
 INCS := libft.h
@@ -37,18 +38,18 @@ OBJ := $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ar -r $(NAME) $(OBJ)
+	@ranlib $(NAME)
 
 $(OBJ): $(SRC) $(INCS)
-	gcc $(FLAGS) -c $(SRC) -I $(INCS)
+	@$(CC) $(FLAGS) -c $(SRC) -I $(INCS)
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
+	@printf "$(NAME) object files removed\n"
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@printf "$(NAME) removed\n"
 
 re: fclean all
-
-
