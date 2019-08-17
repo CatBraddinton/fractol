@@ -27,8 +27,11 @@ int	main(int ac, char *av[])
 		window = fork();
 		if (window == 0)
 			init_data(all_data, av[2]);
+		else
+			init_data(all_data, av[1]);
 	}
-	init_data(all_data, av[1]);
+	else
+		init_data(all_data, av[1]);
 	count_fractal(all_data);
 	return (0);
 }
