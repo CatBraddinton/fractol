@@ -33,6 +33,14 @@
 
 # include "hooks.h"
 
+typedef struct		s_color
+{
+	int				red;
+	int				green;
+	int				blue;
+}					t_color;
+
+
 typedef struct		s_mlx
 {
 	void			*p_mlx;
@@ -53,8 +61,8 @@ typedef struct		s_data
 	int				win_height;
 	int				img_width;
 	int				img_height;
+	t_color			p_color;
 }					t_data;
-
 
 void				error(char *message);
 void				invalid_param(void);
@@ -63,7 +71,6 @@ int					get_fractal_type(char *input);
 void				count_fractal(t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
-void				draw_mandelbrot_set(t_data *data);
 void				draw_sierpinskie_triangle(t_data *data);
 void				draw_julia_set(t_data *data);
 

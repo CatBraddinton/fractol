@@ -26,7 +26,8 @@ LIB_DIR := libft/
 MLX_DIR := minilibx_macos/
 
 INCLUDES := $(INC_DIR)fractol.h\
-			$(INC_DIR)hooks.h
+			$(INC_DIR)hooks.h\
+			$(INC_DIR)mandelbrot_set.h\
 
 SOURCES := 	main.c\
  			$(SRC_DIR)error.c\

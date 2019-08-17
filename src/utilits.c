@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
+#include "../inc/mandelbrot_set.h"
 
 void	init_data(t_data *all_data, char *input)
 {

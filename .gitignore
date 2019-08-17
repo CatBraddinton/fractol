@@ -1,3 +1,4 @@
+.DS_Store
 main.o
 error.o
 utilits.o
@@ -7,6 +8,8 @@ sierpinski_triangle.o
 hooks.o
 libft/*.o
 libft/libft.a
+minilibx_macos/libmlx.a
+minilibx_macos/*.o
 fractol
 db_fractol
 *.h.gch
