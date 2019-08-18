@@ -28,17 +28,15 @@ MLX_DIR := minilibx_macos/
 INCLUDES := $(INC_DIR)fractol.h\
 			$(INC_DIR)hooks.h\
 			$(INC_DIR)mandelbrot_set.h\
+			$(INC_DIR)colorize_it.h\
 
 SOURCES := 	main.c\
  			$(SRC_DIR)error.c\
 			$(SRC_DIR)utilits.c\
-			$(SRC_DIR)julia_set.c\
 			$(SRC_DIR)mandelbrot_set.c\
-			$(SRC_DIR)sierpinski_triangle.c\
 			$(SRC_DIR)hooks.c\
 
-OBJECTS := 	main.o error.o utilits.o julia_set.o mandelbrot_set.o\
-			sierpinski_triangle.o hooks.o
+OBJECTS := 	main.o error.o utilits.o mandelbrot_set.o hooks.o
 
 LIBFT := $(LIB_DIR)$(FT)
 MINILIBX := $(MLX_DIR)$(MLX)

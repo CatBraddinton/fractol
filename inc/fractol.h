@@ -18,10 +18,10 @@
 # define SIERPINSKI		3
 
 # define TOTAL_NB		3
-# define WIN_WIDTH		2580
-# define WIN_HEIGHT		1430
-# define IMG_WIDTH		2580
-# define IMG_HEIGHT		1430
+# define WIN_WIDTH		2565
+# define WIN_HEIGHT		1450
+# define IMG_WIDTH		2565
+# define IMG_HEIGHT		1450
 
 # include <stdio.h>
 # include <math.h>
@@ -33,16 +33,21 @@
 
 # include "hooks.h"
 
-typedef struct		s_color
+typedef struct		s_view
 {
-	int				red;
-	int				green;
-	int				blue;
-}					t_color;
+	double			zoom;
+	int				offset_x;
+	int				offset_y;
+	int				center_x;
+	int				center_y;
+	int				origin_x;
+	int				origin_y;
+}					t_view;
 
-
-typedef struct		s_mlx
+typedef struct		s_data
 {
+	int				windows_count;
+	int				type;
 	void			*p_mlx;
 	void			*p_window;
 	void			*p_image;
@@ -50,28 +55,18 @@ typedef struct		s_mlx
 	int				bpp;
 	int				size_line;
 	int				endian;
-}					t_mlx;
-
-typedef struct		s_data
-{
-	t_mlx			*mlx_data;
-	int				windows_count;
-	int				type;
-	int				win_width;
-	int				win_height;
-	int				img_width;
-	int				img_height;
-	t_color			p_color;
+	t_view			cam;
 }					t_data;
 
 void				error(char *message);
 void				invalid_param(void);
-void				init_data(t_data *data, char *input);
 int					get_fractal_type(char *input);
 void				count_fractal(t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
 void				draw_sierpinskie_triangle(t_data *data);
 void				draw_julia_set(t_data *data);
+void				init_cam(t_data *data);
+void				mlx(t_data *data);
 
 #endif

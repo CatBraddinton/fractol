@@ -17,16 +17,16 @@
 // # define SPACE 		49
 # define ESC		53
 //
-// # define ZOOM_P		69
-// # define ZOOM_M		78
+# define ZOOM_P		116
+# define ZOOM_M		121
 // # define PLUS		27
 // # define MINUS		24
 // # define UP			126
 // # define DOWN		125
 // # define LEFT		123
 // # define RIGHT		124
-// # define Z_UP		116
-// # define Z_DOWN		121
+// # define Z_UP		79
+// # define Z_DOWN		68
 // # define ROT_XP		12
 // # define ROT_XM		14
 // # define ROT_YP		0
