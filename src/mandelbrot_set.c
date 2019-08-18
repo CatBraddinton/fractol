@@ -75,7 +75,7 @@ void	init_set_data(t_mandelbrot *set)
 {
 	// double temp;
 
-	set->max_iter = 1000;
+	set->max_iter = 10000;
 	init_set(&(set->min), -2.5, -1.0, MODE_SET);
 	// temp = set->min.im + (set->max.r - set->min.r) * WIDTH / HEIGHT;
 	init_set(&(set->max), 1.0, 1.0, MODE_SET);
