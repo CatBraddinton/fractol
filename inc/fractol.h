@@ -53,7 +53,11 @@ typedef struct		s_data
 	int				bpp;
 	int				size_line;
 	int				endian;
-	t_view			cam;
+	double			zoom;
+	int				pos_left;
+	int				pos_right;
+	int				pos_up;
+	int				pos_down;
 }					t_data;
 
 void				error(char *message);

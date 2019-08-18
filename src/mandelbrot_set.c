@@ -25,9 +25,9 @@ int		get_color_value(int iter, int max)
 	if (iter == max)
 		return (BLACK);
 	percent = (double)iter / (double)max;
-	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
-	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
-	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
+	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255 + 130);
+	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255 + 100);
+	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255 + 100);
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
@@ -37,8 +37,8 @@ void	set_color_to_point(t_data *data, t_mandelbrot *set, int x, int y)
 	int	color;
 
 	color = get_color_value(set->iter, set->max_iter);
-	x = (x > 0) ? x * data->cam.zoom : -x * data->cam.zoom;
-	y = (y > 0) ? y * data->cam.zoom : -y * data->cam.zoom;
+	x = (x > 0) ? x : -x;
+	y = (y > 0) ? y : -y;
 	if (x < WIDTH && y < HEIGHT)
 	{
 		i = (x * data->bpp / 8) + (y * data->size_line);
@@ -71,19 +71,6 @@ int		init_set(t_complex *n, double real, double imaginary, int mode)
 	return (0);
 }
 
-void	init_set_data(t_mandelbrot *set)
-{
-	// double temp;
-
-	set->max_iter = 10000;
-	init_set(&(set->min), -2.5, -1.0, MODE_SET);
-	// temp = set->min.im + (set->max.r - set->min.r) * WIDTH / HEIGHT;
-	init_set(&(set->max), 1.0, 1.0, MODE_SET);
-	init_set(&(set->factor),
-				((set->max.r - set->min.r) / (WIDTH - 1)),
-				((set->max.im - set->min.im) / (HEIGHT - 1)), MODE_SET);
-}
-
 void	count_mandelbrot_set(t_data *data, t_mandelbrot *set)
 {
 	int x;
@@ -107,7 +94,7 @@ void	count_mandelbrot_set(t_data *data, t_mandelbrot *set)
 				set->temp, MODE_SET);
 				set->iter++;
 			}
-			set_color_to_point(data, set, x + data->cam.offset_x, y + data->cam.offset_y);
+			set_color_to_point(data, set, x, y);
 		}
 	}
 }
@@ -116,14 +103,14 @@ void	draw_mandelbrot_set(t_data *data)
 {
 	t_mandelbrot	set;
 
-	init_cam(data);
-	if (!(data->p_image = mlx_new_image(data->p_mlx, WIDTH, HEIGHT)))
-		error("Error: mlx failed to create new image in draw_mandelbrot_set()");
 	if ((data->img_buffer = mlx_get_data_addr(data->p_image, &(data->bpp),
 	&(data->size_line), &(data->endian))) == NULL)
 		error("Error: mlx failed to return information about created image\
 		in draw_mandelbrot_set()");
-	init_set_data(&set);
+	set.max_iter = 1500;
+	init_set(&(set.min), -2.5, -1.0, MODE_SET);
+	init_set(&(set.max), 1.0, 1.0, MODE_SET);
+	init_set(&(set.factor),(set.max.r - set.min.r) / WIDTH,
+				(set.max.im - set.min.im) / HEIGHT, MODE_SET);
 	count_mandelbrot_set(data, &set);
-	mlx_put_image_to_window(data->p_mlx, data->p_window, data->p_image,	0, 0);
 }
