@@ -32,6 +32,7 @@ typedef struct		s_mandelbrot
 {
 	int				max_iter;
 	int				iter;
+	double			cont_index;
 	t_complex		min;
 	t_complex		max;
 	t_complex		factor;
@@ -41,9 +42,9 @@ typedef struct		s_mandelbrot
 	double			temp;
 }					t_mandelbrot;
 
-void				draw_mandelbrot_set(t_data *data);
-
+ void				draw_mandelbrot_set(t_data *data);
 #endif
+
 
 /*
 **			printf("%f, %f, %f, %f, %f, %f, %d, %d.  %f, %f\n",
@@ -57,5 +58,8 @@ void				draw_mandelbrot_set(t_data *data);
 														values->iter,
 														values->center.im,
 														values->center.real);
-**
+**	// set->cont_index = iter + 1 - (log(2) / fabs(set->z.r + set->z.im)) / log(2);
+	// color.r = (unsigned char)(sin(0.016 * set->cont_index + 4) * 127.5 + 127.5);
+	// color.g = (unsigned char)(sin(0.013 * set->cont_index + 2) * 127.5 + 127.5);
+	// color.b = (unsigned char)(sin(0.01 * set->cont_index + 1) * 127.5 + 127.5);
 */

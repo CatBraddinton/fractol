@@ -12,12 +12,13 @@
 
 #include "../inc/fractol.h"
 #include "../inc/mandelbrot_set.h"
+
 void	init_cam(t_data *data)
 {
-	data->cam.center_x = IMG_WIDTH / 2;
-	data->cam.center_y = IMG_HEIGHT / 2;
-	data->cam.origin_x = WIN_WIDTH / 2;
-	data->cam.origin_y = WIN_HEIGHT / 2;
+	data->cam.center_x = WIDTH / 2;
+	data->cam.center_y = HEIGHT / 2;
+	data->cam.origin_x = WIDTH / data->cam.zoom / 2;
+	data->cam.origin_y = HEIGHT / data->cam.zoom / 2;
 	data->cam.offset_x = data->cam.origin_x - data->cam.center_x;
 	data->cam.offset_y = data->cam.origin_y - data->cam.center_y;
 }
@@ -37,10 +38,10 @@ void	mlx(t_data *data)
 	data->bpp = 0;
 	data->size_line = 0;
 	data->endian = 0;
-	data->cam.zoom = 1.0;
+	data->cam.zoom = 1.5;
 	if ((data->p_mlx = mlx_init()) == NULL)
 		error("Error: mlx init failed in draw_mandelbrot_set()");
-	if (!(data->p_window = mlx_new_window(data->p_mlx, WIN_WIDTH, WIN_HEIGHT,
+	if (!(data->p_window = mlx_new_window(data->p_mlx, WIDTH, HEIGHT,
 		"fractol")))
 		error("Error: mlx failed to open new window in draw_mandelbrot_set()");
 	count_fractal(data);

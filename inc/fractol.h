@@ -18,10 +18,8 @@
 # define SIERPINSKI		3
 
 # define TOTAL_NB		3
-# define WIN_WIDTH		2565
-# define WIN_HEIGHT		1450
-# define IMG_WIDTH		2565
-# define IMG_HEIGHT		1450
+# define WIDTH			2565
+# define HEIGHT			1450
 
 # include <stdio.h>
 # include <math.h>

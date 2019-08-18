@@ -17,26 +17,17 @@ int		get_light(int start, int end, double percentage)
 	return ((int)((1 - percentage) * start * percentage * end));
 }
 
-int		get_color_value(int iter, int max, int col1, int col2)
+int		get_color_value(int iter, int max)
 {
 	t_color	color;
 	double	percent;
 
-	percent = (double)iter / (double)max;
-	if (iter <= max / 2 - 1)
-	{
-		color.r = (int)(0x36 * (1 - percent) * pow(percent, 3) * 255);
-		color.g = (int)(0x25 * pow((1 - percent), 3) * pow(percent, 2) * 255);
-		color.b = (int)(0x14 * pow((1 - percent), 3) * percent * 255);
-	}
-	else if ((iter >= max / 2) && (iter < max))
-	{
-		color.r = get_light((col1 >> 16) & 0xFF, (col2 >> 16) & 0xFF, percent);
-		color.g = get_light((col1 >> 8) & 0xFF, (col2 >> 8) & 0xFF, percent);
-		color.b = get_light(col1 & 0xFF, col2 & 0xFF, percent);
-	}
-	else if (iter == max)
+	if (iter == max)
 		return (BLACK);
+	percent = (double)iter / (double)max;
+	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
+	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
+	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
@@ -45,10 +36,10 @@ void	set_color_to_point(t_data *data, t_mandelbrot *set, int x, int y)
 	int	i;
 	int	color;
 
-	color = get_color_value(set->iter, set->max_iter, SET8, SET88);
+	color = get_color_value(set->iter, set->max_iter);
 	x = (x > 0) ? x * data->cam.zoom : -x * data->cam.zoom;
 	y = (y > 0) ? y * data->cam.zoom : -y * data->cam.zoom;
-	if (x < IMG_WIDTH && y < IMG_HEIGHT)
+	if (x < WIDTH && y < HEIGHT)
 	{
 		i = (x * data->bpp / 8) + (y * data->size_line);
 		data->img_buffer[i] = color;
@@ -82,15 +73,15 @@ int		init_set(t_complex *n, double real, double imaginary, int mode)
 
 void	init_set_data(t_mandelbrot *set)
 {
-	double temp;
+	// double temp;
 
-	set->max_iter = 50;
-	init_set(&(set->min), -2.0, -2.0, MODE_SET);
-	temp = set->min.im + (set->max.r - set->min.r) * IMG_WIDTH / IMG_HEIGHT;
-	init_set(&(set->max), 2.0, temp, MODE_SET);
+	set->max_iter = 1000;
+	init_set(&(set->min), -2.5, -1.0, MODE_SET);
+	// temp = set->min.im + (set->max.r - set->min.r) * WIDTH / HEIGHT;
+	init_set(&(set->max), 1.0, 1.0, MODE_SET);
 	init_set(&(set->factor),
-				((set->max.r - set->min.r) / (IMG_WIDTH - 1)),
-				((set->max.im - set->min.im) / (IMG_HEIGHT - 1)), MODE_SET);
+				((set->max.r - set->min.r) / (WIDTH - 1)),
+				((set->max.im - set->min.im) / (HEIGHT - 1)), MODE_SET);
 }
 
 void	count_mandelbrot_set(t_data *data, t_mandelbrot *set)
@@ -99,25 +90,24 @@ void	count_mandelbrot_set(t_data *data, t_mandelbrot *set)
 	int y;
 
 	y = -1;
-	while (++y < IMG_HEIGHT)
+	while (++y < HEIGHT)
 	{
 		set->cmlx.im = set->max.im - y * set->factor.im;
 		x = -1;
-		while (++x < IMG_WIDTH)
+		while (++x < WIDTH)
 		{
 			set->cmlx.r = set->min.r + x * set->factor.r;
-			init_set(&(set->z), set->cmlx.r, set->cmlx.im, MODE_SET);
+			init_set(&(set->z), 0, 0, MODE_SET);
 			set->iter = 0;
-			while (set->iter < set->max_iter)
+			while (set->iter < set->max_iter
+				&& init_set(&(set->pwr), set->z.r, set->z.im, MODE_BOOL))
 			{
-				if (!(init_set(&(set->pwr), set->z.r, set->z.im, MODE_BOOL)))
-					break;
 				set->temp = 2.0 * set->z.r * set->z.im + set->cmlx.im;
 				init_set(&(set->z), (set->pwr.r - set->pwr.im + set->cmlx.r),
 				set->temp, MODE_SET);
 				set->iter++;
 			}
-			set_color_to_point(data, set, x, y);
+			set_color_to_point(data, set, x + data->cam.offset_x, y + data->cam.offset_y);
 		}
 	}
 }
@@ -127,7 +117,7 @@ void	draw_mandelbrot_set(t_data *data)
 	t_mandelbrot	set;
 
 	init_cam(data);
-	if (!(data->p_image = mlx_new_image(data->p_mlx, IMG_WIDTH, IMG_HEIGHT)))
+	if (!(data->p_image = mlx_new_image(data->p_mlx, WIDTH, HEIGHT)))
 		error("Error: mlx failed to create new image in draw_mandelbrot_set()");
 	if ((data->img_buffer = mlx_get_data_addr(data->p_image, &(data->bpp),
 	&(data->size_line), &(data->endian))) == NULL)
