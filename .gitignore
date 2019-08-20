@@ -1,11 +1,5 @@
 .DS_Store
-main.o
-error.o
-utilits.o
-julia_set.o
-mandelbrot_set.o
-sierpinski_triangle.o
-hooks.o
+*.o
 libft/*.o
 libft/libft.a
 minilibx_macos/libmlx.a

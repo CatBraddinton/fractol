@@ -20,7 +20,6 @@
 # define POWER		2.0
 
 # include "fractol.h"
-# include "colorize_it.h"
 
 typedef struct		s_complex
 {
@@ -30,9 +29,6 @@ typedef struct		s_complex
 
 typedef struct		s_mandelbrot
 {
-	int				max_iter;
-	int				iter;
-	double			cont_index;
 	t_complex		min;
 	t_complex		max;
 	t_complex		factor;

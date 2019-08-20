@@ -18,8 +18,8 @@
 # define SIERPINSKI		3
 
 # define TOTAL_NB		3
-# define WIDTH			1450
-# define HEIGHT			1450
+# define WIDTH			1500
+# define HEIGHT			1500
 
 # include <stdio.h>
 # include <math.h>
@@ -30,6 +30,7 @@
 # include <sys/types.h>
 
 # include "hooks.h"
+# include "colorize_it.h"
 
 typedef struct		s_view
 {
@@ -58,6 +59,8 @@ typedef struct		s_data
 	int				pos_right;
 	int				pos_up;
 	int				pos_down;
+	int				max_iter;
+	int				iter;
 }					t_data;
 
 void				error(char *message);
@@ -70,5 +73,6 @@ void				draw_sierpinskie_triangle(t_data *data);
 void				draw_julia_set(t_data *data);
 void				init_cam(t_data *data);
 void				mlx(t_data *data);
+void				set_color_to_point(t_data *data, int x, int y);
 
 #endif
