@@ -18,7 +18,7 @@
 # define SIERPINSKI		3
 
 # define TOTAL_NB		3
-# define WIDTH			2565
+# define WIDTH			1450
 # define HEIGHT			1450
 
 # include <stdio.h>

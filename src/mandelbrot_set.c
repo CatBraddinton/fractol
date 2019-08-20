@@ -108,8 +108,8 @@ void	draw_mandelbrot_set(t_data *data)
 		error("Error: mlx failed to return information about created image\
 		in draw_mandelbrot_set()");
 	set.max_iter = 1500;
-	init_set(&(set.min), -2.5, -1.0, MODE_SET);
-	init_set(&(set.max), 1.0, 1.0, MODE_SET);
+	init_set(&(set.min), -2.0, -2.0, MODE_SET);
+	init_set(&(set.max), 2.0, 2.0, MODE_SET);
 	init_set(&(set.factor),(set.max.r - set.min.r) / WIDTH,
 				(set.max.im - set.min.im) / HEIGHT, MODE_SET);
 	count_mandelbrot_set(data, &set);
