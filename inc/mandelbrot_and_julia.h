@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot_set.h                                   :+:      :+:    :+:   */
+/*   mandelbrot_and_julia.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdudko <kdudko@student.unit.ua>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/17 16:01:03 by kdudko            #+#    #+#             */
-/*   Updated: 2019/08/17 16:01:04 by kdudko           ###   ########.fr       */
+/*   Created: 2019/08/27 05:58:15 by kdudko            #+#    #+#             */
+/*   Updated: 2019/08/27 05:58:19 by kdudko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MANDELBROT_SET_H
-# define MANDELBROT_SET_H
+#ifndef MANDELBROT_AND_JULIA_H
+# define MANDELBROT_AND_JULIA_H
 
 # define MODE_SET	1
 # define MODE_POW	2
@@ -39,4 +39,6 @@ typedef struct		s_mandelbrot
 }					t_mandelbrot;
 
  void				draw_mandelbrot_set(t_data *data);
+ void				draw_julia_set(t_data *data);
+ 
 #endif

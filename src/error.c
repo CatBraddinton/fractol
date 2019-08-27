@@ -29,18 +29,28 @@ void	invalid_param(void)
 {
 	ft_putendl("usage: ./fractol param");
 	ft_putendl("\navailable params:");
-	ft_putendl("1 - Julia Set");
-	ft_putendl("2 - Mandelbrot Set");
-	ft_putendl("3 - Sierpinski Triangle");
+	ft_putendl("Julia");
+	ft_putendl("Mandelbrot");
+	ft_putendl("Sierpinski_Triangle");
 	exit(EXIT_FAILURE);
 }
 
-int		get_fractal_type(char *input)
+int		assign_num(t_data *data)
 {
-	int type;
+	if ((ft_strncmp("Julia", data->name, ft_strlen("Julia"))) == 0)
+		return (1);
+	if ((ft_strncmp("Mandelbrot", data->name, ft_strlen("Mandelbrot"))) == 0)
+		return (2);
+	return (0);
+}
 
-	type = ft_atoi(input);
-	if (type != JULIA && type != MANDELBROT && type != SIERPINSKI)
+void	get_fractal_type(const char *input, t_data *data)
+{
+	size_t	s_len;
+
+	s_len = ft_strlen(input);
+	data->name = ft_strndup(input, s_len);
+	data->type = assign_num(data);
+	if (data->type == 0)
 		invalid_param();
-	return (type);
 }

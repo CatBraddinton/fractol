@@ -46,6 +46,7 @@ typedef struct		s_view
 typedef struct		s_data
 {
 	int				windows_count;
+	char			*name;
 	int				type;
 	void			*p_mlx;
 	void			*p_window;
@@ -65,12 +66,10 @@ typedef struct		s_data
 
 void				error(char *message);
 void				invalid_param(void);
-int					get_fractal_type(char *input);
+void				get_fractal_type(const char *input, t_data *data);
 void				count_fractal(t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
-void				draw_sierpinskie_triangle(t_data *data);
-void				draw_julia_set(t_data *data);
 void				init_cam(t_data *data);
 void				mlx(t_data *data);
 void				set_color_to_point(t_data *data, int x, int y);

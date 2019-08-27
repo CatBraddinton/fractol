@@ -12,7 +12,7 @@
 
 #include "inc/fractol.h"
 
-int	main(int ac, char *av[])
+int	main(int ac, const char *av[])
 {
 	t_data	*data;
 	pid_t	window;
@@ -26,12 +26,12 @@ int	main(int ac, char *av[])
 	{
 		window = fork();
 		if (window == 0)
-			data->type = get_fractal_type(av[2]);
+			get_fractal_type(av[2], data);
 		else
-			data->type = get_fractal_type(av[1]);
+			get_fractal_type(av[1], data);
 	}
 	else
-		data->type = get_fractal_type(av[1]);
+		get_fractal_type(av[1], data);
 	mlx(data);
 	return (0);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/mandelbrot_set.h"
+#include "../inc/mandelbrot_and_julia.h"
 
 static int	init_set(t_complex *n, double real, double imaginary, int mode)
 {

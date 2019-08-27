@@ -27,7 +27,7 @@ MLX_DIR := minilibx_macos/
 
 INCLUDES := $(INC_DIR)fractol.h\
 			$(INC_DIR)hooks.h\
-			$(INC_DIR)mandelbrot_set.h\
+			$(INC_DIR)mandelbrot_and_julia.h\
 			$(INC_DIR)colorize_it.h\
 
 SOURCES := 	main.c\
@@ -35,9 +35,11 @@ SOURCES := 	main.c\
 			$(SRC_DIR)utilits.c\
 			$(SRC_DIR)mandelbrot_set.c\
 			$(SRC_DIR)hooks.c\
+			$(SRC_DIR)julia_set.c\
 			$(SRC_DIR)colorizer.c\
 
-OBJECTS := 	main.o error.o utilits.o mandelbrot_set.o hooks.o colorizer.o
+OBJECTS := 	main.o error.o utilits.o mandelbrot_set.o hooks.o colorizer.o\
+			julia_set.o
 
 LIBFT := $(LIB_DIR)$(FT)
 MINILIBX := $(MLX_DIR)$(MLX)
@@ -57,6 +59,7 @@ $(DB_NAME): $(OBJECTS) $(LIBFT) $(MINILIBX)
 	@printf "Compiling $(DB_NAME)\n"
 	$(CC) $(FLAGS) $(MLXFLAGS) $(DB_FLAGS) -o $(DB_NAME) $(OBJECTS) $(LIBFT) $(MINILIBX)
 	@printf "$(DB_NAME) created\n"
+
 $(OBJECTS): $(SOURCES) $(INCLUDES)
 	@$(CC) $(FLAGS) -c $(SOURCES) -I $(INCLUDES)
 
