@@ -18,8 +18,9 @@
 # define SIERPINSKI		3
 
 # define TOTAL_NB		3
-# define WIDTH			1500
-# define HEIGHT			1500
+# define WIDTH			2048
+# define HEIGHT			1080
+# define MAX_ITER		150
 
 # include <stdio.h>
 # include <math.h>
@@ -55,23 +56,25 @@ typedef struct		s_data
 	int				bpp;
 	int				size_line;
 	int				endian;
-	double			zoom;
-	int				pos_left;
-	int				pos_right;
-	int				pos_up;
-	int				pos_down;
 	int				max_iter;
 	int				iter;
+	int				mouse_x;
+	int				mouse_y;
+	t_view			*cam;
 }					t_data;
 
 void				error(char *message);
 void				invalid_param(void);
 void				get_fractal_type(const char *input, t_data *data);
-void				count_fractal(t_data *data);
-int					close(int keycode);
-int					key_press(int keycode, t_data *data);
+void	init_params(t_data *data);
+void				draw_fractals(t_data *data);
 void				init_cam(t_data *data);
 void				mlx(t_data *data);
 void				set_color_to_point(t_data *data, int x, int y);
+
+int					key_press(int keycode, t_data *data);
+int					mouse_move(int x, int y, t_data *data);
+int					mouse_press(int button, int x, int y, t_data *data);
+int					close(int keycode);
 
 #endif

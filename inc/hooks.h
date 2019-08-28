@@ -58,4 +58,12 @@
 // # define NUM_NINE	92
 // # define NUM_ZERO	82
 
+# define MOUSE_LEFT			1
+# define MOUSE_RIGHT		2
+# define MOUSE_MIDDLE		3
+# define MOUSE_SCROLL_UP	4
+# define MOUSE_SCROLL_DOWN	5
+# define MOUSE_SCROLL_LEFT	6
+# define MOUSE_SCROLL_RIGHT	7
+
 #endif

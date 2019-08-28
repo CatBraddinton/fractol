@@ -27,18 +27,18 @@ typedef struct		s_complex
 	double			im;
 }					t_complex;
 
-typedef struct		s_mandelbrot
+typedef struct		s_set
 {
 	t_complex		min;
 	t_complex		max;
 	t_complex		factor;
-	t_complex		cmlx;
+	t_complex		c;
+	t_complex		k;
 	t_complex		z;
 	t_complex		pwr;
 	double			temp;
-}					t_mandelbrot;
+}					t_set;
 
- void				draw_mandelbrot_set(t_data *data);
- void				draw_julia_set(t_data *data);
- 
+void				draw_mandelbrot_julia(t_data *data);
+
 #endif

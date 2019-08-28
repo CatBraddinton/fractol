@@ -21,6 +21,8 @@ int	main(int ac, const char *av[])
 		invalid_param();
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
 		error("Error: malloc failed in main()");
+	if ((data->cam = (t_view *)malloc(sizeof(t_view))) == NULL)
+		error("Error: cam malloc failed in main()");
 	data->windows_count = ac - 1;
 	if (data->windows_count == 2)
 	{
@@ -32,6 +34,7 @@ int	main(int ac, const char *av[])
 	}
 	else
 		get_fractal_type(av[1], data);
+	init_params(data);
 	mlx(data);
 	return (0);
 }
