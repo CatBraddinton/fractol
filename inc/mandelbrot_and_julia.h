@@ -31,7 +31,7 @@ typedef struct		s_set
 {
 	t_complex		min;
 	t_complex		max;
-	t_complex		factor;
+	t_complex		pixel;
 	t_complex		c;
 	t_complex		k;
 	t_complex		z;

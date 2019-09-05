@@ -33,11 +33,12 @@ INCLUDES := $(INC_DIR)fractol.h\
 SOURCES := 	main.c\
  			$(SRC_DIR)error.c\
 			$(SRC_DIR)utilits.c\
-			$(SRC_DIR)mandelbrot_and_julia.c\
 			$(SRC_DIR)hooks.c\
-			$(SRC_DIR)colorizer.c\
+			# $(SRC_DIR)mandelbrot_and_julia.c\
 
-OBJECTS := 	main.o error.o utilits.o mandelbrot_and_julia.o hooks.o colorizer.o\
+			# $(SRC_DIR)colorizer.c\
+
+OBJECTS := 	main.o error.o utilits.o hooks.o #mandelbrot_and_julia.o hooks.o colorizer.o\
 
 LIBFT := $(LIB_DIR)$(FT)
 MINILIBX := $(MLX_DIR)$(MLX)

@@ -12,29 +12,22 @@
 
 #include "inc/fractol.h"
 
-int	main(int ac, const char *av[])
+int	main(int ac, char const *av[])
 {
-	t_data	*data;
-	pid_t	window;
+	pid_t	 window;
 
+	errno = 0;
 	if (ac < 2)
 		invalid_param();
-	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
-		error("Error: malloc failed in main()");
-	if ((data->cam = (t_view *)malloc(sizeof(t_view))) == NULL)
-		error("Error: cam malloc failed in main()");
-	data->windows_count = ac - 1;
-	if (data->windows_count == 2)
+	if (ac == 3)
 	{
 		window = fork();
 		if (window == 0)
-			get_fractal_type(av[2], data);
+			draw_fractal_image(av[2]);
 		else
-			get_fractal_type(av[1], data);
+			draw_fractal_image(av[1]);
 	}
-	else
-		get_fractal_type(av[1], data);
-	init_params(data);
-	mlx(data);
+	else if (ac == 2)
+		draw_fractal_image(av[1]);
 	return (0);
 }

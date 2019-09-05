@@ -15,15 +15,9 @@
 
 void	error(char *message)
 {
-	ft_putendl(message);
+	perror(message);
 	exit(EXIT_FAILURE);
 }
-
-/*
-** Function that prints usage of a program if:
-** Program was executed without specifing param value.
-** Param value is invalid.
-*/
 
 void	invalid_param(void)
 {
@@ -31,7 +25,6 @@ void	invalid_param(void)
 	ft_putendl("\navailable params:");
 	ft_putendl("Julia");
 	ft_putendl("Mandelbrot");
-	ft_putendl("Sierpinski_Triangle");
 	exit(EXIT_FAILURE);
 }
 
