@@ -13,6 +13,28 @@
 #include "../inc/fractol.h"
 #include "../inc/mandelbrot_and_julia.h"
 
+void	init_complex(t_cnum *n, double real, double imaginary)
+{
+// 	if (mode == MODE_SET)
+// 	{
+		n->re = real;
+		n->im = imaginary;
+// 	}
+// 	else if (mode == MODE_POW)
+// 	{
+// 		n->r = pow(real, POWER);
+// 		n->im = pow(imaginary, POWER);
+// 	}
+// 	else if (mode == MODE_BOOL)
+// 	{
+// 		n->r = pow(real, POWER);
+// 		n->im = pow(imaginary, POWER);
+// 		if (n->r + n->im <= 4.0)
+// 			return (1);
+// 	}
+// 	return (0);
+}
+
 // int	init_set(t_complex *n, double real, double imaginary, int mode)
 // {
 // 	if (mode == MODE_SET)
@@ -34,7 +56,7 @@
 // 	}
 // 	return (0);
 // }
-//
+
 void	draw_fractals(t_data *data)
 {
 	void (*draw_fractal[TOTAL_NB]) (t_data *data);
@@ -53,6 +75,8 @@ void	init_params(t_data *data)
 	data->params->zoom = 1.0;
 	data->params->mouse_x = 0;
 	data->params->mouse_y = 0;
+	data->params->move_x = 0;
+	data->params->move_y = 0;
 	data->params->iter = 0;
 }
 
@@ -77,7 +101,7 @@ void	draw_fractal_image(char const *name)
 	data->params = params;
 	init_params(data);
 	draw_fractals(data);
-	// mlx_hook(data->p_window, 2, 0, key_press, data);
+	mlx_hook(mlx->p_win, 2, 0, key_press, data);
 	// mlx_hook(data->p_window, 4, 0, mouse_press, data);
 	// mlx_hook(data->p_window, 6, 0, mouse_move, data);
 	mlx_hook(mlx->p_win, 17, 0, close, data);

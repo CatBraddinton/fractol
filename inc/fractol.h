@@ -16,7 +16,9 @@
 # define JULIA			1
 # define MANDELBROT		2
 
-# define WIDTH			2048
+# define TOTAL_NB		2
+
+# define WIDTH			1920
 # define HEIGHT			1080
 # define MAX_ITER		150
 
@@ -31,6 +33,12 @@
 # include <sys/errno.h>
 # include "hooks.h"
 # include "colorize_it.h"
+
+typedef struct		s_cnum
+{
+	double			re;
+	double			im;
+}					t_cnum;
 
 typedef struct		s_mlx
 {
@@ -49,6 +57,8 @@ typedef struct		s_params
 	double			zoom;
 	int				mouse_x;
 	int				mouse_y;
+	int				move_x;
+	int				move_y;
 	int				iter;
 }					t_params;
 
@@ -66,12 +76,16 @@ void				draw_fractal_image(char const *name);
 void				get_fractal_type(const char *input, t_data *data);
 // void				init_params(t_data *data);
 void				draw_fractals(t_data *data);
+void				draw_mandelbrot_set(t_data *data);
+void				draw_julia_set(t_data *data);
+void				init_complex(t_cnum *n, double real, double imaginary);
 // void				init_cam(t_data *data);
 // void				mlx(t_data *data);
 // void				set_color_to_point(t_data *data, int x, int y);
-// int					key_press(int keycode, t_data *data);
+
 // int					mouse_move(int x, int y, t_data *data);
 // int					mouse_press(int button, int x, int y, t_data *data);
-// int					close(int keycode);
+int					close(int keycode);
+int					key_press(int keycode, t_data *data);
 // int					init_set(t_complex *n, double real, double imaginary, int mode);
 #endif
