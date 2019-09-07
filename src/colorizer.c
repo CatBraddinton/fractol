@@ -12,39 +12,41 @@
 
 # include "../inc/fractol.h"
 
-// static int	get_light(int start, int end, double percentage)
-// {
-// 	return ((int)((1 - percentage) * start * percentage * end));
-// }
-
-static int	get_color_value(int iter, t_data *data)
+static int	get_color_value(int iter, int max_iter)
 {
 	t_color	color;
 	double	percent;
 
-	if (iter == data->max_iter)
+	if (iter == max_iter)
 		return (BLACK);
-	percent = (double)iter / (double)data->max_iter;
+	percent = (double)iter / (double)max_iter;
 	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
-	color.g = (int)(20 * pow((1 - percent), 2) * pow(percent, 2) * 255);
+	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
 	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
-void		set_color_to_point(t_data *data, int x, int y)
+void	color_point(t_data *data, int **buff)
 {
-	int	i;
+	int	x;
+	int	y;
 	int	color;
+	int i;
 
-	color = get_color_value(data->iter, data);
-	x += data->cam->offset_x;
-	y += data->cam->offset_y;
-	if ((x > 0 && x < WIDTH) && (y > 0 && y < HEIGHT))
+	y = 0;
+	while (y < HEIGHT)
 	{
-		i = (x * data->bpp / 8) + (y * data->size_line);
-		data->img_buffer[i] = color;
-		data->img_buffer[++i] = color >> 8;
-		data->img_buffer[++i] = color >> 16;
-		data->img_buffer[++i] = 0;
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = get_color_value(buff[y][x], data->params->max_iter);
+			i = (x * data->mlx->bpp / 8) + (y * data->mlx->size);
+			data->mlx->img_buffer[i] = color;
+			data->mlx->img_buffer[++i] = color >> 8;
+			data->mlx->img_buffer[++i] = color >> 16;
+			data->mlx->img_buffer[++i] = 0;
+			x++;
+		}
+		y++;
 	}
 }

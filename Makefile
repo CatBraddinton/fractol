@@ -36,9 +36,10 @@ SOURCES := 	main.c\
 			$(SRC_DIR)hooks.c\
 			$(SRC_DIR)julia_set.c\
 			$(SRC_DIR)mandelbrot_set.c\
-			# $(SRC_DIR)colorizer.c\
+			$(SRC_DIR)colorizer.c\
 
-OBJECTS := 	main.o error.o utilits.o hooks.o julia_set.o mandelbrot_set.o #colorizer.o\
+OBJECTS := 	main.o error.o utilits.o hooks.o julia_set.o mandelbrot_set.o\
+			colorizer.o\
 
 LIBFT := $(LIB_DIR)$(FT)
 MINILIBX := $(MLX_DIR)$(MLX)

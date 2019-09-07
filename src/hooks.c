@@ -32,38 +32,43 @@
 // 	}
 // 	return (1);
 // }
-//
-// int	key_press(int keycode, t_data *data)
-// {
-// 	if (keycode == ESC)
-// 		exit(EXIT_SUCCESS);
-// 	if (data->p_image != NULL)
-// 	{
-// 		mlx_destroy_image(data->p_mlx, data->p_image);
-// 		if (keycode == ZOOM_P)
-// 			data->cam->zoom += 0.1;
-// 		if (keycode == ZOOM_M)
-// 			if (data->cam->zoom > 0)
-// 				data->cam->zoom -= 0.1;
-// 		if (keycode == LEFT)
-// //			if (data->cam->offset_x > 10)
-// 				data->cam->offset_x += 10;
-// 		if (keycode == RIGHT)
-// //			if (data->cam->offset_x < WIDTH)
-// 				data->cam->offset_x -= 10;
-// 		if (keycode == UP)
-// //			if (data->cam->offset_y > 10)
-// 				data->cam->offset_y += 10;
-// 		if (keycode == DOWN)
-// //			if (data->cam->offset_y < HEIGHT)
-// 				data->cam->offset_y -= 10;
-// 		// if ((keycode == UP) || (keycode ==DOWN) ||
-// 		// 	(keycode ==LEFT) || (keycode == RIGHT))
-// 		// 	move(keycode, data);
-// 		draw_fractals(data);
-// 	}
-// 	return (1);
-// }
+void	zoom(int keycode, t_data *data)
+{
+	if (keycode == ZOOM_P)
+		data->params->zoom += 1.0;
+	else if(keycode == ZOOM_M && data->params->zoom > 1)
+		data->params->zoom -= 1.0;
+}
+
+void	move(int keycode, t_data *data)
+{
+	if (keycode == UP)
+		data->params->move_y -= 0.005 * data->params->zoom;
+	if (keycode == DOWN)
+		data->params->move_y += 0.005 * data->params->zoom;
+	if (keycode == LEFT)
+		data->params->move_x -= 0.005 * data->params->zoom;
+	if (keycode == RIGHT)
+		data->params->move_x += 0.005 * data->params->zoom;
+}
+
+int	key_press(int keycode, t_data *data)
+{
+	(void)data;
+	if (keycode == ESC)
+		exit(EXIT_SUCCESS);
+	if (data->mlx->p_img)
+	{
+		if (keycode == ZOOM_P || keycode == ZOOM_M)
+			zoom(keycode, data);
+		if (keycode == UP || keycode == DOWN || keycode == LEFT ||
+			keycode == RIGHT)
+			move(keycode, data);
+		mlx_destroy_image(data->mlx->p_mlx, data->mlx->p_img);
+		draw_fractals(data);
+	}
+	return (1);
+}
 
 int	close(int keycode)
 {

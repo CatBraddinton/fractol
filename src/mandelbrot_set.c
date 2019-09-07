@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia_set.c                                        :+:      :+:    :+:   */
+/*   mandelbrot_set.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdudko <kdudko@student.unit.ua>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/07 12:06:10 by kdudko            #+#    #+#             */
-/*   Updated: 2019/09/07 12:06:13 by kdudko           ###   ########.fr       */
+/*   Created: 2019/09/07 12:05:29 by kdudko            #+#    #+#             */
+/*   Updated: 2019/09/07 12:05:33 by kdudko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/julia.h"
+#include "../inc/fractol.h"
 
-void	draw_julia_set(t_data *data)
+void	draw_mandelbrot_set(t_data *data)
 {
 	t_set	set;
 	int 	y;
@@ -24,13 +24,14 @@ void	draw_julia_set(t_data *data)
 	while (y < HEIGHT)
 	{
 		data->buff[y] = (int *)malloc(WIDTH * sizeof(int));
+		set.k.im = 2.0 * ((double)y - HEIGHT / 2) / (0.5 * data->params->zoom
+				* HEIGHT) + data->params->move_y;
 		x = 0;
 		while (x < WIDTH)
 		{
-			set.new_z.re = 2.0 * ((double)x - WIDTH / 2) /
+			set.k.re = 2.0 * ((double)x - WIDTH / 2) /
 			(0.5 * data->params->zoom * WIDTH) + data->params->move_x;
-			set.new_z.im = 2.0 * ((double)y - HEIGHT / 2) / (0.5 * data->params->zoom
-					* HEIGHT) + data->params->move_y;
+			init_complex(&(set.new_z), 0.0, 0.0);
 			data->params->iter = 0;
 			while (data->params->iter < data->params->max_iter)
 			{

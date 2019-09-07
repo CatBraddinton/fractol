@@ -11,7 +11,19 @@
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
-#include "../inc/mandelbrot_and_julia.h"
+
+void	free_buff(int **buff)
+{
+	int i;
+
+	i = 0;
+	while (i < HEIGHT)
+	{
+		free(buff[i]);
+		i++;
+	}
+	free(buff);
+}
 
 void	init_complex(t_cnum *n, double real, double imaginary)
 {
@@ -75,8 +87,8 @@ void	init_params(t_data *data)
 	data->params->zoom = 1.0;
 	data->params->mouse_x = 0;
 	data->params->mouse_y = 0;
-	data->params->move_x = 0;
-	data->params->move_y = 0;
+	data->params->move_x = 0.0;
+	data->params->move_y = 0.0;
 	data->params->iter = 0;
 }
 
