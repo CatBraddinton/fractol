@@ -26,7 +26,7 @@ void	draw_julia_set(t_data *data)
 			data->params->iter = 0;
 			while (data->params->iter < data->params->max_iter)
 			{
-				init_complex(&(data->set.old_z), data->set.new_z.re, data->set.new_z.im);
+				set_complex(&(data->set.old_z), data->set.new_z.re, data->set.new_z.im);
 				data->set.new_z.re = data->set.old_z.re * data->set.old_z.re -
 					data->set.old_z.im * data->set.old_z.im + data->set.k.re;
 				data->set.new_z.im = 2.0 * data->set.old_z.re * data->set.old_z.im + data->set.k.im;

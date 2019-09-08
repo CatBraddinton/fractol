@@ -25,7 +25,7 @@ void	free_buff(int **buff)
 	free(buff);
 }
 
-void	init_complex(t_cnum *n, double real, double imaginary)
+void	set_complex(t_cnum *n, double real, double imaginary)
 {
 // 	if (mode == MODE_SET)
 // 	{
@@ -78,7 +78,6 @@ void	init_buffer(t_data *data)
 
 void	init_params(t_data *data)
 {
-
 	data->mlx->bpp = 0;
 	data->mlx->size = 0;
 	data->mlx->end = 0;
@@ -93,7 +92,9 @@ void	init_params(t_data *data)
 	data->params->center_y = HEIGHT / 2;
 	data->params->scale_x = 0.5 * data->params->zoom * WIDTH;
 	data->params->scale_y = 0.5 * data->params->zoom * HEIGHT;
-	init_complex(&(data->set.k), -0.7, 0.27015);
+	set_complex(&(data->set.k), -0.7, 0.27015);
+	data->set.delta.re = 4.0 / WIDTH;
+	data->set.delta.im = 4.0 / HEIGHT;
 }
 
 void	draw_fractal_image(char const *name)

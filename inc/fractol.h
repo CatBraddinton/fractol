@@ -42,8 +42,7 @@ typedef struct		s_cnum
 
 typedef struct		s_set
 {
-	t_cnum			max;
-	t_cnum			min;
+	t_cnum			delta;
 	t_cnum			k;
 	t_cnum			c;
 	t_cnum			new_z;
@@ -97,7 +96,7 @@ void				get_fractal_type(const char *input, t_data *data);
 void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data);
 void				draw_julia_set(t_data *data);
-void				init_complex(t_cnum *n, double real, double imaginary);
+void				set_complex(t_cnum *n, double real, double imaginary);
 // void				init_cam(t_data *data);
 // void				mlx(t_data *data);
 void				color_point(t_data *data, int **buff);
