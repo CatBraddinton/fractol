@@ -20,7 +20,7 @@
 
 # define WIDTH			1980
 # define HEIGHT			1080
-# define MAX_ITER		1200
+# define MAX_ITER		500
 
 # include <stdio.h>
 # include <math.h>
@@ -65,8 +65,8 @@ typedef struct		s_params
 {
 	int				max_iter;
 	double			zoom;
-	int				mouse_x;
-	int				mouse_y;
+	double			mouse_x;
+	double			mouse_y;
 	double			move_x;
 	double			move_y;
 	int				iter;
@@ -101,7 +101,7 @@ void				set_complex(t_cnum *n, double real, double imaginary);
 // void				mlx(t_data *data);
 void				color_point(t_data *data, int **buff);
 void	init_buffer(t_data *data);
-// int					mouse_move(int x, int y, t_data *data);
+int					mouse_move(int x, int y, t_data *data);
 // int					mouse_press(int button, int x, int y, t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);

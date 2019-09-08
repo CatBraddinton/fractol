@@ -21,17 +21,19 @@
 // 	return (1);
 // }
 //
-// int		mouse_move(int x, int y, t_data *data)
-// {
-// 	if (data->type == 1 && x < WIDTH && y < HEIGHT)
-// 	{
-// 		data->mouse_x = x;
-// 		data->mouse_x = y;
-// 	    draw_fractals(data);
-// 	    return (0);
-// 	}
-// 	return (1);
-// }
+int		mouse_move(int x, int y, t_data *data)
+{
+	if (data->type == 1)
+	{
+		data->params->mouse_x = 4 * ((double)x / WIDTH - 0.5);
+		data->params->mouse_y = 4 * ((double)(HEIGHT - y) / HEIGHT - 0.5);
+		set_complex(&(data->set.k), data->params->mouse_x, data->params->mouse_y);
+		mlx_destroy_image(data->mlx->p_mlx, data->mlx->p_img);
+		draw_fractals(data);
+	    return (0);
+	}
+	return (1);
+}
 void	zoom(int keycode, t_data *data)
 {
 	if (keycode == ZOOM_P)

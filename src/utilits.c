@@ -27,8 +27,8 @@ void	free_buff(int **buff)
 
 void	set_complex(t_cnum *n, double real, double imaginary)
 {
-		n->re = real;
-		n->im = imaginary;
+	n->re = real;
+	n->im = imaginary;
 }
 
 void	draw_fractals(t_data *data)
@@ -68,7 +68,7 @@ void	init_params(t_data *data)
 	data->params->center_y = HEIGHT / 2;
 	data->params->scale_x = 0.5 * data->params->zoom * WIDTH;
 	data->params->scale_y = 0.5 * data->params->zoom * HEIGHT;
-	set_complex(&(data->set.k), -0.7, 0.27015);
+	// set_complex(&(data->set.k), -0.7, 0.27015);
 	data->set.delta.re = 4.0 / WIDTH;
 	data->set.delta.im = 4.0 / HEIGHT;
 }
@@ -96,7 +96,7 @@ void	draw_fractal_image(char const *name)
 	draw_fractals(data);
 	mlx_hook(mlx->p_win, 2, 0, key_press, data);
 	// mlx_hook(data->p_window, 4, 0, mouse_press, data);
-	// mlx_hook(data->p_window, 6, 0, mouse_move, data);
+	mlx_hook(mlx->p_win, 6, 0, mouse_move, data);
 	mlx_hook(mlx->p_win, 17, 0, close, data);
 	mlx_loop(mlx->p_mlx);
 }
