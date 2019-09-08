@@ -34,11 +34,10 @@ SOURCES := 	main.c\
  			$(SRC_DIR)error.c\
 			$(SRC_DIR)utilits.c\
 			$(SRC_DIR)hooks.c\
-			$(SRC_DIR)julia_set.c\
-			$(SRC_DIR)mandelbrot_set.c\
+			$(SRC_DIR)mandelbrot_julia_sets.c\
 			$(SRC_DIR)colorizer.c\
 
-OBJECTS := 	main.o error.o utilits.o hooks.o julia_set.o mandelbrot_set.o\
+OBJECTS := 	main.o error.o utilits.o hooks.o mandelbrot_julia_sets.o\
 			colorizer.o\
 
 LIBFT := $(LIB_DIR)$(FT)

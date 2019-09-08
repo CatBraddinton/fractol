@@ -109,4 +109,5 @@ int					key_press(int keycode, t_data *data);
 
 void	convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void	free_buff(int **buff);
+void	count_points(t_data *data, t_cnum complex);
 #endif

@@ -27,32 +27,8 @@ void	free_buff(int **buff)
 
 void	set_complex(t_cnum *n, double real, double imaginary)
 {
-// 	if (mode == MODE_SET)
-// 	{
 		n->re = real;
 		n->im = imaginary;
-// 	}
-// 	else if (mode == MODE_POW)
-// 	{
-// 		n->r = pow(real, POWER);
-// 		n->im = pow(imaginary, POWER);
-// 	}
-// 	else if (mode == MODE_BOOL)
-// 	{
-// 		n->r = pow(real, POWER);
-// 		n->im = pow(imaginary, POWER);
-// 		if (n->r + n->im <= 4.0)
-// 			return (1);
-// 	}
-// 	return (0);
-}
-
-void	convert_pixels(t_cnum *n, t_data *data, int x, int y)
-{
-	n->re = 2.0 * ((double)x - data->params->center_x)
-		/ data->params->scale_x + data->params->move_x;
-	n->im = 2.0 * ((double)y - data->params->center_y)
-		/ data->params->scale_y + data->params->move_y;
 }
 
 void	draw_fractals(t_data *data)
