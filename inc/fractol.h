@@ -18,9 +18,9 @@
 
 # define TOTAL_NB		2
 
-# define WIDTH			1980
-# define HEIGHT			1080
-# define MAX_ITER		500
+# define WIDTH			1500
+# define HEIGHT			1500
+# define MAX_ITER		300
 
 # include <stdio.h>
 # include <math.h>
@@ -86,6 +86,10 @@ typedef struct		s_data
 	t_params		*params;
 	t_set			set;
 	int				**buff;
+	double			re_min;
+	double			re_max;
+	double			im_min;
+	double			im_max;
 }					t_data;
 
 void				error(char *message);
@@ -110,4 +114,5 @@ int					key_press(int keycode, t_data *data);
 void	convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void	free_buff(int **buff);
 void	count_points(t_data *data, t_cnum complex);
+int		mouse_press(int button, int x, int y, t_data *data);
 #endif

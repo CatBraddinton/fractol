@@ -71,6 +71,10 @@ void	init_params(t_data *data)
 	// set_complex(&(data->set.k), -0.7, 0.27015);
 	data->set.delta.re = 4.0 / WIDTH;
 	data->set.delta.im = 4.0 / HEIGHT;
+	data->re_min = -2.0;
+	data->im_min = -2.0;
+	data->im_max = 2.0;
+	data->re_max = 2.0;
 }
 
 void	draw_fractal_image(char const *name)
@@ -95,7 +99,7 @@ void	draw_fractal_image(char const *name)
 	init_params(data);
 	draw_fractals(data);
 	mlx_hook(mlx->p_win, 2, 0, key_press, data);
-	// mlx_hook(data->p_window, 4, 0, mouse_press, data);
+	mlx_hook(mlx->p_win, 4, 0, mouse_press, data);
 	mlx_hook(mlx->p_win, 6, 0, mouse_move, data);
 	mlx_hook(mlx->p_win, 17, 0, close, data);
 	mlx_loop(mlx->p_mlx);

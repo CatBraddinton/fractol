@@ -35,16 +35,17 @@ void	count_points(t_data *data, t_cnum complex)
 
 void	draw_julia_set(t_data *data)
 {
-	int y;
-	int x;
-
+	int			y;
+	int			x;
+	pthread_t	id;
+	
 	init_buffer(data);
 	y = -1;
 	while (++y < HEIGHT && (x = -1))
 		while (++x < WIDTH)
 		{
-			data->set.new_z.re = -2.0 + (double)x * data->set.delta.re;
-			data->set.new_z.im = -2.0 + (double)y * data->set.delta.im;
+			data->set.new_z.re = data->re_min + (double)x * data->set.delta.re;
+			data->set.new_z.im = data->im_min + (double)y * data->set.delta.im;
 			set_complex(&(data->set.z_sqrt),
 				pow(data->set.new_z.re, 2.0), pow(data->set.new_z.im, 2.0));
 			count_points(data, data->set.k);
@@ -65,8 +66,8 @@ void	draw_mandelbrot_set(t_data *data)
 	{
 		while (++x < WIDTH)
 		{
-			data->set.c.re = -2.0 + (double)x * data->set.delta.re;
-			data->set.c.im = -2.0 + (double)y * data->set.delta.im;
+			data->set.c.re = data->re_min + (double)x * data->set.delta.re;
+			data->set.c.im = data->im_min + (double)y * data->set.delta.im;
 			set_complex(&(data->set.new_z), 0.0, 0.0);
 			set_complex(&(data->set.z_sqrt),
 				pow(data->set.new_z.re, 2.0), pow(data->set.new_z.im, 2.0));

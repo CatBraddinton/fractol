@@ -12,15 +12,15 @@
 
 #include "../inc/fractol.h"
 
-// int		mouse_press(int button, int x, int y, t_data *data)
-// {
-// 	(void)data;
-// 	(void)x;
-// 	(void)y;
-// 	(void)button;
-// 	return (1);
-// }
-//
+int		mouse_press(int button, int x, int y, t_data *data)
+{
+	(void)data;
+	(void)x;
+	(void)y;
+	(void)button;
+	return (1);
+}
+
 int		mouse_move(int x, int y, t_data *data)
 {
 	if (data->type == 1)
