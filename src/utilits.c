@@ -47,27 +47,13 @@ void	init_complex(t_cnum *n, double real, double imaginary)
 // 	return (0);
 }
 
-// int	init_set(t_complex *n, double real, double imaginary, int mode)
-// {
-// 	if (mode == MODE_SET)
-// 	{
-// 		n->r = real;
-// 		n->im = imaginary;
-// 	}
-// 	else if (mode == MODE_POW)
-// 	{
-// 		n->r = pow(real, POWER);
-// 		n->im = pow(imaginary, POWER);
-// 	}
-// 	else if (mode == MODE_BOOL)
-// 	{
-// 		n->r = pow(real, POWER);
-// 		n->im = pow(imaginary, POWER);
-// 		if (n->r + n->im <= 4.0)
-// 			return (1);
-// 	}
-// 	return (0);
-// }
+void	convert_pixels(t_cnum *n, t_data *data, int x, int y)
+{
+	n->re = 2.0 * ((double)x - data->params->center_x)
+		/ data->params->scale_x + data->params->move_x;
+	n->im = 2.0 * ((double)y - data->params->center_y)
+		/ data->params->scale_y + data->params->move_y;
+}
 
 void	draw_fractals(t_data *data)
 {
@@ -78,8 +64,21 @@ void	draw_fractals(t_data *data)
 	(*draw_fractal[data->type - 1])(data);
 }
 
+void	init_buffer(t_data *data)
+{
+	int i;
+
+	i = -1;
+	if ((data->buff = (int **)malloc(HEIGHT * sizeof(int *))) == NULL)
+		error("malloc error");
+	while (++i < HEIGHT)
+		if ((data->buff[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
+			error("malloc error");
+}
+
 void	init_params(t_data *data)
 {
+
 	data->mlx->bpp = 0;
 	data->mlx->size = 0;
 	data->mlx->end = 0;
@@ -90,6 +89,11 @@ void	init_params(t_data *data)
 	data->params->move_x = 0.0;
 	data->params->move_y = 0.0;
 	data->params->iter = 0;
+	data->params->center_x = WIDTH / 2;
+	data->params->center_y = HEIGHT / 2;
+	data->params->scale_x = 0.5 * data->params->zoom * WIDTH;
+	data->params->scale_y = 0.5 * data->params->zoom * HEIGHT;
+	init_complex(&(data->set.k), -0.7, 0.27015);
 }
 
 void	draw_fractal_image(char const *name)

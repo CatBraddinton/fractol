@@ -38,18 +38,20 @@ void	zoom(int keycode, t_data *data)
 		data->params->zoom += 1.0;
 	else if(keycode == ZOOM_M && data->params->zoom > 1)
 		data->params->zoom -= 1.0;
+	data->params->scale_x = 0.5 * data->params->zoom * WIDTH;
+	data->params->scale_y = 0.5 * data->params->zoom * HEIGHT;
 }
 
 void	move(int keycode, t_data *data)
 {
 	if (keycode == UP)
-		data->params->move_y -= 0.005 * data->params->zoom;
+		data->params->move_y -= 0.01 ;
 	if (keycode == DOWN)
-		data->params->move_y += 0.005 * data->params->zoom;
+		data->params->move_y += 0.01;
 	if (keycode == LEFT)
-		data->params->move_x -= 0.005 * data->params->zoom;
+		data->params->move_x -= 0.01;
 	if (keycode == RIGHT)
-		data->params->move_x += 0.005 * data->params->zoom;
+		data->params->move_x += 0.01;
 }
 
 int	key_press(int keycode, t_data *data)

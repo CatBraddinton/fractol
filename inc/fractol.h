@@ -18,9 +18,9 @@
 
 # define TOTAL_NB		2
 
-# define WIDTH			1280
-# define HEIGHT			720
-# define MAX_ITER		100
+# define WIDTH			1980
+# define HEIGHT			1080
+# define MAX_ITER		1200
 
 # include <stdio.h>
 # include <math.h>
@@ -42,9 +42,13 @@ typedef struct		s_cnum
 
 typedef struct		s_set
 {
+	t_cnum			max;
+	t_cnum			min;
 	t_cnum			k;
+	t_cnum			c;
 	t_cnum			new_z;
 	t_cnum			old_z;
+	t_cnum			z_sqrt;
 }					t_set;
 
 typedef struct		s_mlx
@@ -67,6 +71,12 @@ typedef struct		s_params
 	double			move_x;
 	double			move_y;
 	int				iter;
+	double			center_x;
+	double			center_y;
+	double			scale_x;
+	double			scale_y;
+	double			transf_x;
+	double			transf_y;
 }					t_params;
 
 typedef struct		s_data
@@ -75,6 +85,7 @@ typedef struct		s_data
 	int				type;
 	t_mlx			*mlx;
 	t_params		*params;
+	t_set			set;
 	int				**buff;
 }					t_data;
 
@@ -89,14 +100,14 @@ void				draw_julia_set(t_data *data);
 void				init_complex(t_cnum *n, double real, double imaginary);
 // void				init_cam(t_data *data);
 // void				mlx(t_data *data);
-void	color_point(t_data *data, int **buff);
-
+void				color_point(t_data *data, int **buff);
+void	init_buffer(t_data *data);
 // int					mouse_move(int x, int y, t_data *data);
 // int					mouse_press(int button, int x, int y, t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
 // int					init_set(t_complex *n, double real, double imaginary, int mode);
 
-
+void	convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void	free_buff(int **buff);
 #endif
