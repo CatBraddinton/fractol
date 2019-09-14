@@ -17,10 +17,13 @@
 # define MANDELBROT		2
 
 # define TOTAL_NB		2
+# define MAX_ITER		500
 
-# define WIDTH			1500
-# define HEIGHT			1500
-# define MAX_ITER		300
+# define WIN_WIDTH		2600
+# define WIN_HEIGHT		1400
+
+# define WIDTH			2600
+# define HEIGHT			1400
 
 # include <stdio.h>
 # include <math.h>
@@ -42,7 +45,6 @@ typedef struct		s_cnum
 
 typedef struct		s_set
 {
-	t_cnum			delta;
 	t_cnum			k;
 	t_cnum			c;
 	t_cnum			new_z;
@@ -90,29 +92,31 @@ typedef struct		s_data
 	double			re_max;
 	double			im_min;
 	double			im_max;
+	double			spacing;
+	int				im_offset_x;
+	int				im_offset_y;
 }					t_data;
 
 void				error(char *message);
 void				invalid_param(void);
 void				draw_fractal_image(char const *name);
 void				get_fractal_type(const char *input, t_data *data);
-// void				init_params(t_data *data);
+
 void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data);
 void				draw_julia_set(t_data *data);
 void				set_complex(t_cnum *n, double real, double imaginary);
-// void				init_cam(t_data *data);
-// void				mlx(t_data *data);
+
 void				color_point(t_data *data, int **buff);
-void	init_buffer(t_data *data);
+void				init_buffer(t_data *data);
 int					mouse_move(int x, int y, t_data *data);
-// int					mouse_press(int button, int x, int y, t_data *data);
+int					mouse_press(int button, int x, int y, t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
-// int					init_set(t_complex *n, double real, double imaginary, int mode);
 
 void	convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void	free_buff(int **buff);
-void	count_points(t_data *data, t_cnum complex);
+
 int		mouse_press(int button, int x, int y, t_data *data);
+
 #endif

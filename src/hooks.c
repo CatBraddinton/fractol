@@ -12,21 +12,33 @@
 
 #include "../inc/fractol.h"
 
+void	zoom(int keycode, t_data *data)
+{
+	if (keycode == ZOOM_P || keycode == MOUSE_SCROLL_UP)
+		data->params->zoom += 1.0;
+	else if (keycode == ZOOM_M || keycode == MOUSE_SCROLL_DOWN)
+		data->params->zoom -= 1.0;
+}
+
 int		mouse_press(int button, int x, int y, t_data *data)
 {
-	(void)data;
-	(void)x;
-	(void)y;
-	(void)button;
+	if (button == MOUSE_SCROLL_UP || button == MOUSE_SCROLL_DOWN)
+	{
+		data->params->move_x = x;
+		data->params->move_y = y;
+		zoom(button, data);
+	}
+	mlx_destroy_image(data->mlx->p_mlx, data->mlx->p_img);
+	draw_fractals(data);
 	return (1);
 }
 
 int		mouse_move(int x, int y, t_data *data)
 {
+	data->params->mouse_x = 4 * ((double)x / WIDTH - 0.5);
+	data->params->mouse_y = 4 * ((double)(HEIGHT - y) / HEIGHT - 0.5);
 	if (data->type == 1)
 	{
-		data->params->mouse_x = 4 * ((double)x / WIDTH - 0.5);
-		data->params->mouse_y = 4 * ((double)(HEIGHT - y) / HEIGHT - 0.5);
 		set_complex(&(data->set.k), data->params->mouse_x, data->params->mouse_y);
 		mlx_destroy_image(data->mlx->p_mlx, data->mlx->p_img);
 		draw_fractals(data);
@@ -34,15 +46,7 @@ int		mouse_move(int x, int y, t_data *data)
 	}
 	return (1);
 }
-void	zoom(int keycode, t_data *data)
-{
-	if (keycode == ZOOM_P)
-		data->params->zoom += 1.0;
-	else if(keycode == ZOOM_M && data->params->zoom > 1)
-		data->params->zoom -= 1.0;
-	data->params->scale_x = 0.5 * data->params->zoom * WIDTH;
-	data->params->scale_y = 0.5 * data->params->zoom * HEIGHT;
-}
+
 
 void	move(int keycode, t_data *data)
 {

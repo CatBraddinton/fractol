@@ -54,11 +54,17 @@ void	init_buffer(t_data *data)
 
 void	init_params(t_data *data)
 {
+	data->im_offset_x = 0;
+	data->im_offset_y = 0;
+	data->re_min = -2.5;
+	data->im_min = -1.0;
+	data->im_max = 1.0;
+	data->re_max = 1.0;
 	data->mlx->bpp = 0;
 	data->mlx->size = 0;
 	data->mlx->end = 0;
 	data->params->max_iter = MAX_ITER;
-	data->params->zoom = 1.0;
+	data->params->zoom = 0.0;
 	data->params->mouse_x = 0;
 	data->params->mouse_y = 0;
 	data->params->move_x = 0.0;
@@ -66,15 +72,7 @@ void	init_params(t_data *data)
 	data->params->iter = 0;
 	data->params->center_x = WIDTH / 2;
 	data->params->center_y = HEIGHT / 2;
-	data->params->scale_x = 0.5 * data->params->zoom * WIDTH;
-	data->params->scale_y = 0.5 * data->params->zoom * HEIGHT;
-	// set_complex(&(data->set.k), -0.7, 0.27015);
-	data->set.delta.re = 4.0 / WIDTH;
-	data->set.delta.im = 4.0 / HEIGHT;
-	data->re_min = -2.0;
-	data->im_min = -2.0;
-	data->im_max = 2.0;
-	data->re_max = 2.0;
+	data->spacing = (fabs(data->re_min) + data->re_max) / WIDTH;
 }
 
 void	draw_fractal_image(char const *name)
@@ -90,7 +88,8 @@ void	draw_fractal_image(char const *name)
 		error(strerror(errno));
 	if ((mlx->p_mlx = mlx_init()) == NULL)
 		error(strerror(errno));
-	if (!(mlx->p_win = mlx_new_window(mlx->p_mlx, WIDTH, HEIGHT, data->name)))
+	if (!(mlx->p_win = mlx_new_window(mlx->p_mlx, WIN_WIDTH, WIN_HEIGHT,
+										data->name)))
 		error(strerror(errno));
 	if ((params = (t_params *)malloc(sizeof(t_params))) == NULL)
 		error(strerror(errno));

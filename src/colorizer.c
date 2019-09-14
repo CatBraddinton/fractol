@@ -20,9 +20,9 @@ static int	get_color_value(int iter, int max_iter)
 	if (iter == max_iter)
 		return (BLACK);
 	percent = (double)iter / (double)max_iter;
-	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
-	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
-	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
+	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255 * iter);
+	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255 * iter);
+	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255 * iter);
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
@@ -47,6 +47,6 @@ void	color_point(t_data *data, int **buff)
 			data->mlx->img_buffer[++i] = color >> 16;
 			data->mlx->img_buffer[++i] = 0;
 		}
-	mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->p_win,
-		data->mlx->p_img, 0, 0);
+		mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->p_win,
+			data->mlx->p_img, data->im_offset_x, data->im_offset_y);
 }
