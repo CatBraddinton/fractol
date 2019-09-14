@@ -56,11 +56,30 @@ void	draw_julia_set(t_data *data)
 	free_buff(data->buff);
 }
 
+int		is_in_mandelbrot_set(double x, double y)
+{
+	double sqrt_x;
+	double sqrt_y;
+	double z;
+	double q;
+	double temp;
+
+	temp = (x - 1.0 / 4.0);
+	sqrt_x = temp * temp;
+	sqrt_y = y * y;
+	q = sqrt_x + sqrt_y;
+	z = q * (q + temp);
+	temp = sqrt_y / 4.0;
+	if (z <= temp)
+		return (1);
+	return (0);
+}
+
 void	draw_mandelbrot_set(t_data *data)
 {
 	int y;
 	int x;
-	// pthread_t	ids[4];
+	// pthread_t	id[TOTAL_THREADS];
 
 	init_buffer(data);
 	y = -1;
@@ -70,8 +89,13 @@ void	draw_mandelbrot_set(t_data *data)
 		{
 			data->set.c.re = data->re_min + x * data->spacing;
 			data->set.c.im = data->im_max - y * data->spacing;
-			set_complex(&(data->set.new_z), 0.0, 0.0);
-			count_points(data);
+			if (is_in_mandelbrot_set(data->set.c.re, data->set.c.im) == 0)
+			{
+				set_complex(&(data->set.new_z), 0.0, 0.0);
+				count_points(data);
+			}
+			else
+				data->params->iter = MAX_ITER;
 			data->buff[y][x] = data->params->iter;
 		}
 	}

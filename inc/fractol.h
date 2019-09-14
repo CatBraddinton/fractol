@@ -17,7 +17,8 @@
 # define MANDELBROT		2
 
 # define TOTAL_NB		2
-# define MAX_ITER		500
+# define MAX_ITER		1000
+# define TOTAL_THREADS	4
 
 # define WIN_WIDTH		2600
 # define WIN_HEIGHT		1400
@@ -87,6 +88,7 @@ typedef struct		s_data
 	t_mlx			*mlx;
 	t_params		*params;
 	t_set			set;
+	t_cnum			threads_param[TOTAL_THREADS];
 	int				**buff;
 	double			re_min;
 	double			re_max;
