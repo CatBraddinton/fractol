@@ -17,7 +17,8 @@ void	zoom(int keycode, t_data *data)
 	if (keycode == ZOOM_P || keycode == MOUSE_SCROLL_UP)
 		data->params->zoom += 1.0;
 	else if (keycode == ZOOM_M || keycode == MOUSE_SCROLL_DOWN)
-		data->params->zoom -= 1.0;
+		if (data->params->zoom > 1)
+			data->params->zoom -= 1.0;
 }
 
 int		mouse_press(int button, int x, int y, t_data *data)

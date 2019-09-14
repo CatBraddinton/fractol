@@ -54,25 +54,26 @@ void	init_buffer(t_data *data)
 
 void	init_params(t_data *data)
 {
-	data->im_offset_x = 0;
-	data->im_offset_y = 0;
+	data->params->max_iter = MAX_ITER;
+	data->params->iter = 0;
 	data->re_min = -2.5;
 	data->im_min = -1.0;
 	data->im_max = 1.0;
 	data->re_max = 1.0;
+	data->params->scale_x = (data->re_max - data->re_min) / WIDTH;
+	data->params->scale_y = (data->im_max - data->im_min) / HEIGHT;
 	data->mlx->bpp = 0;
 	data->mlx->size = 0;
 	data->mlx->end = 0;
-	data->params->max_iter = MAX_ITER;
-	data->params->zoom = 0.0;
+	data->params->zoom = 3.0;
 	data->params->mouse_x = 0;
 	data->params->mouse_y = 0;
-	data->params->move_x = 0.0;
-	data->params->move_y = 0.0;
-	data->params->iter = 0;
 	data->params->center_x = WIDTH / 2;
 	data->params->center_y = HEIGHT / 2;
-	data->spacing = (fabs(data->re_min) + data->re_max) / WIDTH;
+	data->params->move_x = 0.0;
+	data->params->move_y = 0.0;
+	data->im_offset_x = 0;
+	data->im_offset_y = 0;
 }
 
 void	draw_fractal_image(char const *name)

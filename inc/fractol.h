@@ -17,14 +17,14 @@
 # define MANDELBROT		2
 
 # define TOTAL_NB		2
-# define MAX_ITER		1000
+# define MAX_ITER		500
 # define TOTAL_THREADS	4
 
 # define WIN_WIDTH		2600
 # define WIN_HEIGHT		1400
 
-# define WIDTH			2600
-# define HEIGHT			1400
+# define WIDTH			1500
+# define HEIGHT			1000
 
 # include <stdio.h>
 # include <math.h>
@@ -94,7 +94,6 @@ typedef struct		s_data
 	double			re_max;
 	double			im_min;
 	double			im_max;
-	double			spacing;
 	int				im_offset_x;
 	int				im_offset_y;
 }					t_data;
