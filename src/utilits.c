@@ -12,12 +12,12 @@
 
 #include "../inc/fractol.h"
 
-void	free_buff(int **buff)
+void	free_buff(int **buff, int size)
 {
 	int i;
 
 	i = 0;
-	while (i < HEIGHT)
+	while (i < size)
 	{
 		free(buff[i]);
 		i++;
@@ -31,76 +31,42 @@ void	set_complex(t_cnum *n, double real, double imaginary)
 	n->im = imaginary;
 }
 
-void	draw_fractals(t_data *data)
-{
-	void (*draw_fractal[TOTAL_NB]) (t_data *data);
-
-	draw_fractal[0] = draw_julia_set;
-	draw_fractal[1] = draw_mandelbrot_set;
-	(*draw_fractal[data->type - 1])(data);
-}
-
 void	init_buffer(t_data *data)
 {
 	int i;
 
 	i = -1;
-	if ((data->buff = (int **)malloc(HEIGHT * sizeof(int *))) == NULL)
+	if (!(data->buff = (int **)malloc(data->image_height * sizeof(int *))))
 		error("malloc error");
-	while (++i < HEIGHT)
-		if ((data->buff[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
+	while (++i < data->image_height)
+		if (!(data->buff[i] = (int *)malloc(data->image_width * sizeof(int))))
 			error("malloc error");
 }
 
 void	init_params(t_data *data)
 {
+	data->menu_width = WIN_WIDTH / 5;
+	data->menu_height = WIN_HEIGHT;
+	data->image_width = WIN_WIDTH - data->menu_width;
+	data->image_height = WIN_HEIGHT;
 	data->params->max_iter = MAX_ITER;
 	data->params->iter = 0;
-	data->re_min = -2.5;
+	data->re_min = -2.0;
 	data->im_min = -1.0;
 	data->im_max = 1.0;
 	data->re_max = 1.0;
-	data->params->scale_x = (data->re_max - data->re_min) / WIDTH;
-	data->params->scale_y = (data->im_max - data->im_min) / HEIGHT;
 	data->mlx->bpp = 0;
 	data->mlx->size = 0;
 	data->mlx->end = 0;
-	data->params->zoom = 3.0;
+	data->params->zoom = 1.1;
 	data->params->mouse_x = 0;
 	data->params->mouse_y = 0;
-	data->params->center_x = WIDTH / 2;
-	data->params->center_y = HEIGHT / 2;
+	data->params->center_x = fabs(data->re_max) + fabs(data->re_min) / 2.0;
+	data->params->center_y = fabs(data->im_max) + fabs(data->im_min) / 2.0;
 	data->params->move_x = 0.0;
 	data->params->move_y = 0.0;
+	data->params->scale_x = (data->re_max - data->re_min) / data->image_width;
+	data->params->scale_y = (data->im_max - data->im_min) / data->image_height;
 	data->im_offset_x = 0;
 	data->im_offset_y = 0;
-}
-
-void	draw_fractal_image(char const *name)
-{
-	t_data 		*data;
-	t_mlx		*mlx;
-	t_params	*params;
-
-	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
-		error(strerror(errno));
-	get_fractal_type(name, data);
-	if ((mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
-		error(strerror(errno));
-	if ((mlx->p_mlx = mlx_init()) == NULL)
-		error(strerror(errno));
-	if (!(mlx->p_win = mlx_new_window(mlx->p_mlx, WIN_WIDTH, WIN_HEIGHT,
-										data->name)))
-		error(strerror(errno));
-	if ((params = (t_params *)malloc(sizeof(t_params))) == NULL)
-		error(strerror(errno));
-	data->mlx = mlx;
-	data->params = params;
-	init_params(data);
-	draw_fractals(data);
-	mlx_hook(mlx->p_win, 2, 0, key_press, data);
-	mlx_hook(mlx->p_win, 4, 0, mouse_press, data);
-	mlx_hook(mlx->p_win, 6, 0, mouse_move, data);
-	mlx_hook(mlx->p_win, 17, 0, close, data);
-	mlx_loop(mlx->p_mlx);
 }

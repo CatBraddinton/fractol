@@ -21,10 +21,7 @@
 # define TOTAL_THREADS	4
 
 # define WIN_WIDTH		2600
-# define WIN_HEIGHT		1400
-
-# define WIDTH			1500
-# define HEIGHT			1000
+# define WIN_HEIGHT		1300
 
 # include <stdio.h>
 # include <math.h>
@@ -85,6 +82,10 @@ typedef struct		s_data
 {
 	char			*name;
 	int				type;
+	int				menu_width;
+	int				menu_height;
+	int				image_width;
+	int				image_height;
 	t_mlx			*mlx;
 	t_params		*params;
 	t_set			set;
@@ -107,6 +108,7 @@ void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data);
 void				draw_julia_set(t_data *data);
 void				set_complex(t_cnum *n, double real, double imaginary);
+void				init_params(t_data *data);
 
 void				color_point(t_data *data, int **buff);
 void				init_buffer(t_data *data);
@@ -115,9 +117,7 @@ int					mouse_press(int button, int x, int y, t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
 
-void	convert_pixels(t_cnum *n, t_data *data, int x, int y);
-void	free_buff(int **buff);
-
-int		mouse_press(int button, int x, int y, t_data *data);
+void				convert_pixels(t_cnum *n, t_data *data, int x, int y);
+void				free_buff(int **buff, int size);
 
 #endif

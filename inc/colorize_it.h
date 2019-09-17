@@ -38,6 +38,8 @@
 # define SET0	0x37D5D6
 # define SET00	0x36096D
 
+# define MENU	0x11FFF8
+
 typedef struct		s_color
 {
 	int				r;

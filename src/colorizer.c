@@ -33,12 +33,13 @@ void	color_point(t_data *data, int **buff)
 	int	color;
 	int i;
 
-	data->mlx->p_img = mlx_new_image(data->mlx->p_mlx, WIDTH, HEIGHT);
+	data->mlx->p_img = mlx_new_image(data->mlx->p_mlx, data->image_width,
+										data->image_height);
 	data->mlx->img_buffer = mlx_get_data_addr(data->mlx->p_img,
 		&(data->mlx->bpp), &(data->mlx->size), &(data->mlx->end));
 	y = -1;
-	while (++y < HEIGHT && (x = -1))
-		while (++x < WIDTH)
+	while (++y < data->image_height && (x = -1))
+		while (++x < data->image_width)
 		{
 			color = get_color_value(buff[y][x], data->params->max_iter);
 			i = (x * data->mlx->bpp / 8) + (y * data->mlx->size);

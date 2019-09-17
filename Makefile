@@ -13,7 +13,6 @@
 NAME := fractol
 DB_NAME := db_fractol
 FT := libft.a
-MLX := libmlx.a
 
 CC := clang
 DB_FLAGS := -g -fsanitize=address
@@ -23,7 +22,6 @@ MLXFLAGS := -lmlx -framework OpenGL -framework AppKit
 INC_DIR := inc/
 SRC_DIR := src/
 LIB_DIR := libft/
-MLX_DIR := minilibx_macos/
 
 INCLUDES := $(INC_DIR)fractol.h\
 			$(INC_DIR)hooks.h\
@@ -36,45 +34,40 @@ SOURCES := 	main.c\
 			$(SRC_DIR)hooks.c\
 			$(SRC_DIR)mandelbrot_julia_sets.c\
 			$(SRC_DIR)colorizer.c\
+			$(SRC_DIR)drawers.c\
 
 OBJECTS := 	main.o error.o utilits.o hooks.o mandelbrot_julia_sets.o\
-			colorizer.o\
+			colorizer.o drawers.o\
 
 LIBFT := $(LIB_DIR)$(FT)
-MINILIBX := $(MLX_DIR)$(MLX)
 
 .PHONY: all lib libmlx clean fclean re debug
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS) $(LIBFT) $(MINILIBX)
+$(NAME): $(OBJECTS) $(LIBFT)
 	@printf "Compiling $(NAME)\n"
-	@$(CC) $(FLAGS) $(MLXFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT) $(MINILIBX)
+	@$(CC) $(FLAGS) $(MLXFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
 	@printf "$(NAME) created\n"
 
 debug: $(DB_NAME)
 
-$(DB_NAME): $(OBJECTS) $(LIBFT) $(MINILIBX)
+$(DB_NAME): $(OBJECTS) $(LIBFT)
 	@printf "Compiling $(DB_NAME)\n"
-	$(CC) $(FLAGS) $(MLXFLAGS) $(DB_FLAGS) -o $(DB_NAME) $(OBJECTS) $(LIBFT) $(MINILIBX)
+	$(CC) $(FLAGS) $(MLXFLAGS) $(DB_FLAGS) -o $(DB_NAME) $(OBJECTS) $(LIBFT)
 	@printf "$(DB_NAME) created\n"
 
 $(OBJECTS): $(SOURCES) $(INCLUDES)
 	@$(CC) $(FLAGS) -c $(SOURCES) -I $(INCLUDES)
 
 $(LIBFT): lib
-$(MINILIBX): libmlx
 
 lib:
 	@make -C $(LIB_DIR)
 
-libmlx:
-	@make -C $(MLX_DIR)
-
 clean:
 	@rm -f $(OBJECTS) inc/*.gch
 	@make fclean -C $(LIB_DIR)
-	@make clean -C $(MLX_DIR)
 
 fclean: clean
 	@rm -f $(NAME) $(DB_NAME)

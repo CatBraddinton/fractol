@@ -12,6 +12,8 @@
 
 #include "../inc/fractol.h"
 
+
+
 int		is_in_mandelbrot_set(double x, double y)
 {
 	double sqrt_x;
@@ -38,7 +40,7 @@ int		count_points(t_data *data)
 	data->params->iter = 0;
 	set_complex(&(data->set.z_sqrt),
 		pow(data->set.new_z.re, 2.0), pow(data->set.new_z.im, 2.0));
-	if (is_in_mandelbrot_set(data->set.c.re, data->set.c.im))
+	if (data->type == 2 && is_in_mandelbrot_set(data->set.c.re, data->set.c.im))
 		data->params->iter = data->params->max_iter;
 	while (data->params->iter < data->params->max_iter)
 	{
@@ -64,20 +66,18 @@ void	draw_julia_set(t_data *data)
 
 	init_buffer(data);
 	y = -1;
-	while (++y < HEIGHT && (x = -1))
-		while (++x < WIDTH)
+	while (++y < data->image_height && (x = -1))
+		while (++x < data->image_width)
 		{
-			data->set.new_z.re = data->re_min + (x * data->params->scale_x / 0.5);
-			data->set.new_z.im = data->im_max - (y * data->params->scale_y / 0.5);
+			data->set.new_z.re = data->re_min + x / (data->image_width - 1.0) * (data->re_max - data->re_min);
+			data->set.new_z.im = data->im_max - y / (data->image_height - 1.0) * (data->im_max - data->im_min);
 			data->set.c.re = data->set.k.re;
 			data->set.c.im = data->set.k.im;
 			data->buff[y][x] = count_points(data);;
 		}
 	color_point(data, data->buff);
-	free_buff(data->buff);
+	free_buff(data->buff, data->image_height);
 }
-
-
 
 void	draw_mandelbrot_set(t_data *data)
 {
@@ -87,14 +87,14 @@ void	draw_mandelbrot_set(t_data *data)
 
 	init_buffer(data);
 	y = -1;
-	while (++y < HEIGHT && (x = -1))
-		while (++x < WIDTH)
+	while (++y < data->image_height && (x = -1))
+		while (++x < data->image_width)
 		{
-			data->set.c.re = data->re_min + x * data->params->scale_x;
-			data->set.c.im = data->im_max - y * data->params->scale_y;
+			data->set.c.re = data->re_min + x / (data->image_width - 1.0) * (data->re_max - data->re_min);
+			data->set.c.im = data->im_max - y / (data->image_height - 1.0) * (data->im_max - data->im_min);
 			set_complex(&(data->set.new_z), 0.0, 0.0);
 			data->buff[y][x] = count_points(data);;
 		}
 	color_point(data, data->buff);
-	free_buff(data->buff);
+	free_buff(data->buff, data->image_height);
 }
