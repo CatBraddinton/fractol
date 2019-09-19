@@ -23,14 +23,30 @@ void	draw_fractals(t_data *data)
 
 void	init_programe_architecture(t_data *data)
 {
-	if ((data->mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
-		error(strerror(errno));
 	if ((data->menu = (t_menu *)malloc(sizeof(t_menu))) == NULL)
 		error(strerror(errno));
+	data->menu->menu_width = WIN_W / 5;
+	data->menu-> menu_height = WIN_H;
+	data->menu-> start_x = WIN_W - data->menu->menu_width;
+	data->menu-> start_y = 0 ;
+	data->menu-> finish_x = WIN_W;
+	data->menu-> finish_y = WIN_H;
+	if ((data->mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
+		error(strerror(errno));
+	data->mlx->image_width = WIN_W - data->menu->menu_width;
+	data->mlx->image_height = WIN_H;
+	data->mlx->bpp = 0;
+	data->mlx->size = 0;
+	data->mlx->end = 0;
 	if ((data->params = (t_params *)malloc(sizeof(t_params))) == NULL)
 		error(strerror(errno));
 	if ((data->set = (t_set *)malloc(sizeof(t_set))) == NULL)
 		error(strerror(errno));
+	data->params->max_iter = MAX_ITER;
+	set_complex(&(data->min), -2.0, -1.0);
+	set_complex(&(data->max), 1.0, 1.0);
+	set_complex(&(data->set->mouse), -0.4, 0.6);
+	data->params->zoom = 1.1;
 }
 
 void	draw_fractal_image(char *name)

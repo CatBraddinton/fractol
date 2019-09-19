@@ -45,24 +45,10 @@ void	init_buffer(t_data *data)
 
 void	init_params(t_data *data)
 {
-	data->menu->menu_width = WIN_W / 5;
-	data->menu->menu_height = WIN_H;
-	data->mlx->image_width = WIN_W - data->menu->menu_width;
-	data->mlx->image_height = WIN_H;
-	data->params->max_iter = MAX_ITER;
 	data->params->iter = 0;
-	data->re_min = -2.0;
-	data->im_min = -1.0;
-	data->im_max = 1.0;
-	data->re_max = 1.0;
-	data->mlx->bpp = 0;
-	data->mlx->size = 0;
-	data->mlx->end = 0;
-	data->params->zoom = 1.1;
-	data->params->mouse_x = 0;
-	data->params->mouse_y = 0;
-	data->params->center_x = (data->re_min + data->re_max) / 2.0;
-	data->params->center_y = (data->im_min + data->im_max) / 2.0;
+	set_complex(&(data->set->k), data->params->mouse_x, data->params->mouse_y);
+	data->params->center_x = (data->min.re + data->max.re) / 2.0;
+	data->params->center_y = (data->min.im + data->max.im) / 2.0;
 	data->params->move_x = 0.0;
 	data->params->move_y = 0.0;
 }

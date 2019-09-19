@@ -17,7 +17,7 @@
 # define MANDELBROT		2
 
 # define TOTAL_NB		2
-# define MAX_ITER		300
+# define MAX_ITER		1000
 # define TOTAL_THREADS	4
 
 # define WIN_W		2600
@@ -50,6 +50,11 @@ typedef struct		s_set
 	t_cnum			new_z;
 	t_cnum			old_z;
 	t_cnum			z_sqrt;
+	t_cnum			factor;
+	t_cnum			center;
+	t_cnum			offset;
+	t_cnum			mouse;
+	t_cnum			move;
 }					t_set;
 
 typedef struct		s_mlx
@@ -97,11 +102,9 @@ typedef struct		s_data
 	t_params		*params;
 	t_set			*set;
 //	t_cnum			threads_param[TOTAL_THREADS];
+	t_cnum			min;
+	t_cnum			max;
 	int				**buff;
-	double			re_min;
-	double			re_max;
-	double			im_min;
-	double			im_max;
 }					t_data;
 
 void				error(char *message);

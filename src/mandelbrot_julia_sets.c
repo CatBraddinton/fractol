@@ -67,8 +67,8 @@ void	draw_julia_set(t_data *data)
 	while (++y < data->mlx->image_height && (x = -1))
 		while (++x < data->mlx->image_width)
 		{
-			data->set->new_z.re = data->re_min + x / (data->mlx->image_width - 1.0) * (data->re_max - data->re_min);
-			data->set->new_z.im = data->im_max - y / (data->mlx->image_height - 1.0) * (data->im_max - data->im_min);
+			data->set->new_z.re = data->min.re + x / ((data->mlx->image_width - 1.0) / (data->max.re - data->min.re));
+			data->set->new_z.im = data->max.im - y / ((data->mlx->image_height - 1.0) / (data->max.im - data->min.im));
 			data->set->c.re = data->set->k.re;
 			data->set->c.im = data->set->k.im;
 			data->buff[y][x] = count_points(data);;
@@ -88,8 +88,8 @@ void	draw_mandelbrot_set(t_data *data)
 	while (++y < data->mlx->image_height && (x = -1))
 		while (++x < data->mlx->image_width)
 		{
-			data->set->c.re = data->re_min + x / (data->mlx->image_width - 1.0) * (data->re_max - data->re_min);
-			data->set->c.im = data->im_max - y / (data->mlx->image_height - 1.0) * (data->im_max - data->im_min);
+			data->set->c.re = data->min.re + x / ((data->mlx->image_width - 1.0) / (data->max.re - data->min.re));
+			data->set->c.im = data->max.im - y / ((data->mlx->image_height - 1.0) / (data->max.im - data->min.im));
 			set_complex(&(data->set->new_z), 0.0, 0.0);
 			data->buff[y][x] = count_points(data);;
 		}
