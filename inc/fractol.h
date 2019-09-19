@@ -13,11 +13,7 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define JULIA			1
-# define MANDELBROT		2
-
-# define TOTAL_NB		2
-# define MAX_ITER		1000
+# define MAX_ITER		150
 # define TOTAL_THREADS	4
 
 # define WIN_W		2600
@@ -36,6 +32,13 @@
 # include "hooks.h"
 # include "colorize_it.h"
 # include "../libft/libft.h"
+
+typedef enum		e_type
+{
+	mandelbrot,
+	julia,
+	total_nb,
+}					t_type;
 
 typedef struct		s_cnum
 {
@@ -74,16 +77,10 @@ typedef struct		s_params
 {
 	int				max_iter;
 	double			zoom;
-	double			mouse_x;
-	double			mouse_y;
-	double			move_x;
-	double			move_y;
 	int				iter;
-	double			center_x;
-	double			center_y;
-	double			offset_x;
-	double			offset_y;
+	double			zoom_factor;
 }					t_params;
+
 typedef struct		s_menu
 {
 	int				menu_width;
@@ -96,7 +93,7 @@ typedef struct		s_menu
 
 typedef struct		s_data
 {
-	int				type;
+	t_type			type;
 	t_mlx			*mlx;
 	t_menu			*menu;
 	t_params		*params;
@@ -110,7 +107,7 @@ typedef struct		s_data
 void				error(char *message);
 void				invalid_param(void);
 void				draw_fractal_image(char *name);
-int					get_fractal_type(char *input);
+void				get_fractal_type(t_type *type, char *input);
 
 void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data);
@@ -129,5 +126,7 @@ void				convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void				free_buff(int **buff, int size);
 
 void				histogram_coloring(t_data *data, int **buff);
+void 				zoom(t_data *data, double mouse_x, double mouse_y,
+							double zoom_factor);
 
 #endif

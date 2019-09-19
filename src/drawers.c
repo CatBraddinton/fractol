@@ -14,11 +14,11 @@
 
 void	draw_fractals(t_data *data)
 {
-	void (*draw_fractal[TOTAL_NB]) (t_data *data);
+	void (*draw_fractal[total_nb]) (t_data *data);
 
-	draw_fractal[0] = draw_julia_set;
-	draw_fractal[1] = draw_mandelbrot_set;
-	(*draw_fractal[data->type - 1])(data);
+	draw_fractal[mandelbrot] = draw_mandelbrot_set;
+	draw_fractal[julia] = draw_julia_set;
+	(*draw_fractal[data->type])(data);
 }
 
 void	init_programe_architecture(t_data *data)
@@ -28,7 +28,7 @@ void	init_programe_architecture(t_data *data)
 	data->menu->menu_width = WIN_W / 5;
 	data->menu-> menu_height = WIN_H;
 	data->menu-> start_x = WIN_W - data->menu->menu_width;
-	data->menu-> start_y = 0 ;
+	data->menu-> start_y = 0;
 	data->menu-> finish_x = WIN_W;
 	data->menu-> finish_y = WIN_H;
 	if ((data->mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
@@ -40,13 +40,13 @@ void	init_programe_architecture(t_data *data)
 	data->mlx->end = 0;
 	if ((data->params = (t_params *)malloc(sizeof(t_params))) == NULL)
 		error(strerror(errno));
+	data->params->max_iter = MAX_ITER;
+	data->params->zoom = 1.1;
+	data->params->iter = 0;
+	data->params->zoom_factor = 0;
 	if ((data->set = (t_set *)malloc(sizeof(t_set))) == NULL)
 		error(strerror(errno));
-	data->params->max_iter = MAX_ITER;
-	set_complex(&(data->min), -2.0, -1.0);
-	set_complex(&(data->max), 1.0, 1.0);
-	set_complex(&(data->set->mouse), -0.4, 0.6);
-	data->params->zoom = 1.1;
+	set_complex(&(data->set->k), 0.4, -0.6);
 }
 
 void	draw_fractal_image(char *name)
@@ -55,14 +55,14 @@ void	draw_fractal_image(char *name)
 
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
 		error(strerror(errno));
-	if ((data->type = get_fractal_type(name)) == 0)
-		invalid_param();
+	get_fractal_type(&(data->type), name);
 	init_programe_architecture(data);
+	set_complex(&(data->min), -2.5, -1.0);
+	set_complex(&(data->max), 1.0, 1.5);
 	if ((data->mlx->p_mlx = mlx_init()) == NULL)
 		error(strerror(errno));
 	if (!(data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name)))
 		error(strerror(errno));
-	init_params(data);
 	draw_fractals(data);
 	mlx_hook(data->mlx->win, 2, 0, key_press, data);
 	mlx_hook(data->mlx->win, 4, 0, mouse_press, data);

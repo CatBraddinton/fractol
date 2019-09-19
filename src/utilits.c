@@ -39,16 +39,22 @@ void	init_buffer(t_data *data)
 	if (!(data->buff = (int **)malloc(data->mlx->image_height * sizeof(int *))))
 		error("malloc error");
 	while (++i < data->mlx->image_height)
+	{
 		if (!(data->buff[i] = (int *)malloc(data->mlx->image_width * sizeof(int))))
 			error("malloc error");
+		ft_memset(data->buff[i], 0, data->mlx->image_width);
+	}
 }
 
 void	init_params(t_data *data)
 {
-	data->params->iter = 0;
-	set_complex(&(data->set->k), data->params->mouse_x, data->params->mouse_y);
-	data->params->center_x = (data->min.re + data->max.re) / 2.0;
-	data->params->center_y = (data->min.im + data->max.im) / 2.0;
-	data->params->move_x = 0.0;
-	data->params->move_y = 0.0;
+	zoom(data, data->set->move.re, data->set->move.im, data->params->zoom_factor);
+	// set_complex(&(data->set->center), ((data->min.re + data->max.re) / 2.0),
+	// 				((data->min.im + data->max.im) / 2.0));
+	// set_complex(&(data->set->offset), data->set->move.re -
+	// 	data->set->center.re, data->set->move.im - data->set->center.im);
+	// set_complex(&(data->min), data->min.re + data->set->offset.re,
+	// 		data->min.im + data->set->offset.im);
+	// set_complex(&(data->max), data->max.re + data->set->offset.re,
+	// 	data->max.im + data->set->offset.im);
 }

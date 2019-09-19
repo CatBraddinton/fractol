@@ -17,44 +17,37 @@ double interpolate(double start, double end, double interpolation)
     return start + ((end - start) * interpolation);
 }
 
-void applyZoom(t_data *data, double mouseRe, double mouseIm, double zoomFactor)
+void zoom(t_data *data, double mouse_x, double mouse_y, double zoom_factor)
 {
-     double interpolation = 1.0 / zoomFactor;
-     data->min.re = interpolate(mouseRe, data->min.re, interpolation);
-     data->min.im = interpolate(mouseIm, data->min.im, interpolation);
-     data->max.re = interpolate(mouseRe, data->max.re, interpolation);
-     data->max.im = interpolate(mouseIm, data->max.im, interpolation);
+     double interpolation = 1.0 / zoom_factor;
+     data->min.re = interpolate(mouse_x, data->min.re, interpolation);
+     data->min.im = interpolate(mouse_y, data->min.im, interpolation);
+     data->max.re = interpolate(mouse_x, data->max.re, interpolation);
+     data->max.im = interpolate(mouse_y, data->max.im, interpolation);
 }
 
 int		mouse_press(int button, int x, int y, t_data *data)
 {
-	if (data->params->zoom == 1.1 && button == MOUSE_SCROLL_DOWN)
+	if (data->params->zoom == 1.1 && button == MOUSE_RIGHT)
 		return (1);
-	if (button == MOUSE_SCROLL_UP || button == MOUSE_SCROLL_DOWN)
+	if (x < data->mlx->image_width && y < data->mlx->image_height)
 	{
-		data->params->move_x = x / (data->mlx->image_width / (data->max.re - data->min.re)) + data->min.re;
-		data->params->move_y = data->max.im - y / (data->mlx->image_height / (data->max.im - data->min.im));
-		data->params->center_x = (data->min.re + data->max.re) / 2.0;
-		data->params->center_y = (data->min.im + data->max.im) / 2.0;
-		data->params->offset_x = data->params->move_x - data->params->center_x;
-		data->params->offset_y = data->params->move_y - data->params->center_y;
-		data->min.re += data->params->offset_x;
-		data->min.im += data->params->offset_y;
-		data->max.re += data->params->offset_x;
-		data->max.im += data->params->offset_y;
-		if (button == MOUSE_SCROLL_UP)
+		set_complex(&(data->set->factor),
+				((data->max.re - data->min.re) / (data->mlx->image_width - 1.0)),
+				((data->max.im - data->min.im)) / (data->mlx->image_height - 1.0));
+		data->set->move.re = data->min.re + x * data->set->factor.re;
+		data->set->move.im = data->max.im - y * data->set->factor.im;
+		if (button == MOUSE_LEFT)
 		{
 			data->params->zoom += 0.1;
-			// data->params->max_iter = interpolate(data->params->max_iter,
-			// 	data->params->max_iter * data->params->zoom,
-			// 	1.0 / data->params->zoom);
-			applyZoom(data, data->params->move_x, data->params->move_y, data->params->zoom);
+			data->params->zoom_factor = data->params->zoom;
 		}
-		else if (button == MOUSE_SCROLL_DOWN)
+		if (button == MOUSE_RIGHT)
 		{
 			data->params->zoom -= 0.1;
-			applyZoom(data, data->params->move_x, data->params->move_y, 1.0 / data->params->zoom);
+			data->params->zoom_factor = 1.0 / data->params->zoom;
 		}
+		zoom(data, data->set->move.re, data->set->move.im, data->params->zoom_factor);
 		printf("zoom = %lf, max = %d\n", data->params->zoom, data->params->max_iter);
 		mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
 		draw_fractals(data);
@@ -64,12 +57,12 @@ int		mouse_press(int button, int x, int y, t_data *data)
 
 int		mouse_move(int x, int y, t_data *data)
 {
-	if (data->type == 1 && x <= data->mlx->image_width && y <= data->mlx->image_height)
+	if (data->type == julia && x <= data->mlx->image_width && y <= data->mlx->image_height)
 	{
-		data->params->mouse_x = 4 * ((double)x / data->mlx->image_width - 0.5);
-		data->params->mouse_y =
+		data->set->mouse.re = 4 * ((double)x / data->mlx->image_width - 0.5);
+		data->set->mouse.im =
 			4 * ((double)(data->mlx->image_height - y) / data->mlx->image_height - 0.5);
-		set_complex(&(data->set->k), data->params->mouse_x, data->params->mouse_y);
+		set_complex(&(data->set->k), data->set->mouse.re, data->set->mouse.im);
 		mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
 		draw_fractals(data);
 	}

@@ -27,11 +27,12 @@ void	invalid_param(void)
 	exit(EXIT_FAILURE);
 }
 
-int		get_fractal_type(char *input)
+void	get_fractal_type(t_type *type, char *input)
 {
 	if ((ft_strncmp("Julia", input, ft_strlen("Julia"))) == 0)
-		return (1);
-	if ((ft_strncmp("Mandelbrot", input, ft_strlen("Mandelbrot"))) == 0)
-		return (2);
-	return (0);
+		*type = julia;
+	else if ((ft_strncmp("Mandelbrot", input, ft_strlen("Mandelbrot"))) == 0)
+		*type = mandelbrot;
+	else
+		invalid_param();
 }
