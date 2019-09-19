@@ -17,11 +17,11 @@
 # define MANDELBROT		2
 
 # define TOTAL_NB		2
-# define MAX_ITER		500
+# define MAX_ITER		300
 # define TOTAL_THREADS	4
 
-# define WIN_WIDTH		2600
-# define WIN_HEIGHT		1300
+# define WIN_W		2600
+# define WIN_H		1300
 
 # include <stdio.h>
 # include <math.h>
@@ -32,8 +32,10 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/errno.h>
+
 # include "hooks.h"
 # include "colorize_it.h"
+# include "../libft/libft.h"
 
 typedef struct		s_cnum
 {
@@ -53,9 +55,11 @@ typedef struct		s_set
 typedef struct		s_mlx
 {
 	void			*p_mlx;
-	void			*p_win;
-	void			*p_img;
-	char			*img_buffer;
+	void			*win;
+	int				image_width;
+	int				image_height;
+	void			*img;
+	char			*image;
 	int				bpp;
 	int				size;
 	int				end;
@@ -72,37 +76,38 @@ typedef struct		s_params
 	int				iter;
 	double			center_x;
 	double			center_y;
-	double			scale_x;
-	double			scale_y;
-	double			transf_x;
-	double			transf_y;
+	double			offset_x;
+	double			offset_y;
 }					t_params;
+typedef struct		s_menu
+{
+	int				menu_width;
+	int				menu_height;
+	int				start_x;
+	int				start_y;
+	int				finish_x;
+	int				finish_y;
+}					t_menu;
 
 typedef struct		s_data
 {
-	char			*name;
 	int				type;
-	int				menu_width;
-	int				menu_height;
-	int				image_width;
-	int				image_height;
 	t_mlx			*mlx;
+	t_menu			*menu;
 	t_params		*params;
-	t_set			set;
-	t_cnum			threads_param[TOTAL_THREADS];
+	t_set			*set;
+//	t_cnum			threads_param[TOTAL_THREADS];
 	int				**buff;
 	double			re_min;
 	double			re_max;
 	double			im_min;
 	double			im_max;
-	int				im_offset_x;
-	int				im_offset_y;
 }					t_data;
 
 void				error(char *message);
 void				invalid_param(void);
-void				draw_fractal_image(char const *name);
-void				get_fractal_type(const char *input, t_data *data);
+void				draw_fractal_image(char *name);
+int					get_fractal_type(char *input);
 
 void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data);
@@ -119,5 +124,7 @@ int					key_press(int keycode, t_data *data);
 
 void				convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void				free_buff(int **buff, int size);
+
+void				histogram_coloring(t_data *data, int **buff);
 
 #endif

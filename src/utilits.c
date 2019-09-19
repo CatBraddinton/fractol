@@ -36,19 +36,19 @@ void	init_buffer(t_data *data)
 	int i;
 
 	i = -1;
-	if (!(data->buff = (int **)malloc(data->image_height * sizeof(int *))))
+	if (!(data->buff = (int **)malloc(data->mlx->image_height * sizeof(int *))))
 		error("malloc error");
-	while (++i < data->image_height)
-		if (!(data->buff[i] = (int *)malloc(data->image_width * sizeof(int))))
+	while (++i < data->mlx->image_height)
+		if (!(data->buff[i] = (int *)malloc(data->mlx->image_width * sizeof(int))))
 			error("malloc error");
 }
 
 void	init_params(t_data *data)
 {
-	data->menu_width = WIN_WIDTH / 5;
-	data->menu_height = WIN_HEIGHT;
-	data->image_width = WIN_WIDTH - data->menu_width;
-	data->image_height = WIN_HEIGHT;
+	data->menu->menu_width = WIN_W / 5;
+	data->menu->menu_height = WIN_H;
+	data->mlx->image_width = WIN_W - data->menu->menu_width;
+	data->mlx->image_height = WIN_H;
 	data->params->max_iter = MAX_ITER;
 	data->params->iter = 0;
 	data->re_min = -2.0;
@@ -61,12 +61,8 @@ void	init_params(t_data *data)
 	data->params->zoom = 1.1;
 	data->params->mouse_x = 0;
 	data->params->mouse_y = 0;
-	data->params->center_x = fabs(data->re_max) + fabs(data->re_min) / 2.0;
-	data->params->center_y = fabs(data->im_max) + fabs(data->im_min) / 2.0;
+	data->params->center_x = (data->re_min + data->re_max) / 2.0;
+	data->params->center_y = (data->im_min + data->im_max) / 2.0;
 	data->params->move_x = 0.0;
 	data->params->move_y = 0.0;
-	data->params->scale_x = (data->re_max - data->re_min) / data->image_width;
-	data->params->scale_y = (data->im_max - data->im_min) / data->image_height;
-	data->im_offset_x = 0;
-	data->im_offset_y = 0;
 }

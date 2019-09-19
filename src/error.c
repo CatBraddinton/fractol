@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../inc/fractol.h"
 
 void	error(char *message)
@@ -28,22 +27,11 @@ void	invalid_param(void)
 	exit(EXIT_FAILURE);
 }
 
-int		assign_num(t_data *data)
+int		get_fractal_type(char *input)
 {
-	if ((ft_strncmp("Julia", data->name, ft_strlen("Julia"))) == 0)
+	if ((ft_strncmp("Julia", input, ft_strlen("Julia"))) == 0)
 		return (1);
-	if ((ft_strncmp("Mandelbrot", data->name, ft_strlen("Mandelbrot"))) == 0)
+	if ((ft_strncmp("Mandelbrot", input, ft_strlen("Mandelbrot"))) == 0)
 		return (2);
 	return (0);
-}
-
-void	get_fractal_type(const char *input, t_data *data)
-{
-	size_t	s_len;
-
-	s_len = ft_strlen(input);
-	data->name = ft_strndup(input, s_len);
-	data->type = assign_num(data);
-	if (data->type == 0)
-		invalid_param();
 }

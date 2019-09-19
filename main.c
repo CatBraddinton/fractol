@@ -12,22 +12,19 @@
 
 #include "inc/fractol.h"
 
-int	main(int ac, char const *av[])
+int	main(int ac, char *av[])
 {
-	pid_t	 window;
+	pid_t	 id;
 
 	errno = 0;
 	if (ac < 2)
 		invalid_param();
 	if (ac == 3)
 	{
-		window = fork();
-		if (window == 0)
+		id = fork();
+		if (id == 0)
 			draw_fractal_image(av[2]);
-		else
-			draw_fractal_image(av[1]);
 	}
-	else if (ac == 2)
-		draw_fractal_image(av[1]);
+	draw_fractal_image(av[1]);
 	return (0);
 }

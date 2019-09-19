@@ -21,31 +21,36 @@ void	draw_fractals(t_data *data)
 	(*draw_fractal[data->type - 1])(data);
 }
 
-void	draw_fractal_image(char const *name)
+void	init_programe_architecture(t_data *data)
+{
+	if ((data->mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
+		error(strerror(errno));
+	if ((data->menu = (t_menu *)malloc(sizeof(t_menu))) == NULL)
+		error(strerror(errno));
+	if ((data->params = (t_params *)malloc(sizeof(t_params))) == NULL)
+		error(strerror(errno));
+	if ((data->set = (t_set *)malloc(sizeof(t_set))) == NULL)
+		error(strerror(errno));
+}
+
+void	draw_fractal_image(char *name)
 {
 	t_data 		*data;
-	t_mlx		*mlx;
-	t_params	*params;
 
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
 		error(strerror(errno));
-	get_fractal_type(name, data);
-	if ((mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
+	if ((data->type = get_fractal_type(name)) == 0)
+		invalid_param();
+	init_programe_architecture(data);
+	if ((data->mlx->p_mlx = mlx_init()) == NULL)
 		error(strerror(errno));
-	if ((mlx->p_mlx = mlx_init()) == NULL)
+	if (!(data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name)))
 		error(strerror(errno));
-	if (!(mlx->p_win = mlx_new_window(mlx->p_mlx, WIN_WIDTH, WIN_HEIGHT,
-										data->name)))
-		error(strerror(errno));
-	if ((params = (t_params *)malloc(sizeof(t_params))) == NULL)
-		error(strerror(errno));
-	data->mlx = mlx;
-	data->params = params;
 	init_params(data);
 	draw_fractals(data);
-	mlx_hook(mlx->p_win, 2, 0, key_press, data);
-	mlx_hook(mlx->p_win, 4, 0, mouse_press, data);
-	mlx_hook(mlx->p_win, 6, 0, mouse_move, data);
-	mlx_hook(mlx->p_win, 17, 0, close, data);
-	mlx_loop(mlx->p_mlx);
+	mlx_hook(data->mlx->win, 2, 0, key_press, data);
+	mlx_hook(data->mlx->win, 4, 0, mouse_press, data);
+	mlx_hook(data->mlx->win, 6, 0, mouse_move, data);
+	mlx_hook(data->mlx->win, 17, 0, close, data);
+	mlx_loop(data->mlx->p_mlx);
 }
