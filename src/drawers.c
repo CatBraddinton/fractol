@@ -57,12 +57,16 @@ void	draw_fractal_image(char *name)
 		error(strerror(errno));
 	get_fractal_type(&(data->type), name);
 	init_programe_architecture(data);
-	set_complex(&(data->min), -2.5, -1.0);
+	set_complex(&(data->min), -2.5, -1.2);
 	set_complex(&(data->max), 1.0, 1.5);
 	if ((data->mlx->p_mlx = mlx_init()) == NULL)
 		error(strerror(errno));
 	if (!(data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name)))
 		error(strerror(errno));
+	data->mlx->img = mlx_new_image(data->mlx->p_mlx, data->mlx->image_width,
+											data->mlx->image_height);
+	data->mlx->image = mlx_get_data_addr(data->mlx->img,
+			&(data->mlx->bpp), &(data->mlx->size), &(data->mlx->end));
 	draw_fractals(data);
 	mlx_hook(data->mlx->win, 2, 0, key_press, data);
 	mlx_hook(data->mlx->win, 4, 0, mouse_press, data);

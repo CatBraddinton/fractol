@@ -28,28 +28,26 @@ void zoom(t_data *data, double mouse_x, double mouse_y, double zoom_factor)
 
 int		mouse_press(int button, int x, int y, t_data *data)
 {
-	if (data->params->zoom == 1.1 && button == MOUSE_RIGHT)
+	if (button != MOUSE_SCROLL_UP && button != MOUSE_SCROLL_DOWN)
+		return (0);
+	if (data->params->zoom == 1.1 && button == MOUSE_SCROLL_DOWN)
 		return (1);
 	if (x < data->mlx->image_width && y < data->mlx->image_height)
 	{
-		set_complex(&(data->set->factor),
-				((data->max.re - data->min.re) / (data->mlx->image_width - 1.0)),
-				((data->max.im - data->min.im)) / (data->mlx->image_height - 1.0));
 		data->set->move.re = data->min.re + x * data->set->factor.re;
 		data->set->move.im = data->max.im - y * data->set->factor.im;
-		if (button == MOUSE_LEFT)
+		if (button == MOUSE_SCROLL_UP)
 		{
 			data->params->zoom += 0.1;
 			data->params->zoom_factor = data->params->zoom;
 		}
-		if (button == MOUSE_RIGHT)
+		if (button == MOUSE_SCROLL_DOWN)
 		{
 			data->params->zoom -= 0.1;
 			data->params->zoom_factor = 1.0 / data->params->zoom;
 		}
 		zoom(data, data->set->move.re, data->set->move.im, data->params->zoom_factor);
-		printf("zoom = %lf, max = %d\n", data->params->zoom, data->params->max_iter);
-		mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
+		//mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
 		draw_fractals(data);
 	}
 	return (1);
@@ -63,7 +61,7 @@ int		mouse_move(int x, int y, t_data *data)
 		data->set->mouse.im =
 			4 * ((double)(data->mlx->image_height - y) / data->mlx->image_height - 0.5);
 		set_complex(&(data->set->k), data->set->mouse.re, data->set->mouse.im);
-		mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
+		//mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
 		draw_fractals(data);
 	}
 	return (1);

@@ -13,11 +13,11 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define MAX_ITER		150
+# define MAX_ITER		500
 # define TOTAL_THREADS	4
 
-# define WIN_W		2600
-# define WIN_H		1300
+# define WIN_W		2000
+# define WIN_H		1000
 
 # include <stdio.h>
 # include <math.h>
@@ -54,8 +54,6 @@ typedef struct		s_set
 	t_cnum			old_z;
 	t_cnum			z_sqrt;
 	t_cnum			factor;
-	t_cnum			center;
-	t_cnum			offset;
 	t_cnum			mouse;
 	t_cnum			move;
 }					t_set;

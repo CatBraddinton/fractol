@@ -33,10 +33,6 @@ void	color_point(t_data *data, int **buff)
 	int	color;
 	int i;
 
-	data->mlx->img = mlx_new_image(data->mlx->p_mlx, data->mlx->image_width,
-										data->mlx->image_height);
-	data->mlx->image = mlx_get_data_addr(data->mlx->img,
-		&(data->mlx->bpp), &(data->mlx->size), &(data->mlx->end));
 	y = -1;
 	while (++y < data->mlx->image_height && (x = -1))
 		while (++x < data->mlx->image_width)
