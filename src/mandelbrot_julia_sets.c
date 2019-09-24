@@ -31,7 +31,7 @@ int		is_in_mandelbrot_set(double x, double y)
 	return (0);
 }
 
-int		count_points(t_data *data)
+void		count_points(t_data *data)
 {
 	double temp;
 
@@ -40,21 +40,21 @@ int		count_points(t_data *data)
 		pow(data->set->new_z.re, 2.0), pow(data->set->new_z.im, 2.0));
 	if (data->type == 2 && is_in_mandelbrot_set(data->set->c.re, data->set->c.im))
 		data->params->iter = data->params->max_iter;
-	while (data->params->iter < data->params->max_iter)
-	{
-		set_complex(&(data->set->old_z), data->set->new_z.re, data->set->new_z.im);
-		temp = data->set->z_sqrt.re - data->set->z_sqrt.im;
-		data->set->new_z.re = temp + data->set->c.re;
-		temp = data->set->old_z.re + data->set->old_z.re;
-		data->set->new_z.im = temp * data->set->old_z.im + data->set->c.im;
-		data->params->iter++;
-		set_complex(&(data->set->z_sqrt),
-			pow(data->set->new_z.re, 2.0), pow(data->set->new_z.im, 2.0));
-		temp = data->set->z_sqrt.re + data->set->z_sqrt.im;
-		if (temp > 4)
-			break ;
-	}
-	return (data->params->iter);
+	else
+		while (data->params->iter < data->params->max_iter)
+		{
+			set_complex(&(data->set->old_z), data->set->new_z.re, data->set->new_z.im);
+			temp = data->set->z_sqrt.re - data->set->z_sqrt.im;
+			data->set->new_z.re = temp + data->set->c.re;
+			temp = data->set->old_z.re + data->set->old_z.re;
+			data->set->new_z.im = temp * data->set->old_z.im + data->set->c.im;
+			data->params->iter++;
+			set_complex(&(data->set->z_sqrt),
+				pow(data->set->new_z.re, 2.0), pow(data->set->new_z.im, 2.0));
+				temp = data->set->z_sqrt.re + data->set->z_sqrt.im;
+				if (temp > 4)
+				break ;
+			}
 }
 
 void	draw_julia_set(t_data *data)
@@ -62,48 +62,29 @@ void	draw_julia_set(t_data *data)
 	int			y;
 	int			x;
 
-	init_buffer(data);
 	y = -1;
-	set_complex(&(data->set->diff_min_max), (data->max.re - data->min.re),
-					(data->max.im - data->min.im));
 	while (++y < data->mlx->image_height && (x = -1))
 		while (++x < data->mlx->image_width)
 		{
-			data->set->new_z.re = data->min.re + x /
-			(data->mlx->image_width - 1.0) * data->set->diff_min_max.re;
-			data->set->new_z.im = data->max.im - y /
-			(data->mlx->image_height - 1.0) * data->set->diff_min_max.im;
+			data->set->new_z.re = data->min.re + data->x /
+			(data->mlx->image_width - 1.0) * (data->max.re - data->min.re);
+			data->set->new_z.im = data->max.im - data->y /
+			(data->mlx->image_height - 1.0) * (data->max.im - data->min.im);
 			data->set->c.re = data->set->k.re;
 			data->set->c.im = data->set->k.im;
-			data->buff[y][x] = count_points(data);;
 		}
-	color_point(data, data->buff);
-	free_buff(data->buff, data->mlx->image_height);
+	color_point(data);
 }
 
 void	draw_mandelbrot_set(t_data *data)
 {
-	int y;
-	int x;
-	// pthread_t	id[TOTAL_THREADS];
-
-	init_buffer(data);
-	y = -1;
-	set_complex(&(data->set->diff_min_max), (data->max.re - data->min.re),
-					(data->max.im - data->min.im));
-	while (++y < data->mlx->image_height && (x = -1))
-		while (++x < data->mlx->image_width)
-		{
-			set_complex(&(data->set->factor),
-			(data->set->diff_min_max.re / (data->mlx->image_width - 1.0)),
-			(data->set->diff_min_max.im / (data->mlx->image_height - 1.0)));
-			data->set->c.re = data->min.re + x * data->set->factor.re;
-			data->set->c.im = data->max.im - y * data->set->factor.im;
-			set_complex(&(data->set->new_z), 0.0, 0.0);
-			data->buff[y][x] = count_points(data);
-			put_pixel_on_screen(data, x, y, data->buff[y][x]);
-		}
+	set_complex(&(data->set->factor),
+		((data->max.re - data->min.re) / (data->mlx->image_width - 1.0)),
+		((data->max.im - data->min.im) / (data->mlx->image_height - 1.0)));
+	data->set->c.re = data->min.re + data->x * data->set->factor.re;
+	data->set->c.im = data->max.im - data->y * data->set->factor.im;
+	set_complex(&(data->set->new_z), 0.0, 0.0);
+	count_points(data);
 	// histogram_coloring(data, data->buff);
-	//color_point(data, data->buff);
-	free_buff(data->buff, data->mlx->image_height);
+	color_point(data);
 }

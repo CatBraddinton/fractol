@@ -54,7 +54,6 @@ typedef struct		s_set
 	t_cnum			new_z;
 	t_cnum			old_z;
 	t_cnum			z_sqrt;
-	t_cnum			diff_min_max;
 	t_cnum			factor;
 	t_cnum			mouse;
 	t_cnum			move;
@@ -101,7 +100,8 @@ typedef struct		s_data
 //	t_cnum			threads_param[TOTAL_THREADS];
 	t_cnum			min;
 	t_cnum			max;
-	int				**buff;
+	int				x;
+	int				y;
 }					t_data;
 
 void				check_input_params(int ac, char **av);
@@ -123,7 +123,7 @@ void				draw_julia_set(t_data *data);
 void				set_complex(t_cnum *n, double real, double imaginary);
 void				init_params(t_data *data);
 void				init_programm_architecture(t_data *data);
-void				color_point(t_data *data, int **buff);
+void				color_point(t_data *data);
 void				init_buffer(t_data *data);
 int					mouse_move(int x, int y, t_data *data);
 int					mouse_press(int button, int x, int y, t_data *data);
@@ -131,8 +131,6 @@ int					close(int keycode);
 int					key_press(int keycode, t_data *data);
 
 void				convert_pixels(t_cnum *n, t_data *data, int x, int y);
-void				free_buff(int **buff, int size);
-
 void				histogram_coloring(t_data *data, int **buff);
 void 				zoom(t_data *data, double mouse_x, double mouse_y,
 							double zoom_factor);

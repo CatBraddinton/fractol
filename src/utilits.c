@@ -32,38 +32,10 @@ void	check_input_params(int ac, char **av)
 	}
 }
 
-void	free_buff(int **buff, int size)
-{
-	int i;
-
-	i = 0;
-	while (i < size)
-	{
-		free(buff[i]);
-		i++;
-	}
-	free(buff);
-}
-
 void	set_complex(t_cnum *n, double real, double imaginary)
 {
 	n->re = real;
 	n->im = imaginary;
-}
-
-void	init_buffer(t_data *data)
-{
-	int i;
-
-	i = -1;
-	if (!(data->buff = (int **)malloc(data->mlx->image_height * sizeof(int *))))
-		error("malloc error");
-	while (++i < data->mlx->image_height)
-	{
-		if (!(data->buff[i] = (int *)malloc(data->mlx->image_width * sizeof(int))))
-			error("malloc error");
-		ft_memset(data->buff[i], 0, data->mlx->image_width);
-	}
 }
 
 void	init_programm_architecture(t_data *data)
