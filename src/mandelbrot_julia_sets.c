@@ -59,20 +59,13 @@ void		count_points(t_data *data)
 
 void	draw_julia_set(t_data *data)
 {
-	int			y;
-	int			x;
-
-	y = -1;
-	while (++y < data->mlx->image_height && (x = -1))
-		while (++x < data->mlx->image_width)
-		{
-			data->set->new_z.re = data->min.re + data->x /
-			(data->mlx->image_width - 1.0) * (data->max.re - data->min.re);
-			data->set->new_z.im = data->max.im - data->y /
-			(data->mlx->image_height - 1.0) * (data->max.im - data->min.im);
-			data->set->c.re = data->set->k.re;
-			data->set->c.im = data->set->k.im;
-		}
+	data->set->new_z.re = data->min.re + data->x /
+		(data->mlx->image_width - 1.0) * (data->max.re - data->min.re);
+	data->set->new_z.im = data->max.im - data->y /
+		(data->mlx->image_height - 1.0) * (data->max.im - data->min.im);
+	data->set->c.re = data->set->k.re;
+	data->set->c.im = data->set->k.im;
+	count_points(data);
 	color_point(data);
 }
 

@@ -109,7 +109,7 @@ void				invalid_param(void);
 void				error(char *message);
 
 void				draw_fractal_image(char *name);
-
+int			expose_hook(t_data *data);
 
 
 
@@ -125,7 +125,7 @@ void				init_params(t_data *data);
 void				init_programm_architecture(t_data *data);
 void				color_point(t_data *data);
 void				init_buffer(t_data *data);
-int					mouse_move(int x, int y, t_data *data);
+int					julia_motion(int x, int y, t_data *data);
 int					mouse_press(int button, int x, int y, t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);

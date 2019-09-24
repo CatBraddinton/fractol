@@ -53,7 +53,7 @@ int		mouse_press(int button, int x, int y, t_data *data)
 	return (1);
 }
 
-int		mouse_move(int x, int y, t_data *data)
+int		julia_motion(int x, int y, t_data *data)
 {
 	if (data->type == julia && x <= data->mlx->image_width && y <= data->mlx->image_height)
 	{
@@ -61,8 +61,8 @@ int		mouse_move(int x, int y, t_data *data)
 		data->set->mouse.im =
 			4 * ((double)(data->mlx->image_height - y) / data->mlx->image_height - 0.5);
 		set_complex(&(data->set->k), data->set->mouse.re, data->set->mouse.im);
-		//mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
-		draw_fractals(data);
+		mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
+		expose_hook(data);
 	}
 	return (1);
 }

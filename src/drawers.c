@@ -55,7 +55,7 @@ void	init_mlx_window(t_data *data, char *name)
 		error(strerror(errno));
 	mlx_expose_hook(data->mlx->win, expose_hook, data);
 	mlx_hook(data->mlx->win, 2, 0, key_press, data);
-	mlx_hook(data->mlx->win, 6, 0, mouse_move, data);
+	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);
 	mlx_hook(data->mlx->win, 17, 0, close, data);
 //	mlx_mouse_hook(data->mlx->win, mouse_hook, data);
 	mlx_do_key_autorepeaton(data->mlx->p_mlx);
