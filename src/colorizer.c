@@ -48,6 +48,21 @@ void	color_point(t_data *data, int **buff)
 			data->mlx->img, 0, 0);
 }
 
+void	put_pixel_on_screen(t_data *data, int x, int y, int iter)
+{
+	int	color;
+	int i;
+
+	color = get_color_value(iter, data->params->max_iter);
+	i = (x * data->mlx->bpp / 8) + (y * data->mlx->size);
+	data->mlx->image[i] = color;
+	data->mlx->image[++i] = color >> 8;
+	data->mlx->image[++i] = color >> 16;
+	data->mlx->image[++i] = 0;
+	mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
+		data->mlx->img, 0, 0);
+}
+
 void	histogram_coloring_step_2(t_data *data, int **buff, int *iters_pp)
 {
 	int x;

@@ -20,19 +20,9 @@ void	error(char *message)
 
 void	invalid_param(void)
 {
-	ft_putendl("usage: ./fractol param");
-	ft_putendl("\navailable params:");
-	ft_putendl("Julia");
-	ft_putendl("Mandelbrot");
+	ft_putendl("usage: ./fractol [fractal_name] [fractal_name2]");
+	ft_putendl("\navailable fractals:");
+	ft_putendl("Julia set --------> [julia]");
+	ft_putendl("Mandelbrot set ---> [mandelbrot]");
 	exit(EXIT_FAILURE);
-}
-
-void	get_fractal_type(t_type *type, char *input)
-{
-	if ((ft_strncmp("Julia", input, ft_strlen("Julia"))) == 0)
-		*type = julia;
-	else if ((ft_strncmp("Mandelbrot", input, ft_strlen("Mandelbrot"))) == 0)
-		*type = mandelbrot;
-	else
-		invalid_param();
 }

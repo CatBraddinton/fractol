@@ -64,13 +64,15 @@ void	draw_julia_set(t_data *data)
 
 	init_buffer(data);
 	y = -1;
+	set_complex(&(data->set->diff_min_max), (data->max.re - data->min.re),
+					(data->max.im - data->min.im));
 	while (++y < data->mlx->image_height && (x = -1))
 		while (++x < data->mlx->image_width)
 		{
 			data->set->new_z.re = data->min.re + x /
-			(data->mlx->image_width - 1.0) * (data->max.re - data->min.re);
+			(data->mlx->image_width - 1.0) * data->set->diff_min_max.re;
 			data->set->new_z.im = data->max.im - y /
-			(data->mlx->image_height - 1.0) * (data->max.im - data->min.im);
+			(data->mlx->image_height - 1.0) * data->set->diff_min_max.im;
 			data->set->c.re = data->set->k.re;
 			data->set->c.im = data->set->k.im;
 			data->buff[y][x] = count_points(data);;
@@ -87,18 +89,21 @@ void	draw_mandelbrot_set(t_data *data)
 
 	init_buffer(data);
 	y = -1;
+	set_complex(&(data->set->diff_min_max), (data->max.re - data->min.re),
+					(data->max.im - data->min.im));
 	while (++y < data->mlx->image_height && (x = -1))
 		while (++x < data->mlx->image_width)
 		{
 			set_complex(&(data->set->factor),
-			((data->max.re - data->min.re) / (data->mlx->image_width - 1.0)),
-			((data->max.im - data->min.im)) / (data->mlx->image_height - 1.0));
+			(data->set->diff_min_max.re / (data->mlx->image_width - 1.0)),
+			(data->set->diff_min_max.im / (data->mlx->image_height - 1.0)));
 			data->set->c.re = data->min.re + x * data->set->factor.re;
 			data->set->c.im = data->max.im - y * data->set->factor.im;
 			set_complex(&(data->set->new_z), 0.0, 0.0);
-			data->buff[y][x] = count_points(data);;
+			data->buff[y][x] = count_points(data);
+			put_pixel_on_screen(data, x, y, data->buff[y][x]);
 		}
 	// histogram_coloring(data, data->buff);
-	color_point(data, data->buff);
+	//color_point(data, data->buff);
 	free_buff(data->buff, data->mlx->image_height);
 }

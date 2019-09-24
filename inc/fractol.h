@@ -16,7 +16,7 @@
 # define MAX_ITER		500
 # define TOTAL_THREADS	4
 
-# define WIN_W		2000
+# define WIN_W		2300
 # define WIN_H		1000
 
 # include <stdio.h>
@@ -53,6 +53,7 @@ typedef struct		s_set
 	t_cnum			new_z;
 	t_cnum			old_z;
 	t_cnum			z_sqrt;
+	t_cnum			diff_min_max;
 	t_cnum			factor;
 	t_cnum			mouse;
 	t_cnum			move;
@@ -102,8 +103,22 @@ typedef struct		s_data
 	int				**buff;
 }					t_data;
 
-void				error(char *message);
+void				check_input_params(int ac, char **av);
 void				invalid_param(void);
+void				error(char *message);
+
+
+
+
+
+
+
+
+
+
+
+
+
 void				draw_fractal_image(char *name);
 void				get_fractal_type(t_type *type, char *input);
 
@@ -112,7 +127,7 @@ void				draw_mandelbrot_set(t_data *data);
 void				draw_julia_set(t_data *data);
 void				set_complex(t_cnum *n, double real, double imaginary);
 void				init_params(t_data *data);
-
+void				init_programm_architecture(t_data *data);
 void				color_point(t_data *data, int **buff);
 void				init_buffer(t_data *data);
 int					mouse_move(int x, int y, t_data *data);
@@ -126,5 +141,6 @@ void				free_buff(int **buff, int size);
 void				histogram_coloring(t_data *data, int **buff);
 void 				zoom(t_data *data, double mouse_x, double mouse_y,
 							double zoom_factor);
+void	put_pixel_on_screen(t_data *data, int x, int y, int iter);
 
 #endif

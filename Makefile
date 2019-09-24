@@ -25,7 +25,6 @@ LIB_DIR := libft/
 
 INCLUDES := $(INC_DIR)fractol.h\
 			$(INC_DIR)hooks.h\
-			$(INC_DIR)julia.h\
 			$(INC_DIR)colorize_it.h\
 
 SOURCES := 	main.c\

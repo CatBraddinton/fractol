@@ -17,8 +17,7 @@ int	main(int ac, char *av[])
 	pid_t	 id;
 
 	errno = 0;
-	if (ac < 2)
-		invalid_param();
+	check_input_params(ac, av);
 	if (ac == 3)
 	{
 		id = fork();
