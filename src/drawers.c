@@ -12,7 +12,7 @@
 
 #include "../inc/fractol.h"
 
-void	draw_fractals(t_data *data)
+void		draw_fractals(t_data *data)
 {
 	void (*draw_fractal[total_nb]) (t_data *data);
 
@@ -21,13 +21,27 @@ void	draw_fractals(t_data *data)
 	(*draw_fractal[data->type])(data);
 }
 
-void	draw_fractal_image(char *name)
+static int	get_fractal_type(char *input)
+{
+	int len;
+
+	len = ft_strlen(input);
+	if (len == 5 && ft_strnequ(input, "julia", len))
+		return (julia);
+	if (len == 10 && ft_strnequ(input, "mandelbrot", len))
+		return (mandelbrot);
+	return (-1);
+}
+
+void		draw_fractal_image(char *name)
 {
 	t_data 		*data;
 
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
 		error(strerror(errno));
-	get_fractal_type(&(data->type), name);
+	data->type = get_fractal_type(name);
+	if (data->type == invalid)
+		error("fractal type value is invalid");
 	init_programm_architecture(data);
 	set_complex(&(data->min), -2.0, -1.0);
 	set_complex(&(data->max), 1.0, 1.0);

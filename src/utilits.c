@@ -15,27 +15,21 @@
 void	check_input_params(int ac, char **av)
 {
 	int i;
+	int len;
 
 	if ((ac != 2) && (ac != 3))
 		invalid_param();
 	i = 1;
 	while (i < ac)
-		if ((ft_strncmp(av[i], "julia", ft_strlen(av[i]))) == 0)
+	{
+		len = ft_strlen(av[i]);
+		if (len == 5 && (ft_strncmp(av[i], "julia", len) == 0))
 			i++;
-		else if ((ft_strncmp(av[i], "mandelbrot", ft_strlen(av[i]))) == 0)
+		else if (len == 10 && (ft_strncmp(av[i], "mandelbrot", len) == 0))
 			i++;
 		else
 			invalid_param();
-}
-
-void	get_fractal_type(t_type *type, char *input)
-{
-	if ((ft_strncmp(input, "julia", ft_strlen(input))) == 0)
-		*type = julia;
-	else if ((ft_strncmp(input, "mandelbrot", ft_strlen(input))) == 0)
-		*type = mandelbrot;
-	else
-		invalid_param();
+	}
 }
 
 void	free_buff(int **buff, int size)

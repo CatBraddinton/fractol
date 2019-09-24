@@ -38,6 +38,7 @@ typedef enum		e_type
 	mandelbrot,
 	julia,
 	total_nb,
+	invalid = -1,
 }					t_type;
 
 typedef struct		s_cnum
@@ -107,20 +108,14 @@ void				check_input_params(int ac, char **av);
 void				invalid_param(void);
 void				error(char *message);
 
-
-
-
-
-
-
-
-
-
-
-
-
 void				draw_fractal_image(char *name);
-void				get_fractal_type(t_type *type, char *input);
+
+
+
+
+
+
+
 
 void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data);
