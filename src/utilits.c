@@ -38,6 +38,33 @@ void	set_complex(t_cnum *n, double real, double imaginary)
 	n->im = imaginary;
 }
 
+void	init_threads_data(t_data *data)
+{
+	int half_w;
+	int	half_h;
+
+	half_h = data->mlx->image_height / 2;
+	half_w = data->mlx->image_width / 2;
+	if ((data->thread = (t_threads *)malloc(sizeof(t_threads))) == NULL)
+		error(strerror(errno));
+	data->thread->x[0][START] = 0;
+	data->thread->x[0][FINISH] = half_w;
+	data->thread->y[0][START] = 0;
+	data->thread->y[0][FINISH] = half_h;
+	data->thread->x[1][START] = half_w;
+	data->thread->x[1][FINISH] = data->mlx->image_width;
+	data->thread->y[1][START] = 0;
+	data->thread->y[1][FINISH] = half_h;
+	data->thread->x[2][START] = 0;
+	data->thread->x[2][FINISH] = half_w;
+	data->thread->y[2][START] = half_h;
+	data->thread->y[2][FINISH] = data->mlx->image_height;
+	data->thread->x[3][START] = half_w;
+	data->thread->x[3][FINISH] = data->mlx->image_width;
+	data->thread->y[3][START] = half_h;
+	data->thread->y[3][FINISH] = data->mlx->image_height;
+}
+
 void	init_programm_architecture(t_data *data)
 {
 	if ((data->menu = (t_menu *)malloc(sizeof(t_menu))) == NULL)
@@ -59,9 +86,7 @@ void	init_programm_architecture(t_data *data)
 		error(strerror(errno));
 	data->params->max_iter = MAX_ITER;
 	data->params->zoom = 1.1;
-	data->params->iter = 0;
 	data->params->zoom_factor = 0;
-	if ((data->set = (t_set *)malloc(sizeof(t_set))) == NULL)
-		error(strerror(errno));
-	set_complex(&(data->set->k), 0.4, -0.6);
+	set_complex(&(data->params->julia_k), 0.4, -0.6);
+	init_threads_data(data);
 }

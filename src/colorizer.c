@@ -26,13 +26,13 @@ static int	get_color_value(int iter, int max_iter)
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
-void	color_point(t_data *data)
+void	color_point(t_data *data, int x, int y)
 {
 	int	color;
 	int i;
 
-	color = get_color_value(data->params->iter, data->params->max_iter);
-	i = (data->x * data->mlx->bpp / 8) + (data->y * data->mlx->size);
+	color = get_color_value(data->iter, data->params->max_iter);
+	i = (x * data->mlx->bpp / 8) + (y * data->mlx->size);
 	data->mlx->image[i] = color;
 	data->mlx->image[++i] = color >> 8;
 	data->mlx->image[++i] = color >> 16;

@@ -13,8 +13,12 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define MAX_ITER		500
+# define MAX_ITER		50
+
 # define TOTAL_THREADS	4
+# define START			0
+# define FINISH			1
+
 
 # define WIN_W		2300
 # define WIN_H		1000
@@ -49,14 +53,14 @@ typedef struct		s_cnum
 
 typedef struct		s_set
 {
+	int				iter;
 	t_cnum			k;
 	t_cnum			c;
 	t_cnum			new_z;
 	t_cnum			old_z;
 	t_cnum			z_sqrt;
-	t_cnum			factor;
-	t_cnum			mouse;
-	t_cnum			move;
+	t_cnum			f;
+
 }					t_set;
 
 typedef struct		s_mlx
@@ -76,8 +80,11 @@ typedef struct		s_params
 {
 	int				max_iter;
 	double			zoom;
-	int				iter;
 	double			zoom_factor;
+	t_cnum			mouse;
+	t_cnum			move;
+	t_cnum			center;
+	t_cnum			julia_k;
 }					t_params;
 
 typedef struct		s_menu
@@ -90,18 +97,25 @@ typedef struct		s_menu
 	int				finish_y;
 }					t_menu;
 
+typedef struct		s_threads
+{
+	pthread_t		id[TOTAL_THREADS];
+	int				x[TOTAL_THREADS][2];
+	int				y[TOTAL_THREADS][2];
+}					t_threads;
+
 typedef struct		s_data
 {
 	t_type			type;
 	t_mlx			*mlx;
 	t_menu			*menu;
 	t_params		*params;
-	t_set			*set;
-//	t_cnum			threads_param[TOTAL_THREADS];
+	t_threads		*thread;
 	t_cnum			min;
 	t_cnum			max;
-	int				x;
-	int				y;
+	int				x[TOTAL_THREADS];
+	int				y[TOTAL_THREADS];
+	int				iter;
 }					t_data;
 
 void				check_input_params(int ac, char **av);
@@ -118,15 +132,15 @@ int			expose_hook(t_data *data);
 
 
 void				draw_fractals(t_data *data);
-void				draw_mandelbrot_set(t_data *data);
-void				draw_julia_set(t_data *data);
+void				draw_mandelbrot_set(t_data *data, int x, int y);
+void				draw_julia_set(t_data *data, int x, int y);
 void				set_complex(t_cnum *n, double real, double imaginary);
 void				init_params(t_data *data);
 void				init_programm_architecture(t_data *data);
-void				color_point(t_data *data);
+void				color_point(t_data *data, int x, int y);
 void				init_buffer(t_data *data);
 int					julia_motion(int x, int y, t_data *data);
-int					mouse_press(int button, int x, int y, t_data *data);
+int					mouse_hook(int button, int x, int y, t_data *data);
 int					close(int keycode);
 int					key_press(int keycode, t_data *data);
 
