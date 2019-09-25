@@ -38,6 +38,7 @@ typedef enum		e_type
 {
 	mandelbrot,
 	julia,
+	tricorn,
 	total_nb,
 	invalid = -1,
 }					t_type;
@@ -120,9 +121,9 @@ void				error(char *message);
 void				draw_fractal_image(char *name);
 int			expose_hook(t_data *data);
 
+void	init_mlx_window(t_data *data, char *name);
 
-
-
+void	draw_tricorn_fractal(t_data *data, int x, int y);
 
 
 

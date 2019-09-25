@@ -34,6 +34,8 @@ void	*iterate_pixels(void *data)
 				draw_mandelbrot_set(d, d->x[i], d->y[i]);
 			else if (d->type == julia)
 				draw_julia_set(d, d->x[i], d->y[i]);
+			else if (d->type == tricorn)
+				draw_tricorn_fractal(d, d->x[i], d->y[i]);
 			d->x[i]++;
 		}
 		d->y[i]++;
@@ -69,6 +71,8 @@ static int	get_fractal_type(char *input)
 		return (julia);
 	if (len == 10 && ft_strnequ(input, "mandelbrot", len))
 		return (mandelbrot);
+	if (len == 7 && ft_strnequ(input, "tricorn", len))
+		return (tricorn);
 	return (-1);
 }
 
@@ -84,21 +88,6 @@ int			expose_hook(t_data *data)
 	return (0);
 }
 
-void	init_mlx_window(t_data *data, char *name)
-{
-	if ((data->mlx->p_mlx = mlx_init()) == NULL)
-		error(strerror(errno));
-	if (!(data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name)))
-		error(strerror(errno));
-	mlx_expose_hook(data->mlx->win, expose_hook, data);
-	mlx_hook(data->mlx->win, 2, 0, key_press, data);
-	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);
-	mlx_hook(data->mlx->win, 17, 0, close, data);
-	mlx_mouse_hook(data->mlx->win, mouse_hook, data);
-	mlx_do_key_autorepeaton(data->mlx->p_mlx);
-	mlx_loop(data->mlx->p_mlx);
-}
-
 void		draw_fractal_image(char *name)
 {
 	t_data 		*data;
@@ -109,15 +98,15 @@ void		draw_fractal_image(char *name)
 	if (data->type == invalid)
 		error("fractal type value is invalid");
 	init_programm_architecture(data);
-	if (data->type == mandelbrot)
-	{
-		set_complex(&(data->min), -2.0, -1.0);
-		set_complex(&(data->max), 1.0, 1.0);
-	}
-	else if (data->type == julia)
+	if (data->type == julia)
 	{
 		set_complex(&(data->min), -3.00, -3.00);
 		set_complex(&(data->max), 3.00,  3.00);
+	}
+	else
+	{
+		set_complex(&(data->min), -2.5, -1.0);
+		set_complex(&(data->max), 1.0, 1.0);
 	}
 	init_mlx_window(data, name);
 }

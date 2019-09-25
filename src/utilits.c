@@ -12,30 +12,25 @@
 
 #include "../inc/fractol.h"
 
-void	check_input_params(int ac, char **av)
-{
-	int i;
-	int len;
-
-	if ((ac != 2) && (ac != 3))
-		invalid_param();
-	i = 1;
-	while (i < ac)
-	{
-		len = ft_strlen(av[i]);
-		if (len == 5 && (ft_strncmp(av[i], "julia", len) == 0))
-			i++;
-		else if (len == 10 && (ft_strncmp(av[i], "mandelbrot", len) == 0))
-			i++;
-		else
-			invalid_param();
-	}
-}
-
 void	set_complex(t_cnum *n, double real, double imaginary)
 {
 	n->re = real;
 	n->im = imaginary;
+}
+
+void	init_mlx_window(t_data *data, char *name)
+{
+	if ((data->mlx->p_mlx = mlx_init()) == NULL)
+		error(strerror(errno));
+	if (!(data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name)))
+		error(strerror(errno));
+	mlx_expose_hook(data->mlx->win, expose_hook, data);
+	mlx_hook(data->mlx->win, 2, 0, key_press, data);
+	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);
+	mlx_hook(data->mlx->win, 17, 0, close, data);
+	mlx_mouse_hook(data->mlx->win, mouse_hook, data);
+	mlx_do_key_autorepeaton(data->mlx->p_mlx);
+	mlx_loop(data->mlx->p_mlx);
 }
 
 void	init_programm_architecture(t_data *data)

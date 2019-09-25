@@ -38,7 +38,7 @@ static void	count_points(t_data *data, t_set *set)
 	set->iter = 0;
 	set_complex(&(set->z_sqrt),
 		set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
-	if (data->type == 2 && is_in_mandelbrot_set(set->c.re, set->c.im))
+	if (data->type == mandelbrot && is_in_mandelbrot_set(set->c.re, set->c.im))
 		set->iter = data->params->max_iter;
 	else
 		while (set->iter < data->params->max_iter)
@@ -47,6 +47,7 @@ static void	count_points(t_data *data, t_set *set)
 			temp = set->z_sqrt.re - set->z_sqrt.im;
 			set->new_z.re = temp + set->c.re;
 			temp = set->old_z.re + set->old_z.re;
+			temp = (data->type == tricorn) ? -temp : temp;
 			set->new_z.im = temp * set->old_z.im + set->c.im;
 			set->iter++;
 			set_complex(&(set->z_sqrt),
@@ -81,6 +82,20 @@ void		draw_mandelbrot_set(t_data *data, int x, int y)
 	set.c.re = data->min.re + x * set.f.re;
 	set.c.im = data->max.im - y * set.f.im;
 	set_complex(&(set.new_z), 0.0, 0.0);
+	count_points(data, &set);
+	data->iter = set.iter;
+	color_point(data, x, y);
+}
+
+void	draw_tricorn_fractal(t_data *data, int x, int y)
+{
+	t_set set;
+
+	set.f.re = (data->max.re - data->min.re) / (data->mlx->image_width - 1.0);
+	set.f.im = (data->max.im - data->min.im) / (data->mlx->image_height - 1.0);
+	set.c.re = data->min.re + x * set.f.re;
+	set.c.im = data->max.im - y * set.f.im;
+	set_complex(&(set.new_z), set.c.re, set.c.im);
 	count_points(data, &set);
 	data->iter = set.iter;
 	color_point(data, x, y);
