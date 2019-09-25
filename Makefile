@@ -36,7 +36,7 @@ SOURCES := 	main.c\
 			$(SRC_DIR)drawers.c\
 
 OBJECTS := 	main.o error.o utilits.o hooks.o mandelbrot_julia_sets.o\
-			colorizer.o drawers.o\
+			colorizer.o drawers.o \
 
 LIBFT := $(LIB_DIR)$(FT)
 

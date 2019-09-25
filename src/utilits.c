@@ -12,64 +12,26 @@
 
 #include "../inc/fractol.h"
 
-void	check_input_params(int ac, char **av)
-{
-	int i;
-
-	if ((ac != 2) && (ac != 3))
-		invalid_param();
-	i = 1;
-	while (i < ac)
-		if ((ft_strncmp(av[i], "julia", ft_strlen(av[i]))) == 0)
-			i++;
-		else if ((ft_strncmp(av[i], "mandelbrot", ft_strlen(av[i]))) == 0)
-			i++;
-		else
-			invalid_param();
-}
-
-void	get_fractal_type(t_type *type, char *input)
-{
-	if ((ft_strncmp(input, "julia", ft_strlen(input))) == 0)
-		*type = julia;
-	else if ((ft_strncmp(input, "mandelbrot", ft_strlen(input))) == 0)
-		*type = mandelbrot;
-	else
-		invalid_param();
-}
-
-void	free_buff(int **buff, int size)
-{
-	int i;
-
-	i = 0;
-	while (i < size)
-	{
-		free(buff[i]);
-		i++;
-	}
-	free(buff);
-}
-
 void	set_complex(t_cnum *n, double real, double imaginary)
 {
 	n->re = real;
 	n->im = imaginary;
 }
 
-void	init_buffer(t_data *data)
+void	init_mlx_window(t_data *data, char *name)
 {
-	int i;
-
-	i = -1;
-	if (!(data->buff = (int **)malloc(data->mlx->image_height * sizeof(int *))))
-		error("malloc error");
-	while (++i < data->mlx->image_height)
-	{
-		if (!(data->buff[i] = (int *)malloc(data->mlx->image_width * sizeof(int))))
-			error("malloc error");
-		ft_memset(data->buff[i], 0, data->mlx->image_width);
-	}
+	if ((data->mlx->p_mlx = mlx_init()) == NULL)
+		error(strerror(errno));
+	data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name);
+	if (!(data->mlx->win))
+		error(strerror(errno));
+	mlx_expose_hook(data->mlx->win, expose_hook, data);
+	mlx_hook(data->mlx->win, 2, 0, key_press, data);
+	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);
+	mlx_hook(data->mlx->win, 17, 0, close, data);
+	mlx_mouse_hook(data->mlx->win, mouse_hook, data);
+	mlx_do_key_autorepeaton(data->mlx->p_mlx);
+	mlx_loop(data->mlx->p_mlx);
 }
 
 void	init_programm_architecture(t_data *data)
@@ -93,9 +55,6 @@ void	init_programm_architecture(t_data *data)
 		error(strerror(errno));
 	data->params->max_iter = MAX_ITER;
 	data->params->zoom = 1.1;
-	data->params->iter = 0;
 	data->params->zoom_factor = 0;
-	if ((data->set = (t_set *)malloc(sizeof(t_set))) == NULL)
-		error(strerror(errno));
-	set_complex(&(data->set->k), 0.4, -0.6);
+	set_complex(&(data->params->julia_k), 0.4, -0.6);
 }
