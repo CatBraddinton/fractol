@@ -20,16 +20,13 @@
 # define FINISH			1
 
 
-# define WIN_W		2300
-# define WIN_H		1000
+# define WIN_W		2600
+# define WIN_H		1300
 
 # include <stdio.h>
 # include <math.h>
 # include <mlx.h>
 # include <pthread.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
 # include <sys/types.h>
 # include <sys/errno.h>
 
@@ -97,26 +94,24 @@ typedef struct		s_menu
 	int				finish_y;
 }					t_menu;
 
-typedef struct		s_threads
-{
-	pthread_t		id[TOTAL_THREADS];
-	int				x[TOTAL_THREADS][2];
-	int				y[TOTAL_THREADS][2];
-}					t_threads;
-
 typedef struct		s_data
 {
 	t_type			type;
 	t_mlx			*mlx;
 	t_menu			*menu;
 	t_params		*params;
-	t_threads		*thread;
 	t_cnum			min;
 	t_cnum			max;
+	pthread_mutex_t lock;
+	pthread_t		id[TOTAL_THREADS];
+	int				i;
 	int				x[TOTAL_THREADS];
 	int				y[TOTAL_THREADS];
 	int				iter;
 }					t_data;
+
+
+
 
 void				check_input_params(int ac, char **av);
 void				invalid_param(void);

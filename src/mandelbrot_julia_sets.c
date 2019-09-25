@@ -12,7 +12,7 @@
 
 #include "../inc/fractol.h"
 
-int		is_in_mandelbrot_set(double x, double y)
+int			is_in_mandelbrot_set(double x, double y)
 {
 	double sqrt_x;
 	double sqrt_y;
@@ -31,13 +31,13 @@ int		is_in_mandelbrot_set(double x, double y)
 	return (0);
 }
 
-void		count_points(t_data *data, t_set *set)
+static void	count_points(t_data *data, t_set *set)
 {
 	double temp;
 
 	set->iter = 0;
 	set_complex(&(set->z_sqrt),
-		pow(set->new_z.re, 2.0), pow(set->new_z.im, 2.0));
+		set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
 	if (data->type == 2 && is_in_mandelbrot_set(set->c.re, set->c.im))
 		set->iter = data->params->max_iter;
 	else
@@ -50,14 +50,14 @@ void		count_points(t_data *data, t_set *set)
 			set->new_z.im = temp * set->old_z.im + set->c.im;
 			set->iter++;
 			set_complex(&(set->z_sqrt),
-			pow(set->new_z.re, 2.0), pow(set->new_z.im, 2.0));
+				set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
 			temp = set->z_sqrt.re + set->z_sqrt.im;
 			if (temp > 4)
 				break ;
 		}
 }
 
-void	draw_julia_set(t_data *data, int x, int y)
+void		draw_julia_set(t_data *data, int x, int y)
 {
 	t_set set;
 
@@ -72,7 +72,7 @@ void	draw_julia_set(t_data *data, int x, int y)
 	color_point(data, x, y);
 }
 
-void	draw_mandelbrot_set(t_data *data, int x, int y)
+void		draw_mandelbrot_set(t_data *data, int x, int y)
 {
 	t_set set;
 

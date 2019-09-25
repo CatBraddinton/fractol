@@ -11,148 +11,53 @@
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
-/*
+
 void	*iterate_pixels(void *data)
 {
-	t_data *d;
+	t_data	*d;
+	int		i;
+	int		step;
+	int		last;
 
 	d = (t_data *)data;
-	d->y = d->thread->y[d->thread->n][START];
-	while (d->y < d->thread->y[d->thread->n][FINISH])
+	i = d->i;
+	pthread_mutex_unlock(&(d->lock));
+	step = d->mlx->image_height / TOTAL_THREADS;
+	last = (i == TOTAL_THREADS - 1) ? d->mlx->image_height : step * (i + 1);
+	d->y[i] = 0;
+	while (d->y[i] < last)
 	{
-		d->x = d->thread->x[d->thread->n][START];
-		while (d->x < d->thread->x[d->thread->n][FINISH])
+		d->x[i] = 0;
+		while (d->x[i] < d->mlx->image_width)
 		{
 			if (d->type == mandelbrot)
-				draw_mandelbrot_set(d);
+				draw_mandelbrot_set(d, d->x[i], d->y[i]);
 			else if (d->type == julia)
-				draw_julia_set(d);
-			d->x++;
+				draw_julia_set(d, d->x[i], d->y[i]);
+			d->x[i]++;
 		}
-		d->y++;
+		d->y[i]++;
 	}
-	return (data);
-}
 
-void	draw_fractals(t_data *data)
-{
-	int i;
-
-	i = -1;
-	while (++i < TOTAL_THREADS)
-	{
-		data->thread->n = i;
-		pthread_create(&(data->thread->id[i]), NULL, iterate_pixels, data);
-	}
-	i = -1;
-	while (++i < TOTAL_THREADS)
-		pthread_join(data->thread->id[i], NULL);
-}
-*/
-void	*iterate_pixels4(void *data)
-{
-	t_data *d;
-
-	d = (t_data *)data;
-	d->y[3] = d->mlx->image_height / 2;
-	while (d->y[3] < d->mlx->image_height)
-	{
-		d->x[3] = d->mlx->image_width / 2;
-		while (d->x[3] < d->mlx->image_width)
-		{
-			if (d->type == mandelbrot)
-				draw_mandelbrot_set(d, d->x[3], d->y[3]);
-			else if (d->type == julia)
-				draw_julia_set(d, d->x[3], d->y[3]);
-			d->x[3] += 1;
-		}
-		d->y[3] += 1;
-	}
-	pthread_exit(0);
-}
-
-void	*iterate_pixels3(void *data)
-{
-	t_data *d;
-
-	d = (t_data *)data;
-	d->y[2] = 0;
-	while (d->y[2] < d->mlx->image_height / 2)
-	{
-		d->x[2] = d->mlx->image_width / 2;
-		while (d->x[2] < d->mlx->image_width)
-		{
-			if (d->type == mandelbrot)
-				draw_mandelbrot_set(d, d->x[2], d->y[2]);
-			else if (d->type == julia)
-				draw_julia_set(d, d->x[2], d->y[2]);
-			d->x[2] += 1;
-		}
-		d->y[2] += 1;
-	}
-	pthread_exit(0);
-}
-
-void	*iterate_pixels2(void *data)
-{
-	t_data *d;
-
-	d = (t_data *)data;
-	d->y[1] = d->mlx->image_height / 2;
-	while (d->y[1] < d->mlx->image_height)
-	{
-		d->x[1] = 0;
-		while (d->x[1] < d->mlx->image_width / 2)
-			{
-				if (d->type == mandelbrot)
-					draw_mandelbrot_set(d, d->x[1], d->y[1]);
-				else if (d->type == julia)
-					draw_julia_set(d, d->x[1], d->y[1]);
-				d->x[1] += 1;
-			}
-			d->y[1] += 1;
-	}
-	pthread_exit(0);
-}
-
-void	*iterate_pixels1(void *data)
-{
-	t_data *d;
-
-	d = (t_data *)data;
-	d->y[0] = 0;
-	while (d->y[0] < d->mlx->image_height / 2)
-	{
-		d->x[0] = 0;
-		while (d->x[0] < d->mlx->image_width / 2)
-		{
-			if (d->type == mandelbrot)
-				draw_mandelbrot_set(d, d->x[0], d->y[0]);
-			else if (d->type == julia)
-				draw_julia_set(d, d->x[0], d->y[0]);
-			d->x[0]++;
-		}
-		d->y[0]++;
-	}
 	pthread_exit(0);
 }
 
 void	draw_fractals(t_data *data)
 {
-	pthread_t	id1;
-	pthread_t	id2;
-	pthread_t	id3;
-	pthread_t	id4;
+	int		i;
 
-	pthread_create(&id1, NULL, &iterate_pixels1, data);
-	pthread_create(&id2, NULL, &iterate_pixels2, data);
-	pthread_create(&id3, NULL, &iterate_pixels3, data);
-	pthread_create(&id4, NULL, &iterate_pixels4, data);
-	pthread_join(id1, NULL);
-	pthread_join(id2, NULL);
-	pthread_join(id3, NULL);
-	pthread_join(id4, NULL);
-
+	pthread_mutex_init(&(data->lock), NULL);
+	i = -1;
+	while (++i < TOTAL_THREADS)
+	{
+		pthread_mutex_lock(&(data->lock));
+		data->i = i;
+		pthread_create(&(data->id[i]), NULL, &iterate_pixels, data);
+	}
+	i = -1;
+	while (++i < TOTAL_THREADS)
+		pthread_join(data->id[i], NULL);
+	pthread_mutex_destroy(&(data->lock));
 }
 
 static int	get_fractal_type(char *input)
