@@ -87,7 +87,7 @@ void		draw_mandelbrot_set(t_data *data, int x, int y)
 	color_point(data, x, y);
 }
 
-void	draw_tricorn_fractal(t_data *data, int x, int y)
+void		draw_tricorn_fractal(t_data *data, int x, int y)
 {
 	t_set set;
 

@@ -22,7 +22,8 @@ void	init_mlx_window(t_data *data, char *name)
 {
 	if ((data->mlx->p_mlx = mlx_init()) == NULL)
 		error(strerror(errno));
-	if (!(data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name)))
+	data->mlx->win = mlx_new_window(data->mlx->p_mlx, WIN_W, WIN_H, name);
+	if (!(data->mlx->win))
 		error(strerror(errno));
 	mlx_expose_hook(data->mlx->win, expose_hook, data);
 	mlx_hook(data->mlx->win, 2, 0, key_press, data);

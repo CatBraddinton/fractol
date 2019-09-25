@@ -12,7 +12,7 @@
 
 #include "../inc/fractol.h"
 
-void	*iterate_pixels(void *data)
+void		*iterate_pixels(void *data)
 {
 	t_data	*d;
 	int		i;
@@ -40,11 +40,10 @@ void	*iterate_pixels(void *data)
 		}
 		d->y[i]++;
 	}
-
 	pthread_exit(0);
 }
 
-void	draw_fractals(t_data *data)
+void		draw_fractals(t_data *data)
 {
 	int		i;
 
@@ -90,7 +89,7 @@ int			expose_hook(t_data *data)
 
 void		draw_fractal_image(char *name)
 {
-	t_data 		*data;
+	t_data *data;
 
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
 		error(strerror(errno));
@@ -101,7 +100,7 @@ void		draw_fractal_image(char *name)
 	if (data->type == julia)
 	{
 		set_complex(&(data->min), -3.00, -3.00);
-		set_complex(&(data->max), 3.00,  3.00);
+		set_complex(&(data->max), 3.00, 3.00);
 	}
 	else
 	{

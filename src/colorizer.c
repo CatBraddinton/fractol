@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/fractol.h"
+#include "../inc/fractol.h"
 
 static int	get_color_value(int iter, int max_iter)
 {
@@ -26,7 +26,7 @@ static int	get_color_value(int iter, int max_iter)
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
-void	color_point(t_data *data, int x, int y)
+void		color_point(t_data *data, int x, int y)
 {
 	int	color;
 	int i;
@@ -44,7 +44,6 @@ void	histogram_coloring_step_2(t_data *data, int **buff, int *iters_pp)
 	int x;
 	int	y;
 	int i;
-
 
 	x = -1;
 	y = -1;

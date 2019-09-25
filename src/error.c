@@ -44,7 +44,7 @@ void	check_input_params(int ac, char **av)
 		else if (len == 10 && (ft_strncmp(av[i], "mandelbrot", len) == 0))
 			i++;
 		else if (len == 7 && (ft_strncmp(av[i], "tricorn", len) == 0))
-				i++;
+			i++;
 		else
 			invalid_param();
 	}
