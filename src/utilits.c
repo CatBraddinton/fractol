@@ -12,6 +12,20 @@
 
 #include "../inc/fractol.h"
 
+void	init_extremums(t_data *data)
+{
+	if (data->type == julia)
+	{
+		set_complex(&(data->min), -3.00, -3.00);
+		set_complex(&(data->max), 3.00, 3.00);
+	}
+	else
+	{
+		set_complex(&(data->min), -2.5, -1.0);
+		set_complex(&(data->max), 1.0, 1.0);
+	}
+}
+
 void	set_complex(t_cnum *n, double real, double imaginary)
 {
 	n->re = real;
@@ -56,5 +70,11 @@ void	init_programm_architecture(t_data *data)
 	data->params->max_iter = MAX_ITER;
 	data->params->zoom = 1.1;
 	data->params->zoom_factor = 0;
-	set_complex(&(data->params->julia_k), 0.4, -0.6);
+	set_complex(&(data->params->julia_k), 1.8, 0.6);
+	data->julia_mouse_lock = 0;
+}
+
+double	interpolate(double start, double end, double interpolation)
+{
+	return (start + ((end - start) * interpolation));
 }

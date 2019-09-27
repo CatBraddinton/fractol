@@ -19,9 +19,8 @@
 # define START			0
 # define FINISH			1
 
-
-# define WIN_W		2600
-# define WIN_H		1300
+# define WIN_W		2000
+# define WIN_H		1000
 
 # include <stdio.h>
 # include <math.h>
@@ -39,6 +38,7 @@ typedef enum		e_type
 	mandelbrot,
 	julia,
 	tricorn,
+	burning_ship,
 	total_nb,
 	invalid = -1,
 }					t_type;
@@ -103,37 +103,34 @@ typedef struct		s_data
 	t_params		*params;
 	t_cnum			min;
 	t_cnum			max;
+	int				julia_mouse_lock;
 	pthread_mutex_t lock;
 	pthread_t		id[TOTAL_THREADS];
 	int				i;
 	int				x[TOTAL_THREADS];
 	int				y[TOTAL_THREADS];
-	int				iter;
+	int				iter[TOTAL_THREADS];
 }					t_data;
-
-
-
 
 void				check_input_params(int ac, char **av);
 void				invalid_param(void);
 void				error(char *message);
 
 void				draw_fractal_image(char *name);
-int			expose_hook(t_data *data);
-
-void	init_mlx_window(t_data *data, char *name);
-
-void	draw_tricorn_fractal(t_data *data, int x, int y);
-
-
-
+int					expose_hook(t_data *data);
+void				count_points(t_data *data, t_set *set);
+void				init_mlx_window(t_data *data, char *name);
+void				draw_burning_ship_fractal(t_data *data, int x, int y, int i);
+void				draw_tricorn_fractal(t_data *data, int x, int y, int i);
+void				init_extremums(t_data *data);
+double				interpolate(double start, double end, double interpolation);
 void				draw_fractals(t_data *data);
-void				draw_mandelbrot_set(t_data *data, int x, int y);
-void				draw_julia_set(t_data *data, int x, int y);
+void				draw_mandelbrot_set(t_data *data, int x, int y, int i);
+void				draw_julia_set(t_data *data, int x, int y, int i);
 void				set_complex(t_cnum *n, double real, double imaginary);
 void				init_params(t_data *data);
 void				init_programm_architecture(t_data *data);
-void				color_point(t_data *data, int x, int y);
+void				color_point(t_data *data, int x, int y, int n);
 void				init_buffer(t_data *data);
 int					julia_motion(int x, int y, t_data *data);
 int					mouse_hook(int button, int x, int y, t_data *data);

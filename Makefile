@@ -31,12 +31,18 @@ SOURCES := 	main.c\
  			$(SRC_DIR)error.c\
 			$(SRC_DIR)utilits.c\
 			$(SRC_DIR)hooks.c\
-			$(SRC_DIR)mandelbrot_julia_sets.c\
+			$(SRC_DIR)mandelbrot_set.c\
+			$(SRC_DIR)burning_ship_fractal.c\
+			$(SRC_DIR)julia_set.c\
+			$(SRC_DIR)tricorn_fractal.c\
+			$(SRC_DIR)count_points.c\
 			$(SRC_DIR)colorizer.c\
 			$(SRC_DIR)drawers.c\
+			$(SRC_DIR)zoom.c\
 
-OBJECTS := 	main.o error.o utilits.o hooks.o mandelbrot_julia_sets.o\
-			colorizer.o drawers.o \
+OBJECTS := 	main.o error.o utilits.o hooks.o colorizer.o drawers.o \
+			mandelbrot_set.o julia_set.o tricorn_fractal.o count_points.o\
+			burning_ship_fractal.o zoom.o\
 
 LIBFT := $(LIB_DIR)$(FT)
 

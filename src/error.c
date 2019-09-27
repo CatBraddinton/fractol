@@ -25,6 +25,7 @@ void	invalid_param(void)
 	ft_putendl("Julia set --------> [julia]");
 	ft_putendl("Mandelbrot set ---> [mandelbrot]");
 	ft_putendl("Tricorn ----------> [tricorn]");
+	ft_putendl("Burning ship -----> [burning_ship]");
 	exit(EXIT_FAILURE);
 }
 
@@ -44,6 +45,8 @@ void	check_input_params(int ac, char **av)
 		else if (len == 10 && (ft_strncmp(av[i], "mandelbrot", len) == 0))
 			i++;
 		else if (len == 7 && (ft_strncmp(av[i], "tricorn", len) == 0))
+			i++;
+		else if (len == 12 && (ft_strncmp(av[i], "burning_ship", len) == 0))
 			i++;
 		else
 			invalid_param();
