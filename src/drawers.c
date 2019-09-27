@@ -31,11 +31,13 @@ void		*iterate_pixels(void *data)
 		while (d->x[i] < d->mlx->image_width)
 		{
 			if (d->type == mandelbrot)
-				draw_mandelbrot_set(d, d->x[i], d->y[i]);
+				draw_mandelbrot_set(d, d->x[i], d->y[i], i);
 			else if (d->type == julia)
-				draw_julia_set(d, d->x[i], d->y[i]);
+				draw_julia_set(d, d->x[i], d->y[i], i);
 			else if (d->type == tricorn)
-				draw_tricorn_fractal(d, d->x[i], d->y[i]);
+				draw_tricorn_fractal(d, d->x[i], d->y[i], i);
+			else if (d->type == burning_ship)
+				draw_burning_ship_fractal(d, d->x[i], d->y[i], i);
 			d->x[i]++;
 		}
 		d->y[i]++;
@@ -72,6 +74,8 @@ static int	get_fractal_type(char *input)
 		return (mandelbrot);
 	if (len == 7 && ft_strnequ(input, "tricorn", len))
 		return (tricorn);
+	if (len == 12 && ft_strnequ(input, "burning_ship", len))
+		return (burning_ship);
 	return (-1);
 }
 
@@ -97,15 +101,6 @@ void		draw_fractal_image(char *name)
 	if (data->type == invalid)
 		error("fractal type value is invalid");
 	init_programm_architecture(data);
-	if (data->type == julia)
-	{
-		set_complex(&(data->min), -3.00, -3.00);
-		set_complex(&(data->max), 3.00, 3.00);
-	}
-	else
-	{
-		set_complex(&(data->min), -2.5, -1.0);
-		set_complex(&(data->max), 1.0, 1.0);
-	}
+	init_extremums(data);
 	init_mlx_window(data, name);
 }

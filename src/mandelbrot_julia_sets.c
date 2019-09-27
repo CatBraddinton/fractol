@@ -43,22 +43,26 @@ static void	count_points(t_data *data, t_set *set)
 	else
 		while (set->iter < data->params->max_iter)
 		{
-			set_complex(&(set->old_z), set->new_z.re, set->new_z.im);
+			if (data->type == burning_ship)
+				set_complex(&(set->old_z), fabs(set->new_z.re), fabs(set->new_z.im) * -1.0);
+			else
+				set_complex(&(set->old_z), set->new_z.re, set->new_z.im);
 			temp = set->z_sqrt.re - set->z_sqrt.im;
 			set->new_z.re = temp + set->c.re;
 			temp = set->old_z.re + set->old_z.re;
 			temp = (data->type == tricorn) ? -temp : temp;
 			set->new_z.im = temp * set->old_z.im + set->c.im;
-			set->iter++;
+
 			set_complex(&(set->z_sqrt),
 				set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
 			temp = set->z_sqrt.re + set->z_sqrt.im;
 			if (temp > 4)
 				break ;
+			set->iter++;
 		}
 }
 
-void		draw_julia_set(t_data *data, int x, int y)
+void		draw_julia_set(t_data *data, int x, int y, int i)
 {
 	t_set set;
 
@@ -69,11 +73,11 @@ void		draw_julia_set(t_data *data, int x, int y)
 	set.c.re = data->params->julia_k.re;
 	set.c.im = data->params->julia_k.im;
 	count_points(data, &set);
-	data->iter = set.iter;
-	color_point(data, x, y);
+	data->iter[i] = set.iter;
+	color_point(data, x, y, i);
 }
 
-void		draw_mandelbrot_set(t_data *data, int x, int y)
+void		draw_mandelbrot_set(t_data *data, int x, int y, int i)
 {
 	t_set set;
 
@@ -83,11 +87,11 @@ void		draw_mandelbrot_set(t_data *data, int x, int y)
 	set.c.im = data->max.im - y * set.f.im;
 	set_complex(&(set.new_z), 0.0, 0.0);
 	count_points(data, &set);
-	data->iter = set.iter;
-	color_point(data, x, y);
+	data->iter[i] = set.iter;
+	color_point(data, x, y, i);
 }
 
-void		draw_tricorn_fractal(t_data *data, int x, int y)
+void		draw_tricorn_fractal(t_data *data, int x, int y, int i)
 {
 	t_set set;
 
@@ -97,6 +101,20 @@ void		draw_tricorn_fractal(t_data *data, int x, int y)
 	set.c.im = data->max.im - y * set.f.im;
 	set_complex(&(set.new_z), set.c.re, set.c.im);
 	count_points(data, &set);
-	data->iter = set.iter;
-	color_point(data, x, y);
+	data->iter[i] = set.iter;
+	color_point(data, x, y, i);
+}
+
+void	draw_burning_ship_fractal(t_data *data, int x, int y, int i)
+{
+	t_set set;
+
+	set.f.re = (data->max.re - data->min.re) / (data->mlx->image_width - 1.0);
+	set.f.im = (data->max.im - data->min.im) / (data->mlx->image_height - 1.0);
+	set.c.re = data->min.re + x * set.f.re;
+	set.c.im = data->max.im - y * set.f.im;
+	set_complex(&(set.new_z), 0.0, 0.0);
+	count_points(data, &set);
+	data->iter[i] = set.iter;
+	color_point(data, x, y, i);
 }
