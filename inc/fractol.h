@@ -112,21 +112,18 @@ typedef struct		s_data
 	int				iter[TOTAL_THREADS];
 }					t_data;
 
-
-
-
 void				check_input_params(int ac, char **av);
 void				invalid_param(void);
 void				error(char *message);
 
 void				draw_fractal_image(char *name);
 int					expose_hook(t_data *data);
-
+void				count_points(t_data *data, t_set *set);
 void				init_mlx_window(t_data *data, char *name);
 void				draw_burning_ship_fractal(t_data *data, int x, int y, int i);
 void				draw_tricorn_fractal(t_data *data, int x, int y, int i);
 void				init_extremums(t_data *data);
-
+double				interpolate(double start, double end, double interpolation);
 void				draw_fractals(t_data *data);
 void				draw_mandelbrot_set(t_data *data, int x, int y, int i);
 void				draw_julia_set(t_data *data, int x, int y, int i);

@@ -73,3 +73,8 @@ void	init_programm_architecture(t_data *data)
 	set_complex(&(data->params->julia_k), 1.8, 0.6);
 	data->julia_mouse_lock = 0;
 }
+
+double	interpolate(double start, double end, double interpolation)
+{
+	return (start + ((end - start) * interpolation));
+}
