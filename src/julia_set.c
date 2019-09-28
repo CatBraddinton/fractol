@@ -49,16 +49,16 @@ void	draw_menu_julia_set(t_data *data, int i)
 	t_set	set;
 
 	y = -1;
-	while (++y < data->small_img[i].h)
+	while (++y < SIDE_PANEL_IMG_H)
 	{
 		x = -1;
-		while (++x < data->small_img[i].w)
+		while (++x < SIDE_PANEL_IMG_W)
 		{
 			set.new_z.re = data->small_img[i].m_min.re + x /
-			(data->small_img->w - 1.0) * (data->small_img[i].m_max.re -
+			(SIDE_PANEL_IMG_W - 1.0) * (data->small_img[i].m_max.re -
 											data->small_img[i].m_min.re);
 			set.new_z.im = data->small_img[i].m_max.im - y /
-			(data->small_img->h - 1.0) * (data->small_img[i].m_max.im -
+			(SIDE_PANEL_IMG_H - 1.0) * (data->small_img[i].m_max.im -
 										data->small_img[i].m_min.im);
 			set.c.re = data->small_img[i].j_k.re;
 			set.c.im = data->small_img[i].j_k.im;

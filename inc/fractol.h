@@ -19,15 +19,18 @@
 # define PTHREAD_ERROR	"Pthread failed to create new thread."
 
 
-# define MAX_ITER		30
+# define MAX_ITER			30
 
-# define TOTAL_THREADS	4
+# define TOTAL_THREADS		4
 
-# define IMG_W		1920
-# define IMG_H		1200
-# define MENU_W		600
-# define MENU_H		1200
+# define IMG_W				1920
+# define IMG_H				1200
+# define MENU_W				600
+# define MENU_H				1200
 
+# define SIDE_PANEL_IMGS	3
+# define SIDE_PANEL_IMG_W	600
+# define SIDE_PANEL_IMG_H	400
 
 # include <stdio.h>
 # include <math.h>
@@ -102,8 +105,6 @@ typedef struct		s_side_panel
 	int				size;
 	int				end;
 	t_type			type;
-	int				w;
-	int				h;
 	t_cnum			m_min;
 	t_cnum			m_max;
 	t_cnum			j_k;

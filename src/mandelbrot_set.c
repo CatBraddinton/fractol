@@ -54,16 +54,16 @@ void		draw_menu_mandelbrot_set(t_data *data, int i)
 	int		x;
 	t_set	set;
 
+	set.f.re = (data->small_img[i].m_max.re -
+		data->small_img[i].m_min.re) / (SIDE_PANEL_IMG_W - 1.0);
+	set.f.im = (data->small_img[i].m_max.im -
+		data->small_img[i].m_min.im) / (SIDE_PANEL_IMG_H - 1.0);
 	y = -1;
-	while (++y < data->small_img[i].h)
+	while (++y < SIDE_PANEL_IMG_H)
 	{
 		x = -1;
-		while (++x < data->small_img[i].w)
+		while (++x < SIDE_PANEL_IMG_W)
 		{
-			set.f.re = (data->small_img[i].m_max.re -
-				data->small_img[i].m_min.re) / (data->small_img[i].w - 1.0);
-			set.f.im = (data->small_img[i].m_max.im -
-				data->small_img[i].m_min.im) / (data->small_img[i].h - 1.0);
 			set.c.re = data->small_img[i].m_min.re + x * set.f.re;
 			set.c.im = data->small_img[i].m_max.im - y * set.f.im;
 			set_complex(&(set.new_z), 0, 0);

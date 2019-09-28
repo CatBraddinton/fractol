@@ -45,22 +45,21 @@ void	*draw_app_menu(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (!(data->small_img = (t_side_panel *)malloc(3 * sizeof(t_side_panel))))
+	if (!(data->small_img =
+		(t_side_panel *)malloc(SIDE_PANEL_IMGS * sizeof(t_side_panel))))
 		error(MALLOK_ERROR);
 	i = -1;
 	j = 0;
-	while (++i < total_nb)
+	while (++i < total_nb && j < SIDE_PANEL_IMGS)
 		if (i != data->type)
 		{
 			data->small_img[j].type = i;
-			data->small_img[j].w = 600;
-			data->small_img[j].h = 400;
 			if (!(data->small_img[j].m_img = mlx_new_image(data->mlx->p_mlx,
-								data->small_img[j].w, data->small_img[j].h)))
+								SIDE_PANEL_IMG_W, SIDE_PANEL_IMG_H)))
 				error("error");
 			draw_menu_fractals(data, j);
 			mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
-			data->small_img[j].m_img, IMG_W, j * data->small_img[j].h);
+			data->small_img[j].m_img, IMG_W, j * SIDE_PANEL_IMG_H);
 			j++;
 		}
 	pthread_exit(0);

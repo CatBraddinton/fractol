@@ -22,7 +22,7 @@ void	init_programm_architecture(t_data *data)
 	data->mlx->size = 0;
 	data->mlx->end = 0;
 	if ((data->params = (t_params *)malloc(sizeof(t_params))) == NULL)
-		error(strerror(errno));
+		error(MALLOK_ERROR);
 	data->params->max_iter = MAX_ITER;
 	data->params->zoom = 1.1;
 	data->params->zoom_factor = 0;

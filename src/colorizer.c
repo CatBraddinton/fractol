@@ -41,7 +41,7 @@ void		color_menu_point(t_data *data, int x, int y, int n)
 
 	rgb = get_color_value(data->small_img[n].iter, data->params->max_iter);
 	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
-	((unsigned int*)data->small_img[n].m_image)[y * data->small_img[n].w + x]
+	((unsigned int*)data->small_img[n].m_image)[y * SIDE_PANEL_IMG_W + x]
 		= color;
 }
 
