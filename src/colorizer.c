@@ -12,15 +12,17 @@
 
 #include "../inc/fractol.h"
 
-static int	get_color_value(double iter, int max_iter)
+int	get_color_value_v1(double iter, int max_iter)
 {
 	t_color	color;
+	double	percent;
 
 	if (iter == max_iter)
 		return (BLACK);
-	color.r = iter * 13;
-	color.g = iter * 198;
-	color.b = iter * 56;
+	percent = (double)iter / (double)max_iter;
+	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
+	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
+	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
@@ -29,7 +31,7 @@ void		color_point(t_data *data, int x, int y, int n)
 	unsigned int	color;
 	int				rgb;
 
-	rgb = get_color_value(data->iter[n], data->params->max_iter);
+	rgb = get_color_value_v1(data->iter[n], data->params->max_iter);
 	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
 	((unsigned int*)data->mlx->image)[y * IMG_W + x] = color;
 }
@@ -39,7 +41,7 @@ void		color_menu_point(t_data *data, int x, int y, int n)
 	unsigned int	color;
 	int				rgb;
 
-	rgb = get_color_value(data->small_img[n].iter, data->params->max_iter);
+	rgb = get_color_value_v1(data->small_img[n].iter, data->params->max_iter);
 	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
 	((unsigned int*)data->small_img[n].m_image)[y * SIDE_PANEL_IMG_W + x]
 		= color;

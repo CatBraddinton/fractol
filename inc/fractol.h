@@ -109,6 +109,7 @@ typedef struct		s_side_panel
 	t_cnum			m_max;
 	t_cnum			j_k;
 	double			iter;
+	int				max_iter;
 }					t_side_panel;
 
 typedef struct		s_data

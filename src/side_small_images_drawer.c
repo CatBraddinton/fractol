@@ -20,15 +20,15 @@ void	draw_menu_fractals(t_data *data, int i)
 		error("error");
 	if (data->small_img[i].type == julia)
 	{
-		set_complex(&(data->small_img[i].m_min), -3.0, -3.0);
-		set_complex(&(data->small_img[i].m_max), 3.0, 3.0);
-		set_complex(&(data->small_img[i].j_k), 0.3, 0.6);
+		set_complex(&(data->small_img[i].m_min), -2.5, -2.0);
+		set_complex(&(data->small_img[i].m_max), 2.5, 2.0);
+		set_complex(&(data->small_img[i].j_k), 0.1234, 0.653);
 		draw_menu_julia_set(data, i);
 	}
 	else
 	{
-		set_complex(&(data->small_img[i].m_min), -2.5, -1.0);
-		set_complex(&(data->small_img[i].m_max), 1.0, 1.0);
+		set_complex(&(data->small_img[i].m_min), -3.5, -2.5);
+		set_complex(&(data->small_img[i].m_max), 3.5, 2.5);
 		if (data->small_img[i].type == mandelbrot)
 			draw_menu_mandelbrot_set(data, i);
 		if (data->small_img[i].type == tricorn)
@@ -45,14 +45,15 @@ void	*draw_app_menu(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (!(data->small_img =
-		(t_side_panel *)malloc(SIDE_PANEL_IMGS * sizeof(t_side_panel))))
+	if (!(data->small_img = (t_side_panel *)malloc(SIDE_PANEL_IMGS *
+	sizeof(t_side_panel))))
 		error(MALLOK_ERROR);
 	i = -1;
 	j = 0;
 	while (++i < total_nb && j < SIDE_PANEL_IMGS)
 		if (i != data->type)
 		{
+			data->small_img[j].max_iter = 100;
 			data->small_img[j].type = i;
 			if (!(data->small_img[j].m_img = mlx_new_image(data->mlx->p_mlx,
 								SIDE_PANEL_IMG_W, SIDE_PANEL_IMG_H)))

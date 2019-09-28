@@ -35,7 +35,7 @@ int		mouse_hook(int button, int x, int y, t_data *data)
 			x * (data->max.re - data->min.re) / (IMG_W - 1.0);
 			data->params->move.im = data->max.im -
 			y * (data->max.im - data->min.im) / (IMG_H - 1.0);
-			data->params->zoom += 0.0000001;
+			data->params->zoom += 0.0001;
 			data->params->zoom_factor = data->params->zoom;
 		}
 		if (button == KEY_MOUSE_SCROLL_DOWN)
@@ -80,10 +80,10 @@ int		key_press(int keycode, t_data *data)
 	if (keycode == KEY_ESC)
 		exit(EXIT_SUCCESS);
 	if (keycode == KEY_I)
-		data->params->max_iter += 10;
+		data->params->max_iter += 1;
 	if (keycode == KEY_K)
-		if (data->params->max_iter > 10)
-			data->params->max_iter -= 10;
+		if (data->params->max_iter > 1)
+			data->params->max_iter -= 1;
 	if (keycode == KEY_M)
 		data->julia_mouse_lock = (data->julia_mouse_lock == 0) ? 1 : 0;
 	if (keycode == KEY_NUM_CLEAR && data->params->zoom != 1.1)

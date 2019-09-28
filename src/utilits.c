@@ -34,13 +34,13 @@ void	init_extremums(t_data *data)
 {
 	if (data->type == julia)
 	{
-		set_complex(&(data->min), -3.00, -3.00);
-		set_complex(&(data->max), 3.00, 3.00);
+		set_complex(&(data->min), -3.0, -3.0);
+		set_complex(&(data->max), 3.0, 3.0);
 	}
 	else
 	{
-		set_complex(&(data->min), -2.5, -1.0);
-		set_complex(&(data->max), 1.0, 1.0);
+		set_complex(&(data->min), -4.5, -3.0);
+		set_complex(&(data->max), 4.5, 3.0);
 	}
 }
 
