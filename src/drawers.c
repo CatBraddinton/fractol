@@ -34,13 +34,13 @@ void		*iterate_pixels(void *data)
 	d = (t_data *)data;
 	i = d->i;
 	pthread_mutex_unlock(&(d->lock));
-	step = d->mlx->image_height / TOTAL_THREADS;
-	last = (i == TOTAL_THREADS - 1) ? d->mlx->image_height : step * (i + 1);
+	step = IMG_H / TOTAL_THREADS;
+	last = (i == TOTAL_THREADS - 1) ? IMG_H : step * (i + 1);
 	d->y[i] = 0;
 	while (d->y[i] < last)
 	{
 		d->x[i] = 0;
-		while (d->x[i] < d->mlx->image_width)
+		while (d->x[i] < IMG_W)
 		{
 			define_call_function(d, i);
 			d->x[i]++;

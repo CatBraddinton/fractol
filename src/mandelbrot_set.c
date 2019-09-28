@@ -35,8 +35,8 @@ void		draw_mandelbrot_set(t_data *data, int x, int y, int i)
 {
 	t_set set;
 
-	set.f.re = (data->max.re - data->min.re) / (data->mlx->image_width - 1.0);
-	set.f.im = (data->max.im - data->min.im) / (data->mlx->image_height - 1.0);
+	set.f.re = (data->max.re - data->min.re) / (IMG_W - 1.0);
+	set.f.im = (data->max.im - data->min.im) / (IMG_H - 1.0);
 	set.c.re = data->min.re + x * set.f.re;
 	set.c.im = data->max.im - y * set.f.im;
 	set_complex(&(set.new_z), 0.0, 0.0);
@@ -44,6 +44,35 @@ void		draw_mandelbrot_set(t_data *data, int x, int y, int i)
 		set.iter = data->params->max_iter;
 	else
 		count_points(data, &set);
-	data->iter[i] = set.iter;
+	data->iter[i] = set.iter_double;
 	color_point(data, x, y, i);
+}
+
+void		draw_menu_mandelbrot_set(t_data *data, int i)
+{
+	int		y;
+	int		x;
+	t_set	set;
+
+	y = -1;
+	while (++y < data->menu->slot[i].h)
+	{
+		x = -1;
+		while (++x < data->menu->slot[i].w)
+		{
+			set.f.re = (data->menu->slot[i].m_max.re -
+				data->menu->slot[i].m_min.re) / (data->menu->slot[i].w - 1.0);
+			set.f.im = (data->menu->slot[i].m_max.im -
+				data->menu->slot[i].m_min.im) / (data->menu->slot[i].h - 1.0);
+			set.c.re = data->menu->slot[i].m_min.re + x * set.f.re;
+			set.c.im = data->menu->slot[i].m_max.im - y * set.f.im;
+			set_complex(&(set.new_z), 0, 0);
+			if (is_in_mandelbrot_set(set.c.re, set.c.im))
+				set.iter = data->params->max_iter;
+			else
+				count_menu_points(data, &set, i);
+			data->menu->slot[i].iter = set.iter_double;
+			color_menu_point(data, x, y, i);
+		}
+	}
 }
