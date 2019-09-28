@@ -16,7 +16,6 @@ int	main(int ac, char *av[])
 {
 	pid_t	 id;
 
-	errno = 0;
 	check_input_params(ac, av);
 	if (ac == 3)
 	{

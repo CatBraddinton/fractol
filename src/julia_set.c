@@ -49,21 +49,21 @@ void	draw_menu_julia_set(t_data *data, int i)
 	t_set	set;
 
 	y = -1;
-	while (++y < data->menu->slot[i].h)
+	while (++y < data->small_img[i].h)
 	{
 		x = -1;
-		while (++x < data->menu->slot[i].w)
+		while (++x < data->small_img[i].w)
 		{
-			set.new_z.re = data->menu->slot[i].m_min.re + x /
-			(data->menu->slot->w - 1.0) * (data->menu->slot[i].m_max.re -
-											data->menu->slot[i].m_min.re);
-			set.new_z.im = data->menu->slot[i].m_max.im - y /
-			(data->menu->slot->h - 1.0) * (data->menu->slot[i].m_max.im -
-										data->menu->slot[i].m_min.im);
-			set.c.re = data->menu->slot[i].j_k.re;
-			set.c.im = data->menu->slot[i].j_k.im;
+			set.new_z.re = data->small_img[i].m_min.re + x /
+			(data->small_img->w - 1.0) * (data->small_img[i].m_max.re -
+											data->small_img[i].m_min.re);
+			set.new_z.im = data->small_img[i].m_max.im - y /
+			(data->small_img->h - 1.0) * (data->small_img[i].m_max.im -
+										data->small_img[i].m_min.im);
+			set.c.re = data->small_img[i].j_k.re;
+			set.c.im = data->small_img[i].j_k.im;
 			count_menu_points(data, &set, i);
-			data->menu->slot[i].iter = set.iter_double;
+			data->small_img[i].iter = set.iter_double;
 			color_menu_point(data, x, y, i);
 		}
 	}

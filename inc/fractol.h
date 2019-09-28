@@ -13,6 +13,12 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+# define MALLOK_ERROR 	"Malloc failed to allocate enought memory."
+# define TYPE_ERROR 	"Fractal type value is invalid."
+# define MLX_ERROR		"MLX LIB failure."
+# define PTHREAD_ERROR	"Pthread failed to create new thread."
+
+
 # define MAX_ITER		30
 
 # define TOTAL_THREADS	4
@@ -68,6 +74,8 @@ typedef struct		s_mlx
 {
 	void			*p_mlx;
 	void			*win;
+	int				win_w;
+	int				win_h;
 	void			*img;
 	char			*image;
 	int				bpp;
@@ -86,7 +94,7 @@ typedef struct		s_params
 	t_cnum			julia_k;
 }					t_params;
 
-typedef struct		s_mimg
+typedef struct		s_side_panel
 {
 	void			*m_img;
 	char			*m_image;
@@ -100,28 +108,18 @@ typedef struct		s_mimg
 	t_cnum			m_max;
 	t_cnum			j_k;
 	double			iter;
-}					t_mimg;
-
-typedef struct		s_menu
-{
-	t_mimg			*slot;
-	int				start_x;
-	int				start_y;
-	int				finish_x;
-	int				finish_y;
-}					t_menu;
+}					t_side_panel;
 
 typedef struct		s_data
 {
 	t_type			type;
 	t_mlx			*mlx;
-	t_menu			*menu;
+	t_side_panel	*small_img;
 	t_params		*params;
 	t_cnum			min;
 	t_cnum			max;
 	int				julia_mouse_lock;
 	pthread_mutex_t lock;
-	pthread_t		id[TOTAL_THREADS];
 	int				i;
 	int				x[TOTAL_THREADS];
 	int				y[TOTAL_THREADS];

@@ -32,21 +32,21 @@ void	draw_menu_burning_ship_fractal(t_data *data, int i)
 	int		x;
 	t_set	set;
 
+	set.f.re = (data->small_img[i].m_max.re -
+		data->small_img[i].m_min.re) / (data->small_img[i].w - 1.0);
+	set.f.im = (data->small_img[i].m_max.im -
+		data->small_img[i].m_min.im) / (data->small_img[i].h - 1.0);
 	y = -1;
-	while (++y < data->menu->slot[i].h)
+	while (++y < data->small_img[i].h)
 	{
 		x = -1;
-		while (++x < data->menu->slot[i].w)
+		while (++x < data->small_img[i].w)
 		{
-			set.f.re = (data->menu->slot[i].m_max.re -
-				data->menu->slot[i].m_min.re) / (data->menu->slot[i].w - 1.0);
-			set.f.im = (data->menu->slot[i].m_max.im -
-				data->menu->slot[i].m_min.im) / (data->menu->slot[i].h - 1.0);
-			set.c.re = data->menu->slot[i].m_min.re + x * set.f.re;
-			set.c.im = data->menu->slot[i].m_max.im - y * set.f.im;
+			set.c.re = data->small_img[i].m_min.re + x * set.f.re;
+			set.c.im = data->small_img[i].m_max.im - y * set.f.im;
 			set_complex(&(set.new_z), 0, 0);
 			count_menu_points(data, &set, i);
-			data->menu->slot[i].iter = set.iter_double;
+			data->small_img[i].iter = set.iter_double;
 			color_menu_point(data, x, y, i);
 		}
 	}

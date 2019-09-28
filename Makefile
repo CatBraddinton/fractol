@@ -39,11 +39,11 @@ SOURCES := 	main.c\
 			$(SRC_DIR)colorizer.c\
 			$(SRC_DIR)drawers.c\
 			$(SRC_DIR)zoom.c\
-			$(SRC_DIR)menu_drawer.c\
+			$(SRC_DIR)side_small_images_drawer.c\
 
 OBJECTS := 	main.o error.o utilits.o hooks.o colorizer.o drawers.o \
 			mandelbrot_set.o julia_set.o tricorn_fractal.o count_points.o\
-			burning_ship_fractal.o zoom.o menu_drawer.o\
+			burning_ship_fractal.o zoom.o side_small_images_drawer.o\
 
 LIBFT := $(LIB_DIR)$(FT)
 

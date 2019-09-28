@@ -18,36 +18,31 @@ static int	get_color_value(double iter, int max_iter)
 
 	if (iter == max_iter)
 		return (BLACK);
-	color.r = iter * 10;
-	color.g = iter * 18;
+	color.r = iter * 13;
+	color.g = iter * 198;
 	color.b = iter * 56;
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
 void		color_point(t_data *data, int x, int y, int n)
 {
-	int	color;
-	int i;
+	unsigned int	color;
+	int				rgb;
 
-	color = get_color_value(data->iter[n], data->params->max_iter);
-	i = (x * data->mlx->bpp / 8) + (y * data->mlx->size);
-	data->mlx->image[i] = color;
-	data->mlx->image[++i] = color >> 8;
-	data->mlx->image[++i] = color >> 16;
-	data->mlx->image[++i] = 0;
+	rgb = get_color_value(data->iter[n], data->params->max_iter);
+	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
+	((unsigned int*)data->mlx->image)[y * IMG_W + x] = color;
 }
 
 void		color_menu_point(t_data *data, int x, int y, int n)
 {
-	int	color;
-	int i;
+	unsigned int	color;
+	int				rgb;
 
-	color = get_color_value(data->menu->slot[n].iter, data->params->max_iter);
-	i = (x * data->menu->slot[n].bpp / 8) + (y * data->menu->slot[n].size);
-	data->menu->slot[n].m_image[i] = color;
-	data->menu->slot[n].m_image[++i] = color >> 8;
-	data->menu->slot[n].m_image[++i] = color >> 16;
-	data->menu->slot[n].m_image[++i] = 0;
+	rgb = get_color_value(data->small_img[n].iter, data->params->max_iter);
+	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
+	((unsigned int*)data->small_img[n].m_image)[y * data->small_img[n].w + x]
+		= color;
 }
 
 /*
