@@ -12,17 +12,15 @@
 
 #include "../inc/fractol.h"
 
-static int	get_color_value(int iter, int max_iter)
+static int	get_color_value(double iter, int max_iter)
 {
 	t_color	color;
-	double	percent;
 
 	if (iter == max_iter)
 		return (BLACK);
-	percent = (double)iter / (double)max_iter;
-	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
-	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
-	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
+	color.r = iter * 10;
+	color.g = iter * 18;
+	color.b = iter * 56;
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
@@ -38,6 +36,20 @@ void		color_point(t_data *data, int x, int y, int n)
 	data->mlx->image[++i] = color >> 16;
 	data->mlx->image[++i] = 0;
 }
+
+void		color_menu_point(t_data *data, int x, int y, int n)
+{
+	int	color;
+	int i;
+
+	color = get_color_value(data->menu->slot[n].iter, data->params->max_iter);
+	i = (x * data->menu->slot[n].bpp / 8) + (y * data->menu->slot[n].size);
+	data->menu->slot[n].m_image[i] = color;
+	data->menu->slot[n].m_image[++i] = color >> 8;
+	data->menu->slot[n].m_image[++i] = color >> 16;
+	data->menu->slot[n].m_image[++i] = 0;
+}
+
 /*
 void	histogram_coloring_step_2(t_data *data, int **buff, int *iters_pp)
 {

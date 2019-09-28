@@ -14,8 +14,7 @@
 
 int		expose_hook(t_data *data)
 {
-	data->mlx->img = mlx_new_image(data->mlx->p_mlx, data->mlx->image_width,
-		data->mlx->image_height);
+	data->mlx->img = mlx_new_image(data->mlx->p_mlx, IMG_W, IMG_H);
 	data->mlx->image = mlx_get_data_addr(data->mlx->img,
 		&(data->mlx->bpp), &(data->mlx->size), &(data->mlx->end));
 	draw_fractals(data);
@@ -28,14 +27,14 @@ int		mouse_hook(int button, int x, int y, t_data *data)
 {
 	if (data->params->zoom == 1.1 && button == KEY_MOUSE_SCROLL_DOWN)
 		return (1);
-	if (x < data->mlx->image_width && y < data->mlx->image_height)
+	if (x < IMG_W && y < IMG_H)
 	{
 		if (button == KEY_MOUSE_SCROLL_UP)
 		{
 			data->params->move.re = data->min.re +
-			x * (data->max.re - data->min.re) / (data->mlx->image_width - 1.0);
+			x * (data->max.re - data->min.re) / (IMG_W - 1.0);
 			data->params->move.im = data->max.im -
-			y * (data->max.im - data->min.im) / (data->mlx->image_height - 1.0);
+			y * (data->max.im - data->min.im) / (IMG_H - 1.0);
 			data->params->zoom += 0.0000001;
 			data->params->zoom_factor = data->params->zoom;
 		}
@@ -99,10 +98,4 @@ int		key_press(int keycode, t_data *data)
 	mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
 	expose_hook(data);
 	return (1);
-}
-
-int		close(int keycode)
-{
-	(void)keycode;
-	exit(EXIT_SUCCESS);
 }
