@@ -50,7 +50,6 @@ void	count_points(t_data *data, t_set *set)
 		if (temp > 4)
 			break ;
 	}
-	set->iter_double = iter_to_double(set->new_z, set->iter);
 }
 
 void	count_menu_points(t_data *data, t_set *set, int i)
@@ -79,5 +78,4 @@ void	count_menu_points(t_data *data, t_set *set, int i)
 		if (temp > 4)
 			break ;
 	}
-	set->iter_double = iter_to_double(set->new_z, set->iter);
 }

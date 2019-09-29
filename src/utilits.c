@@ -12,6 +12,16 @@
 
 #include "../inc/fractol.h"
 
+void	init_params(t_data *data)
+{
+	data->params->max_iter = MAX_ITER;
+	data->params->zoom = 1.1;
+	data->params->zoom_factor = 0;
+	set_complex(&(data->params->julia_k), 0.3, 0.6);
+	data->julia_mouse_lock = 1;
+	data->mouse_left_key = 0;
+}
+
 void	init_programm_architecture(t_data *data)
 {
 	if ((data->mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
@@ -23,11 +33,7 @@ void	init_programm_architecture(t_data *data)
 	data->mlx->end = 0;
 	if ((data->params = (t_params *)malloc(sizeof(t_params))) == NULL)
 		error(MALLOK_ERROR);
-	data->params->max_iter = MAX_ITER;
-	data->params->zoom = 1.1;
-	data->params->zoom_factor = 0;
-	set_complex(&(data->params->julia_k), 1.8, 0.6);
-	data->julia_mouse_lock = 0;
+	init_params(data);
 }
 
 void	init_extremums(t_data *data)
@@ -44,20 +50,14 @@ void	init_extremums(t_data *data)
 	}
 }
 
-void	init_mlx_window(t_data *data, char *name)
+void	create_image(t_data *data)
 {
 	pthread_t id;
 
-	if ((data->mlx->p_mlx = mlx_init()) == NULL)
-		error(MLX_ERROR);
-	data->mlx->win = mlx_new_window(data->mlx->p_mlx, data->mlx->win_w,
-													data->mlx->win_h, name);
-	if (!(data->mlx->win))
-		error(MLX_ERROR);
-	if ((pthread_create(&id, NULL, &draw_app_menu, (void *)data)))
+	if ((pthread_create(&id, NULL, &draw_app_menu, data)))
 		error(PTHREAD_ERROR);
-	mlx_expose_hook(data->mlx->win, expose_hook, data);
 	pthread_join(id, NULL);
+	mlx_expose_hook(data->mlx->win, expose_hook, data);
 	mlx_hook(data->mlx->win, 2, 0, key_press, data);
 	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);
 	mlx_hook(data->mlx->win, 17, 0, close, data);

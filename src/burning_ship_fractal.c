@@ -46,7 +46,7 @@ void	draw_menu_burning_ship_fractal(t_data *data, int i)
 			set.c.im = data->small_img[i].m_max.im - y * set.f.im;
 			set_complex(&(set.new_z), 0, 0);
 			count_menu_points(data, &set, i);
-			data->small_img[i].iter = set.iter_double;
+			data->small_img[i].iter = set.iter;
 			color_menu_point(data, x, y, i);
 		}
 	}

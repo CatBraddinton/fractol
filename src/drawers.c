@@ -96,5 +96,11 @@ void		draw_fractal_image(char *name)
 		error(TYPE_ERROR);
 	init_programm_architecture(data);
 	init_extremums(data);
-	init_mlx_window(data, name);
+	if ((data->mlx->p_mlx = mlx_init()) == NULL)
+		error(MLX_ERROR);
+	data->mlx->win = mlx_new_window(data->mlx->p_mlx, data->mlx->win_w,
+													data->mlx->win_h, name);
+	if (!(data->mlx->win))
+		error(MLX_ERROR);
+	create_image(data);
 }

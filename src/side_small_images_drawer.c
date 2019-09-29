@@ -58,6 +58,7 @@ void	*draw_app_menu(void *param)
 			if (!(data->small_img[j].m_img = mlx_new_image(data->mlx->p_mlx,
 								SIDE_PANEL_IMG_W, SIDE_PANEL_IMG_H)))
 				error("error");
+			data->small_img[j].mem = i;
 			draw_menu_fractals(data, j);
 			mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
 			data->small_img[j].m_img, IMG_W, j * SIDE_PANEL_IMG_H);

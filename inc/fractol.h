@@ -18,8 +18,7 @@
 # define MLX_ERROR		"MLX LIB failure."
 # define PTHREAD_ERROR	"Pthread failed to create new thread."
 
-
-# define MAX_ITER			30
+# define MAX_ITER			80
 
 # define TOTAL_THREADS		4
 
@@ -110,6 +109,7 @@ typedef struct		s_side_panel
 	t_cnum			j_k;
 	double			iter;
 	int				max_iter;
+	t_type			mem;
 }					t_side_panel;
 
 typedef struct		s_data
@@ -125,7 +125,8 @@ typedef struct		s_data
 	int				i;
 	int				x[TOTAL_THREADS];
 	int				y[TOTAL_THREADS];
-	double			iter[TOTAL_THREADS];
+	int				iter[TOTAL_THREADS];
+	int				mouse_left_key;
 }					t_data;
 
 void				check_input_params(int ac, char **av);
@@ -135,7 +136,7 @@ void				error(char *message);
 void				draw_fractal_image(char *name);
 int					expose_hook(t_data *data);
 void				count_points(t_data *data, t_set *set);
-void				init_mlx_window(t_data *data, char *name);
+void				create_image(t_data *data);
 void				draw_burning_ship_fractal(t_data *data, int x, int y, int i);
 void				draw_tricorn_fractal(t_data *data, int x, int y, int i);
 void				init_extremums(t_data *data);
@@ -164,4 +165,6 @@ void				draw_menu_burning_ship_fractal(t_data *data, int i);
 void				draw_menu_tricorn_fractal(t_data *data, int i);
 void				count_menu_points(t_data *data, t_set *set, int i);
 void				color_menu_point(t_data *data, int x, int y, int n);
+void				init_params(t_data *data);
+void				draw_menu_fractals(t_data *data, int i);
 #endif

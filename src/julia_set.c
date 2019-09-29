@@ -63,7 +63,7 @@ void	draw_menu_julia_set(t_data *data, int i)
 			set.c.re = data->small_img[i].j_k.re;
 			set.c.im = data->small_img[i].j_k.im;
 			count_menu_points(data, &set, i);
-			data->small_img[i].iter = set.iter_double;
+			data->small_img[i].iter = set.iter;
 			color_menu_point(data, x, y, i);
 		}
 	}

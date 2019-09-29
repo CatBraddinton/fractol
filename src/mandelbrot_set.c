@@ -44,7 +44,7 @@ void		draw_mandelbrot_set(t_data *data, int x, int y, int i)
 		set.iter = data->params->max_iter;
 	else
 		count_points(data, &set);
-	data->iter[i] = set.iter_double;
+	data->iter[i] = set.iter;
 	color_point(data, x, y, i);
 }
 
@@ -71,7 +71,7 @@ void		draw_menu_mandelbrot_set(t_data *data, int i)
 				set.iter = data->params->max_iter;
 			else
 				count_menu_points(data, &set, i);
-			data->small_img[i].iter = set.iter_double;
+			data->small_img[i].iter = set.iter;
 			color_menu_point(data, x, y, i);
 		}
 	}

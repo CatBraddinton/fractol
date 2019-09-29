@@ -12,14 +12,14 @@
 
 #include "../inc/fractol.h"
 
-int	get_color_value_v1(double iter, int max_iter)
+int	get_color_value_v1(int iter, int max_iter)
 {
 	t_color	color;
 	double	percent;
 
-	if (iter == max_iter)
+	if ((int)iter == max_iter)
 		return (BLACK);
-	percent = (double)iter / (double)max_iter;
+	percent = iter / (double)max_iter;
 	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
 	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
 	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
