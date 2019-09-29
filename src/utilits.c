@@ -19,7 +19,6 @@ void	init_params(t_data *data)
 	data->params->zoom_factor = 0;
 	set_complex(&(data->params->julia_k), 0.3, 0.6);
 	data->julia_mouse_lock = 1;
-	data->mouse_left_key = 0;
 }
 
 void	init_programm_architecture(t_data *data)
@@ -52,11 +51,7 @@ void	init_extremums(t_data *data)
 
 void	create_image(t_data *data)
 {
-	pthread_t id;
-
-	if ((pthread_create(&id, NULL, &draw_app_menu, data)))
-		error(PTHREAD_ERROR);
-	pthread_join(id, NULL);
+	threads_counting(data);
 	mlx_expose_hook(data->mlx->win, expose_hook, data);
 	mlx_hook(data->mlx->win, 2, 0, key_press, data);
 	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);

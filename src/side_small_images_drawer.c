@@ -66,3 +66,13 @@ void	*draw_app_menu(void *param)
 		}
 	pthread_exit(0);
 }
+
+void	threads_counting(t_data *data)
+{
+	pthread_t id;
+
+	if ((pthread_create(&id, NULL, &draw_app_menu, data)))
+		error(PTHREAD_ERROR);
+
+	pthread_join(id, NULL);
+}

@@ -25,7 +25,7 @@ int		expose_hook(t_data *data)
 
 void	draw_choosen_fractal(t_data *data, int y)
 {
-	int	i;
+	t_type	i;
 
 	if (y == 1200)
 		i = 2;
@@ -37,10 +37,11 @@ void	draw_choosen_fractal(t_data *data, int y)
 		while (++i < SIDE_PANEL_IMGS)
 			mlx_destroy_image(data->mlx->p_mlx, data->small_img[i].m_img);
 		mlx_clear_window(data->mlx->p_mlx, data->mlx->win);
-		init_params(data);
 		init_extremums(data);
-
-		create_image(data);
+		init_params(data);
+		threads_counting(data);
+		expose_hook(data);
+		data->mouse_left_key = 0;
 }
 
 int		mouse_hook(int button, int x, int y, t_data *data)

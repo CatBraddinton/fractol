@@ -166,5 +166,6 @@ void				draw_menu_tricorn_fractal(t_data *data, int i);
 void				count_menu_points(t_data *data, t_set *set, int i);
 void				color_menu_point(t_data *data, int x, int y, int n);
 void				init_params(t_data *data);
+void				threads_counting(t_data *data);
 void				draw_menu_fractals(t_data *data, int i);
 #endif
