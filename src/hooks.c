@@ -12,17 +12,6 @@
 
 #include "../inc/fractol.h"
 
-int		expose_hook(t_data *data)
-{
-	data->mlx->img = mlx_new_image(data->mlx->p_mlx, IMG_W, IMG_H);
-	data->mlx->image = mlx_get_data_addr(data->mlx->img,
-		&(data->mlx->bpp), &(data->mlx->size), &(data->mlx->end));
-	draw_fractals(data);
-	mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
-		data->mlx->img, 0, 0);
-	return (0);
-}
-
 void	draw_choosen_fractal(t_data *data, int y)
 {
 	t_type	i;
@@ -105,7 +94,7 @@ int		key_press(int keycode, t_data *data)
 		{
 			init_extremums(data);
 			data->params->zoom = 1.1;
-			data->params->zoom_factor = 0;
+			data->params->zoom_f = 0;
 		}
 		if (keycode == KEY_UP || keycode == KEY_DOWN
 			|| keycode == KEY_LEFT || keycode == KEY_RIGHT)

@@ -12,6 +12,25 @@
 
 #include "../inc/fractol.h"
 
+int		is_in_mandelbrot_set(double x, double y)
+{
+	double sqrt_x;
+	double sqrt_y;
+	double z;
+	double q;
+	double temp;
+
+	temp = (x - 1.0 / 4.0);
+	sqrt_x = temp * temp;
+	sqrt_y = y * y;
+	q = sqrt_x + sqrt_y;
+	z = q * (q + temp);
+	temp = sqrt_y / 4.0;
+	if (z <= temp)
+		return (1);
+	return (0);
+}
+
 void	count_points(t_data *data, t_set *set)
 {
 	double temp;

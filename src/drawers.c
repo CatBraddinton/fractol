@@ -12,61 +12,27 @@
 
 #include "../inc/fractol.h"
 
-void		define_call_function(t_data *d, int i)
+int			expose_hook(t_data *data)
 {
-	if (d->type == mandelbrot)
-		draw_mandelbrot_set(d, d->x[i], d->y[i], i);
-	else if (d->type == julia)
-		draw_julia_set(d, d->x[i], d->y[i], i);
-	else if (d->type == tricorn)
-		draw_tricorn_fractal(d, d->x[i], d->y[i], i);
-	else if (d->type == burning_ship)
-		draw_burning_ship_fractal(d, d->x[i], d->y[i], i);
+	data->mlx->img = mlx_new_image(data->mlx->p_mlx, IMG_W, IMG_H);
+	data->mlx->image = mlx_get_data_addr(data->mlx->img,
+		&(data->mlx->bpp), &(data->mlx->size), &(data->mlx->end));
+	draw_fractals(data);
+	mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
+		data->mlx->img, 0, 0);
+	return (0);
 }
 
-void		*iterate_pixels(void *data)
+static void	create_image(t_data *data)
 {
-	t_data	*d;
-	int		i;
-	int		step;
-	int		last;
-
-	d = (t_data *)data;
-	i = d->i;
-	pthread_mutex_unlock(&(d->lock));
-	step = IMG_H / TOTAL_THREADS;
-	last = (i == TOTAL_THREADS - 1) ? IMG_H : step * (i + 1);
-	d->y[i] = 0;
-	while (d->y[i] < last)
-	{
-		d->x[i] = 0;
-		while (d->x[i] < IMG_W)
-		{
-			define_call_function(d, i);
-			d->x[i]++;
-		}
-		d->y[i]++;
-	}
-	pthread_exit(0);
-}
-
-void		draw_fractals(t_data *data)
-{
-	pthread_t	id[TOTAL_THREADS];
-	int			i;
-
-	pthread_mutex_init(&(data->lock), NULL);
-	i = -1;
-	while (++i < TOTAL_THREADS)
-	{
-		pthread_mutex_lock(&(data->lock));
-		data->i = i;
-		pthread_create(&(id[i]), NULL, &iterate_pixels, data);
-	}
-	i = -1;
-	while (++i < TOTAL_THREADS)
-		pthread_join(id[i], NULL);
-	pthread_mutex_destroy(&(data->lock));
+	threads_counting(data);
+	mlx_expose_hook(data->mlx->win, expose_hook, data);
+	mlx_hook(data->mlx->win, 2, 0, key_press, data);
+	mlx_hook(data->mlx->win, 6, 0, julia_motion, data);
+	mlx_hook(data->mlx->win, 17, 0, close, data);
+	mlx_mouse_hook(data->mlx->win, mouse_hook, data);
+	mlx_do_key_autorepeaton(data->mlx->p_mlx);
+	mlx_loop(data->mlx->p_mlx);
 }
 
 static int	get_fractal_type(char *input)

@@ -86,7 +86,7 @@ typedef struct		s_params
 {
 	int				max_iter;
 	double			zoom;
-	double			zoom_factor;
+	double			zoom_f;
 	t_cnum			mouse;
 	t_cnum			move;
 	t_cnum			center;
@@ -126,17 +126,14 @@ typedef struct		s_data
 void				check_input_params(int ac, char **av);
 void				invalid_param(void);
 void				error(char *message);
+
 void				draw_fractal_image(char *name);
 int					expose_hook(t_data *data);
 void				count_points(t_data *data, t_set *set);
-void				create_image(t_data *data);
-void				draw_burning_ship_fractal(t_data *data, int x, int y,
-																		int i);
-void				draw_tricorn_fractal(t_data *data, int x, int y, int i);
+
 void				init_extremums(t_data *data);
 void				draw_fractals(t_data *data);
-void				draw_mandelbrot_set(t_data *data, int x, int y, int i);
-void				draw_julia_set(t_data *data, int x, int y, int i);
+
 void				set_complex(t_cnum *n, double real, double imaginary);
 void				init_params(t_data *data);
 void				init_programm_architecture(t_data *data);
@@ -146,21 +143,14 @@ int					julia_motion(int x, int y, t_data *data);
 int					mouse_hook(int button, int x, int y, t_data *data);
 int					key_press(int keycode, t_data *data);
 void				convert_pixels(t_cnum *n, t_data *data, int x, int y);
-void				histogram_coloring(t_data *data, int **buff);
-void				zoom(t_data *data, double mouse_x, double mouse_y,
-										double zoom_factor);
 void				put_pixel_on_screen(t_data *data, int x, int y, int iter);
-void				*draw_app_menu(void *param);
-double				iter_to_double(t_cnum n, int iter);
-void				draw_menu_julia_set(t_data *data, int i);
-void				draw_menu_mandelbrot_set(t_data *data, int i);
-void				draw_menu_burning_ship_fractal(t_data *data, int i);
-void				draw_menu_tricorn_fractal(t_data *data, int i);
+
 void				count_menu_points(t_data *data, t_set *set, int i);
 void				color_menu_point(t_data *data, int x, int y, int n);
 void				init_params(t_data *data);
 void				threads_counting(t_data *data);
-void				draw_menu_fractals(t_data *data, int i);
+
 void				zoom_image(int button, int x, int y, t_data *data);
+int					is_in_mandelbrot_set(double x, double y);
 
 #endif
