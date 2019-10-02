@@ -30,11 +30,11 @@ void	draw_choosen_fractal(t_data *data, int y)
 	if (y == 1200)
 		i = 2;
 	else
-		i = y / SIDE_PANEL_IMG_H;
+		i = y / SP_IMG_H;
 	data->type = data->small_img[i].mem;
 	mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);
 	i = -1;
-	while (++i < SIDE_PANEL_IMGS)
+	while (++i < SP_IMGS)
 		mlx_destroy_image(data->mlx->p_mlx, data->small_img[i].m_img);
 	free(data->small_img);
 	mlx_clear_window(data->mlx->p_mlx, data->mlx->win);

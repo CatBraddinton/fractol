@@ -49,19 +49,15 @@ void	draw_menu_julia_set(t_data *data, int i)
 	t_set	set;
 
 	y = -1;
-	while (++y < SIDE_PANEL_IMG_H)
+	while (++y < SP_IMG_H)
 	{
 		x = -1;
-		while (++x < SIDE_PANEL_IMG_W)
+		while (++x < SP_IMG_W)
 		{
-			set.new_z.re = data->small_img[i].m_min.re + x /
-			(SIDE_PANEL_IMG_W - 1.0) * (data->small_img[i].m_max.re -
-											data->small_img[i].m_min.re);
-			set.new_z.im = data->small_img[i].m_max.im - y /
-			(SIDE_PANEL_IMG_H - 1.0) * (data->small_img[i].m_max.im -
-										data->small_img[i].m_min.im);
-			set.c.re = data->small_img[i].j_k.re;
-			set.c.im = data->small_img[i].j_k.im;
+			set.new_z.re = SP_JX1 + x / (SP_IMG_W - 1.0) * (SP_JX2 - SP_JX1);
+			set.new_z.im = SP_JY2 - y /	(SP_IMG_H - 1.0) * (SP_JY2 - SP_JY1);
+			set.c.re = SP_J1;
+			set.c.im = SP_J2;
 			count_menu_points(data, &set, i);
 			data->small_img[i].iter = set.iter;
 			color_menu_point(data, x, y, i);

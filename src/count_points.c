@@ -12,18 +12,6 @@
 
 #include "../inc/fractol.h"
 
-double	iter_to_double(t_cnum n, int iter)
-{
-	double log_1;
-	double log_2;
-	double div;
-
-	log_1 = log(hypot(n.re, n.im));
-	log_2 = log(log_1);
-	div = log_2 / log(2);
-	return (iter + 1.0 - div);
-}
-
 void	count_points(t_data *data, t_set *set)
 {
 	double temp;
@@ -59,7 +47,7 @@ void	count_menu_points(t_data *data, t_set *set, int i)
 	set->iter = 0;
 	set_complex(&(set->z_sqrt),
 		set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
-	while (set->iter < data->small_img[i].max_iter)
+	while (set->iter < SP_MAX_ITER)
 	{
 		if (data->small_img[i].type == burning_ship)
 			set_complex(&(set->old_z), fabs(set->new_z.re),

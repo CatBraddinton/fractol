@@ -26,6 +26,7 @@ LIB_DIR := libft/
 INCLUDES := $(INC_DIR)fractol.h\
 			$(INC_DIR)hooks.h\
 			$(INC_DIR)colorize_it.h\
+			$(INC_DIR)side_panel.h\
 
 SOURCES := 	main.c\
  			$(SRC_DIR)error.c\

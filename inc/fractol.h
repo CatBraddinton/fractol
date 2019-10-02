@@ -27,10 +27,6 @@
 # define MENU_W				600
 # define MENU_H				1200
 
-# define SIDE_PANEL_IMGS	3
-# define SIDE_PANEL_IMG_W	600
-# define SIDE_PANEL_IMG_H	400
-
 # include <stdio.h>
 # include <math.h>
 # include <mlx.h>
@@ -42,6 +38,7 @@
 # include "colorize_it.h"
 # include "../libft/inc/libft.h"
 # include "../libft/inc/my_cg_lib.h"
+# include "side_panel.h"
 
 typedef enum		e_type
 {
@@ -104,11 +101,7 @@ typedef struct		s_side_panel
 	int				size;
 	int				end;
 	t_type			type;
-	t_cnum			m_min;
-	t_cnum			m_max;
-	t_cnum			j_k;
 	double			iter;
-	int				max_iter;
 	t_type			mem;
 }					t_side_panel;
 
