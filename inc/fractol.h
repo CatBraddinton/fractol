@@ -137,7 +137,8 @@ void				draw_fractal_image(char *name);
 int					expose_hook(t_data *data);
 void				count_points(t_data *data, t_set *set);
 void				create_image(t_data *data);
-void				draw_burning_ship_fractal(t_data *data, int x, int y, int i);
+void				draw_burning_ship_fractal(t_data *data, int x, int y,
+																		int i);
 void				draw_tricorn_fractal(t_data *data, int x, int y, int i);
 void				init_extremums(t_data *data);
 void				draw_fractals(t_data *data);
@@ -150,12 +151,11 @@ void				color_point(t_data *data, int x, int y, int n);
 void				init_buffer(t_data *data);
 int					julia_motion(int x, int y, t_data *data);
 int					mouse_hook(int button, int x, int y, t_data *data);
-
 int					key_press(int keycode, t_data *data);
 void				convert_pixels(t_cnum *n, t_data *data, int x, int y);
 void				histogram_coloring(t_data *data, int **buff);
-void 				zoom(t_data *data, double mouse_x, double mouse_y,
-							double zoom_factor);
+void				zoom(t_data *data, double mouse_x, double mouse_y,
+										double zoom_factor);
 void				put_pixel_on_screen(t_data *data, int x, int y, int iter);
 void				*draw_app_menu(void *param);
 double				iter_to_double(t_cnum n, int iter);

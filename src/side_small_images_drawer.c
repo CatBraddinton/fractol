@@ -45,8 +45,8 @@ void	*draw_app_menu(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (!(data->small_img = (t_side_panel *)malloc(SIDE_PANEL_IMGS *
-	sizeof(t_side_panel))))
+	if (!(data->small_img = (t_side_panel *)malloc(sizeof(t_side_panel) *
+														SIDE_PANEL_IMGS)))
 		error(MALLOK_ERROR);
 	i = -1;
 	j = 0;
@@ -61,7 +61,7 @@ void	*draw_app_menu(void *param)
 			data->small_img[j].mem = i;
 			draw_menu_fractals(data, j);
 			mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
-			data->small_img[j].m_img, IMG_W, j * SIDE_PANEL_IMG_H);
+				data->small_img[j].m_img, IMG_W, j * SIDE_PANEL_IMG_H);
 			j++;
 		}
 	pthread_exit(0);
@@ -71,8 +71,7 @@ void	threads_counting(t_data *data)
 {
 	pthread_t id;
 
-	if ((pthread_create(&id, NULL, &draw_app_menu, data)))
+	if ((pthread_create(&id, NULL, &draw_app_menu, (void *)data)))
 		error(PTHREAD_ERROR);
-
 	pthread_join(id, NULL);
 }

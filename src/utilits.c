@@ -19,6 +19,7 @@ void	init_params(t_data *data)
 	data->params->zoom_factor = 0;
 	set_complex(&(data->params->julia_k), 0.3, 0.6);
 	data->julia_mouse_lock = 1;
+	data->color_style = 1;
 }
 
 void	init_programm_architecture(t_data *data)
