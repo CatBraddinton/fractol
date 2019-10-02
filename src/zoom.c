@@ -28,7 +28,7 @@ void		zoom_image(int button, int x, int y, t_data *data)
 	if (button == KEY_MOUSE_SCROLL_UP)
 	{
 		data->params->move.re = data->min.re +
-		x * (data->max.re - data->min.re) / (IMG_W - 1.0);
+		x * (data->max.re - data->min.re) / (data->mlx->im_w - 1.0);
 		data->params->move.im = data->max.im -
 		y * (data->max.im - data->min.im) / (IMG_H - 1.0);
 		data->params->zoom += 0.0001;

@@ -15,9 +15,9 @@
 int			julia_motion(int x, int y, t_data *data)
 {
 	if (data->type == julia && data->julia_mouse_lock == 0 &&
-		x <= IMG_W && y <= IMG_H)
+		x <= data->mlx->im_w && y <= IMG_H)
 	{
-		data->params->mouse.re = 4 * ((double)x / IMG_W - 0.5);
+		data->params->mouse.re = 4 * ((double)x / data->mlx->im_w - 0.5);
 		data->params->mouse.im = 4 * ((double)y / IMG_H - 0.5);
 		set_complex(&(data->params->julia_k),
 					data->params->mouse.re, data->params->mouse.im);
@@ -32,7 +32,7 @@ static void	draw_julia_set(t_data *data, int x, int y, int i)
 	t_set set;
 
 	set.new_z.re = data->min.re + x /
-		(IMG_W - 1.0) * (data->max.re - data->min.re);
+		(data->mlx->im_w - 1.0) * (data->max.re - data->min.re);
 	set.new_z.im = data->max.im - y /
 		(IMG_H - 1.0) * (data->max.im - data->min.im);
 	set.c.re = data->params->julia_k.re;
@@ -46,7 +46,7 @@ static void	init_fractal(t_data *data, int x, int y, int i)
 {
 	t_set set;
 
-	set.f.re = (data->max.re - data->min.re) / (IMG_W - 1.0);
+	set.f.re = (data->max.re - data->min.re) / (data->mlx->im_w - 1.0);
 	set.f.im = (data->max.im - data->min.im) / (IMG_H - 1.0);
 	set.c.re = data->min.re + x * set.f.re;
 	set.c.im = data->max.im - y * set.f.im;
@@ -78,7 +78,7 @@ static void	*iterate_pixels(void *data)
 	while (d->y[i] < last)
 	{
 		d->x[i] = 0;
-		while (d->x[i] < IMG_W)
+		while (d->x[i] < d->mlx->im_w)
 		{
 			if (d->type == julia)
 				draw_julia_set(d, d->x[i], d->y[i], i);

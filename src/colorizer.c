@@ -19,7 +19,7 @@ int		get_color_value_v1(int iter, int max_iter)
 
 	if (iter == max_iter)
 		return (BLACK);
-	percent = iter / (double)max_iter;
+	percent = (double)iter / (double)max_iter;
 	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
 	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
 	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
@@ -29,22 +29,20 @@ int		get_color_value_v1(int iter, int max_iter)
 void	color_point(t_data *data, int x, int y, int n)
 {
 	unsigned int	color;
-	int				rgb;
 
 	if (data->color_style == 1)
-		rgb = get_color_value_v1(data->iter[n], data->params->max_iter);
+		color = (unsigned int)get_color_value_v1(data->iter[n],
+			data->params->max_iter);
 	if (data->color_style == 2)
-		rgb = get_color_value_v1(data->iter[n], data->params->max_iter);
-	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
-	((unsigned int*)data->mlx->image)[y * IMG_W + x] = color;
+		color = (unsigned int)get_color_value_v1(data->iter[n],
+			data->params->max_iter);
+	((unsigned int*)data->mlx->image)[y * data->mlx->im_w + x] = color;
 }
 
 void	color_menu_point(t_data *data, int x, int y, int n)
 {
 	unsigned int	color;
-	int				rgb;
 
-	rgb = get_color_value_v1(data->small_img[n].iter, data->params->max_iter);
-	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
-	((unsigned int*)data->small_img[n].m_image)[y * SP_IMG_W + x] = color;
+	color = (unsigned int)get_color_value_v1(data->img[n].iter, SP_MAX_ITER);
+	((unsigned int*)data->img[n].m_image)[y * SP_IMG_W + x] = color;
 }

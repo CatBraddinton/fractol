@@ -29,7 +29,7 @@ static void	draw_menu_julia_set(t_data *data, int i)
 			set.c.re = SP_J1;
 			set.c.im = SP_J2;
 			count_menu_points(data, &set, i);
-			data->small_img[i].iter = set.iter;
+			data->img[i].iter = set.iter;
 			color_menu_point(data, x, y, i);
 		}
 	}
@@ -49,27 +49,27 @@ static void	init_menu_fractals(t_data *data, int i)
 		{
 			set.c.re = SP_X1 + x * set.f.re;
 			set.c.im = SP_Y2 - y * set.f.im;
-			if (data->small_img[i].type == tricorn)
+			if (data->img[i].type == tricorn)
 				set_complex(&(set.new_z), set.c.re, set.c.im);
 			else
 				set_complex(&(set.new_z), 0, 0);
-			if (data->small_img[i].type == mandelbrot &&
+			if (data->img[i].type == mandelbrot &&
 					is_in_mandelbrot_set(set.c.re, set.c.im))
-				set.iter = data->params->max_iter;
+				set.iter = SP_MAX_ITER;
 			else
 				count_menu_points(data, &set, i);
-			data->small_img[i].iter = set.iter;
+			data->img[i].iter = set.iter;
 			color_menu_point(data, x, y, i);
 		}
 }
 
 static void	draw_menu_fractals(t_data *data, int i)
 {
-	if (!(data->small_img[i].m_image = mlx_get_data_addr(
-				data->small_img[i].m_img, &(data->small_img[i].bpp),
-		&(data->small_img[i].size), &(data->small_img[i].end))))
+	if (!(data->img[i].m_image = mlx_get_data_addr(
+				data->img[i].m_img, &(data->img[i].bpp),
+		&(data->img[i].size), &(data->img[i].end))))
 		error("error");
-	if (data->small_img[i].type == julia)
+	if (data->img[i].type == julia)
 		draw_menu_julia_set(data, i);
 	else
 		init_menu_fractals(data, i);
@@ -82,22 +82,23 @@ static void	*draw_app_menu(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (!(data->small_img = (t_side_panel *)malloc(sizeof(t_side_panel) *
-														SP_IMGS)))
+	if (!(data->img = (t_side_panel *)malloc(sizeof(t_side_panel) * SP_IMGS)))
 		error(MALLOK_ERROR);
 	i = -1;
 	j = 0;
 	while (++i < total_nb && j < SP_IMGS)
 		if (i != data->type)
 		{
-			data->small_img[j].type = i;
-			if (!(data->small_img[j].m_img = mlx_new_image(data->mlx->p_mlx,
+			data->img[j].type = i;
+			if (!(data->img[j].m_img = mlx_new_image(data->mlx->p_mlx,
 								SP_IMG_W, SP_IMG_H)))
 				error("error");
-			data->small_img[j].mem = i;
+			data->img[j].mem = i;
 			draw_menu_fractals(data, j);
+			data->img[j].y_s = (j == 0) ? j * SP_IMG_H + 10 :
+													j * SP_IMG_H + j * 10 + 10;
 			mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
-				data->small_img[j].m_img, IMG_W, j * SP_IMG_H);
+				data->img[j].m_img, IMG_W + 20, data->img[j].y_s);
 			j++;
 		}
 	pthread_exit(0);

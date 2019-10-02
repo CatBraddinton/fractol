@@ -20,20 +20,25 @@ void	init_params(t_data *data)
 	set_complex(&(data->params->julia_k), 0.3, 0.6);
 	data->julia_mouse_lock = 1;
 	data->color_style = 1;
+	data->show_side_panel = 1;
 }
 
 void	init_programm_architecture(t_data *data)
 {
 	if ((data->mlx = (t_mlx *)malloc(sizeof(t_mlx))) == NULL)
 		error(MALLOK_ERROR);
-	data->mlx->win_w = IMG_W + MENU_W;
+	data->mlx->win = 0;
+	data->mlx->win_w = IMG_W + MENU_W + 30;
 	data->mlx->win_h = (IMG_H > MENU_H) ? IMG_H : MENU_H;
+	data->mlx->im_w = IMG_W;
+	data->mlx->img = NULL;
 	data->mlx->bpp = 0;
 	data->mlx->size = 0;
 	data->mlx->end = 0;
 	if ((data->params = (t_params *)malloc(sizeof(t_params))) == NULL)
 		error(MALLOK_ERROR);
 	init_params(data);
+	init_extremums(data);
 }
 
 void	init_extremums(t_data *data)

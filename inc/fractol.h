@@ -23,9 +23,9 @@
 # define TOTAL_THREADS		4
 
 # define IMG_W				1920
-# define IMG_H				1200
+# define IMG_H				1220
 # define MENU_W				600
-# define MENU_H				1200
+# define MENU_H				1240
 
 # include <stdio.h>
 # include <math.h>
@@ -75,6 +75,7 @@ typedef struct		s_mlx
 	void			*win;
 	int				win_w;
 	int				win_h;
+	int				im_w;
 	void			*img;
 	char			*image;
 	int				bpp;
@@ -101,15 +102,16 @@ typedef struct		s_side_panel
 	int				size;
 	int				end;
 	t_type			type;
-	double			iter;
+	int				iter;
 	t_type			mem;
+	int				y_s;
 }					t_side_panel;
 
 typedef struct		s_data
 {
 	t_type			type;
 	t_mlx			*mlx;
-	t_side_panel	*small_img;
+	t_side_panel	*img;
 	t_params		*params;
 	t_cnum			min;
 	t_cnum			max;
@@ -121,6 +123,7 @@ typedef struct		s_data
 	int				mouse_left_key;
 	int				julia_mouse_lock;
 	int				color_style;
+	int				show_side_panel;
 }					t_data;
 
 void				check_input_params(int ac, char **av);
