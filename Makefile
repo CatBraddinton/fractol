@@ -53,7 +53,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS) $(LIBFT)
 	@printf "Compiling $(NAME)\n"
-	@$(CC) $(FLAGS) $(MLXFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
+	@$(CC) $(FLAGS) $(MLXFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT) -lpthread
 	@printf "$(NAME) created\n"
 
 debug: $(DB_NAME)

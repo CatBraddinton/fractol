@@ -120,19 +120,19 @@ typedef struct		s_data
 	t_params		*params;
 	t_cnum			min;
 	t_cnum			max;
-	int				julia_mouse_lock;
 	pthread_mutex_t lock;
 	int				i;
 	int				x[TOTAL_THREADS];
 	int				y[TOTAL_THREADS];
 	int				iter[TOTAL_THREADS];
 	int				mouse_left_key;
+	int				julia_mouse_lock;
+	int				color_style;
 }					t_data;
 
 void				check_input_params(int ac, char **av);
 void				invalid_param(void);
 void				error(char *message);
-
 void				draw_fractal_image(char *name);
 int					expose_hook(t_data *data);
 void				count_points(t_data *data, t_set *set);
@@ -168,4 +168,6 @@ void				color_menu_point(t_data *data, int x, int y, int n);
 void				init_params(t_data *data);
 void				threads_counting(t_data *data);
 void				draw_menu_fractals(t_data *data, int i);
+void				zoom_image(int button, int x, int y, t_data *data);
+
 #endif
