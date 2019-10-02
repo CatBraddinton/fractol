@@ -52,7 +52,8 @@ void		*iterate_pixels(void *data)
 
 void		draw_fractals(t_data *data)
 {
-	int		i;
+	pthread_t	id[TOTAL_THREADS];
+	int			i;
 
 	pthread_mutex_init(&(data->lock), NULL);
 	i = -1;
@@ -60,11 +61,11 @@ void		draw_fractals(t_data *data)
 	{
 		pthread_mutex_lock(&(data->lock));
 		data->i = i;
-		pthread_create(&(data->id[i]), NULL, &iterate_pixels, data);
+		pthread_create(&(id[i]), NULL, &iterate_pixels, data);
 	}
 	i = -1;
 	while (++i < TOTAL_THREADS)
-		pthread_join(data->id[i], NULL);
+		pthread_join(id[i], NULL);
 	pthread_mutex_destroy(&(data->lock));
 }
 
@@ -72,7 +73,7 @@ static int	get_fractal_type(char *input)
 {
 	int len;
 
-	len = ft_strlen(input);
+	len = (int)ft_strlen(input);
 	if (len == 5 && ft_strnequ(input, "julia", len))
 		return (julia);
 	if (len == 10 && ft_strnequ(input, "mandelbrot", len))
@@ -89,11 +90,17 @@ void		draw_fractal_image(char *name)
 	t_data *data;
 
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
-		error(strerror(errno));
+		error(MALLOK_ERROR);
 	data->type = get_fractal_type(name);
 	if (data->type == invalid)
-		error("fractal type value is invalid");
+		error(TYPE_ERROR);
 	init_programm_architecture(data);
 	init_extremums(data);
-	init_mlx_window(data, name);
+	if ((data->mlx->p_mlx = mlx_init()) == NULL)
+		error(MLX_ERROR);
+	data->mlx->win = mlx_new_window(data->mlx->p_mlx, data->mlx->win_w,
+													data->mlx->win_h, name);
+	if (!(data->mlx->win))
+		error(MLX_ERROR);
+	create_image(data);
 }

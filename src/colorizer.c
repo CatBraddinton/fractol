@@ -12,42 +12,50 @@
 
 #include "../inc/fractol.h"
 
-static int	get_color_value(double iter, int max_iter)
+int		get_color_value_v2(int iter, int max_iter)
 {
 	t_color	color;
 
 	if (iter == max_iter)
 		return (BLACK);
-	color.r = iter * 10;
-	color.g = iter * 18;
-	color.b = iter * 56;
+	color.r = (int)(127.5 * (cos((double)iter) + 1));
+	color.g = (int)(127.5 * (sin((double)iter) + 1));
+	color.b = (int)(127.5 * (1 - cos((double)iter)));
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
-void		color_point(t_data *data, int x, int y, int n)
+int		get_color_value_v1(int iter, int max_iter)
 {
-	int	color;
-	int i;
+	t_color	color;
+	double	percent;
 
-	color = get_color_value(data->iter[n], data->params->max_iter);
-	i = (x * data->mlx->bpp / 8) + (y * data->mlx->size);
-	data->mlx->image[i] = color;
-	data->mlx->image[++i] = color >> 8;
-	data->mlx->image[++i] = color >> 16;
-	data->mlx->image[++i] = 0;
+	if (iter == max_iter)
+		return (BLACK);
+	percent = iter / (double)max_iter;
+	color.r = (int)(9 * (1 - percent) * pow(percent, 3) * 255);
+	color.g = (int)(15 * pow((1 - percent), 2) * pow(percent, 2) * 255);
+	color.b = (int)(8.5 * pow((1 - percent), 3) * percent * 255);
+	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
-void		color_menu_point(t_data *data, int x, int y, int n)
+void	color_point(t_data *data, int x, int y, int n)
 {
-	int	color;
-	int i;
+	unsigned int	color;
+	int				rgb;
 
-	color = get_color_value(data->menu->slot[n].iter, data->params->max_iter);
-	i = (x * data->menu->slot[n].bpp / 8) + (y * data->menu->slot[n].size);
-	data->menu->slot[n].m_image[i] = color;
-	data->menu->slot[n].m_image[++i] = color >> 8;
-	data->menu->slot[n].m_image[++i] = color >> 16;
-	data->menu->slot[n].m_image[++i] = 0;
+	rgb = get_color_value_v1(data->iter[n], data->params->max_iter);
+	color = mlx_get_color_value(data->mlx->p_mlx, rgb);
+	((unsigned int*)data->mlx->image)[y * IMG_W + x] = color;
+}
+
+void	color_menu_point(t_data *data, int x, int y, int n)
+{
+	unsigned int	col;
+	int				rgb;
+
+	rgb = get_color_value_v1(data->small_img[n].iter, data->params->max_iter);
+	col = mlx_get_color_value(data->mlx->p_mlx, rgb);
+	((unsigned int*)data->small_img[n].m_image)[y * SIDE_PANEL_IMG_W + x] = col;
 }
 
 /*

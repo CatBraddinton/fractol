@@ -14,7 +14,7 @@
 
 void	error(char *message)
 {
-	perror(message);
+	ft_putendl(message);
 	exit(EXIT_FAILURE);
 }
 
@@ -39,7 +39,7 @@ void	check_input_params(int ac, char **av)
 	i = 1;
 	while (i < ac)
 	{
-		len = ft_strlen(av[i]);
+		len = (int)ft_strlen(av[i]);
 		if (len == 5 && (ft_strncmp(av[i], "julia", len) == 0))
 			i++;
 		else if (len == 10 && (ft_strncmp(av[i], "mandelbrot", len) == 0))

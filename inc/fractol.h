@@ -13,15 +13,23 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define MAX_ITER		30
+# define MALLOK_ERROR 	"Malloc failed to allocate enought memory."
+# define TYPE_ERROR 	"Fractal type value is invalid."
+# define MLX_ERROR		"MLX LIB failure."
+# define PTHREAD_ERROR	"Pthread failed to create new thread."
 
-# define TOTAL_THREADS	4
+# define MAX_ITER			80
 
-# define IMG_W		1920
-# define IMG_H		1200
-# define MENU_W		600
-# define MENU_H		1200
+# define TOTAL_THREADS		4
 
+# define IMG_W				1920
+# define IMG_H				1200
+# define MENU_W				600
+# define MENU_H				1200
+
+# define SIDE_PANEL_IMGS	3
+# define SIDE_PANEL_IMG_W	600
+# define SIDE_PANEL_IMG_H	400
 
 # include <stdio.h>
 # include <math.h>
@@ -68,6 +76,8 @@ typedef struct		s_mlx
 {
 	void			*p_mlx;
 	void			*win;
+	int				win_w;
+	int				win_h;
 	void			*img;
 	char			*image;
 	int				bpp;
@@ -86,7 +96,7 @@ typedef struct		s_params
 	t_cnum			julia_k;
 }					t_params;
 
-typedef struct		s_mimg
+typedef struct		s_side_panel
 {
 	void			*m_img;
 	char			*m_image;
@@ -94,48 +104,39 @@ typedef struct		s_mimg
 	int				size;
 	int				end;
 	t_type			type;
-	int				w;
-	int				h;
 	t_cnum			m_min;
 	t_cnum			m_max;
 	t_cnum			j_k;
 	double			iter;
-}					t_mimg;
-
-typedef struct		s_menu
-{
-	t_mimg			*slot;
-	int				start_x;
-	int				start_y;
-	int				finish_x;
-	int				finish_y;
-}					t_menu;
+	int				max_iter;
+	t_type			mem;
+}					t_side_panel;
 
 typedef struct		s_data
 {
 	t_type			type;
 	t_mlx			*mlx;
-	t_menu			*menu;
+	t_side_panel	*small_img;
 	t_params		*params;
 	t_cnum			min;
 	t_cnum			max;
-	int				julia_mouse_lock;
 	pthread_mutex_t lock;
-	pthread_t		id[TOTAL_THREADS];
 	int				i;
 	int				x[TOTAL_THREADS];
 	int				y[TOTAL_THREADS];
-	double			iter[TOTAL_THREADS];
+	int				iter[TOTAL_THREADS];
+	int				mouse_left_key;
+	int				julia_mouse_lock;
+	int				color_style;
 }					t_data;
 
 void				check_input_params(int ac, char **av);
 void				invalid_param(void);
 void				error(char *message);
-
 void				draw_fractal_image(char *name);
 int					expose_hook(t_data *data);
 void				count_points(t_data *data, t_set *set);
-void				init_mlx_window(t_data *data, char *name);
+void				create_image(t_data *data);
 void				draw_burning_ship_fractal(t_data *data, int x, int y, int i);
 void				draw_tricorn_fractal(t_data *data, int x, int y, int i);
 void				init_extremums(t_data *data);
@@ -164,4 +165,9 @@ void				draw_menu_burning_ship_fractal(t_data *data, int i);
 void				draw_menu_tricorn_fractal(t_data *data, int i);
 void				count_menu_points(t_data *data, t_set *set, int i);
 void				color_menu_point(t_data *data, int x, int y, int n);
+void				init_params(t_data *data);
+void				threads_counting(t_data *data);
+void				draw_menu_fractals(t_data *data, int i);
+void				zoom_image(int button, int x, int y, t_data *data);
+
 #endif
