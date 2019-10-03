@@ -12,16 +12,23 @@
 
 #include "../inc/fractol.h"
 
-double	iter_to_double(t_cnum n, int iter)
+int		is_in_mandelbrot_set(double x, double y)
 {
-	double log_1;
-	double log_2;
-	double div;
+	double sqrt_x;
+	double sqrt_y;
+	double z;
+	double q;
+	double temp;
 
-	log_1 = log(hypot(n.re, n.im));
-	log_2 = log(log_1);
-	div = log_2 / log(2);
-	return (iter + 1.0 - div);
+	temp = (x - 1.0 / 4.0);
+	sqrt_x = temp * temp;
+	sqrt_y = y * y;
+	q = sqrt_x + sqrt_y;
+	z = q * (q + temp);
+	temp = sqrt_y / 4.0;
+	if (z <= temp)
+		return (1);
+	return (0);
 }
 
 void	count_points(t_data *data, t_set *set)
@@ -59,9 +66,9 @@ void	count_menu_points(t_data *data, t_set *set, int i)
 	set->iter = 0;
 	set_complex(&(set->z_sqrt),
 		set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
-	while (set->iter < data->small_img[i].max_iter)
+	while (set->iter < SP_MAX_ITER)
 	{
-		if (data->small_img[i].type == burning_ship)
+		if (data->img[i].type == burning_ship)
 			set_complex(&(set->old_z), fabs(set->new_z.re),
 										fabs(set->new_z.im) * -1.0);
 		else
@@ -69,7 +76,7 @@ void	count_menu_points(t_data *data, t_set *set, int i)
 		temp = set->z_sqrt.re - set->z_sqrt.im;
 		set->new_z.re = temp + set->c.re;
 		temp = set->old_z.re + set->old_z.re;
-		temp = (data->small_img[i].type == tricorn) ? -temp : temp;
+		temp = (data->img[i].type == tricorn) ? -temp : temp;
 		set->new_z.im = temp * set->old_z.im + set->c.im;
 		set_complex(&(set->z_sqrt),
 			set->new_z.re * set->new_z.re, set->new_z.im * set->new_z.im);
