@@ -98,7 +98,7 @@ static void	*draw_app_menu(void *param)
 			data->img[j].y_s = (j == 0) ? j * SP_IMG_H + 10 :
 													j * SP_IMG_H + j * 10 + 10;
 			mlx_put_image_to_window(data->mlx->p_mlx, data->mlx->win,
-				data->img[j].m_img, IMG_W + 20, data->img[j].y_s);
+				data->img[j].m_img, IMG_W + 21, data->img[j].y_s);
 			j++;
 		}
 	pthread_exit(0);

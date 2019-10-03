@@ -30,11 +30,7 @@ void	color_point(t_data *data, int x, int y, int n)
 {
 	unsigned int	color;
 
-	if (data->color_style == 1)
-		color = (unsigned int)get_color_value_v1(data->iter[n],
-			data->params->max_iter);
-	if (data->color_style == 2)
-		color = (unsigned int)get_color_value_v1(data->iter[n],
+	color = (unsigned int)get_color_value_v1(data->iter[n],
 			data->params->max_iter);
 	((unsigned int*)data->mlx->image)[y * data->mlx->im_w + x] = color;
 }

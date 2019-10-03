@@ -54,30 +54,6 @@ int		mouse_hook(int button, int x, int y, t_data *data)
 	return (1);
 }
 
-void	move_image(t_data *data, int keycode)
-{
-	if (keycode == KEY_UP)
-	{
-		set_complex(&(data->min), data->min.re, data->min.im + 0.01);
-		set_complex(&(data->max), data->max.re, data->max.im + 0.01);
-	}
-	if (keycode == KEY_DOWN)
-	{
-		set_complex(&(data->min), data->min.re, data->min.im - 0.01);
-		set_complex(&(data->max), data->max.re, data->max.im - 0.01);
-	}
-	if (keycode == KEY_LEFT)
-	{
-		set_complex(&(data->min), data->min.re - 0.01, data->min.im);
-		set_complex(&(data->max), data->max.re - 0.01, data->max.im);
-	}
-	if (keycode == KEY_RIGHT)
-	{
-		set_complex(&(data->min), data->min.re + 0.01, data->min.im);
-		set_complex(&(data->max), data->max.re + 0.01, data->max.im);
-	}
-}
-
 void	show_hide_menu(t_data *data, int keycode)
 {
 	if (keycode == KEY_HOME && data->show_side_panel == 0)
@@ -116,9 +92,6 @@ int		key_press(int keycode, t_data *data)
 			data->params->zoom = 1.1;
 			data->params->zoom_f = 0;
 		}
-		if (keycode == KEY_UP || keycode == KEY_DOWN
-			|| keycode == KEY_LEFT || keycode == KEY_RIGHT)
-			move_image(data, keycode);
 		if (keycode == KEY_HOME || keycode == KEY_END)
 			show_hide_menu(data, keycode);
 		mlx_destroy_image(data->mlx->p_mlx, data->mlx->img);

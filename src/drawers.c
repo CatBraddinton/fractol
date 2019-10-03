@@ -18,15 +18,15 @@ void		draw_menu_frame(t_data *data)
 	int y;
 
 	y = -1;
-	while (++y < MENU_H && (x = (IMG_W + 10)))
-		while (++x < (IMG_W + 20))
+	while (++y < MENU_H && (x = (IMG_W + 9)))
+		while (++x < (IMG_W + 21))
 			mlx_pixel_put(data->mlx->p_mlx, data->mlx->win, x, y, 0x80D0C7);
-	y = 410;
-	while (++y < 420 && (x = (IMG_W + 19)))
+	y = 409;
+	while (++y < 420 && (x = (IMG_W + 18)))
 		while (++x < data->mlx->win_w)
 			mlx_pixel_put(data->mlx->p_mlx, data->mlx->win, x, y, 0x80D0C7);
-	y = 820;
-	while (++y < 830 && (x = (IMG_W + 19)))
+	y = 819;
+	while (++y < 830 && (x = (IMG_W + 18)))
 		while (++x < data->mlx->win_w)
 			mlx_pixel_put(data->mlx->p_mlx, data->mlx->win, x, y, 0x80D0C7);
 }
@@ -44,7 +44,7 @@ void		draw_frame(t_data *data)
 	while (++y < 10 && (x = -1))
 		while (++x < data->mlx->win_w)
 			mlx_pixel_put(data->mlx->p_mlx, data->mlx->win, x, y, 0x80D0C7);
-	y = MENU_H - 10;
+	y = MENU_H - 11;
 	while (++y < MENU_H && (x = -1))
 		while (++x < data->mlx->win_w)
 			mlx_pixel_put(data->mlx->p_mlx, data->mlx->win, x, y, 0x80D0C7);
